@@ -1,0 +1,31 @@
+{
+  "name": "curatable-catalog",
+  "description": "A simple application for curating and serving up content to content-based applications",
+  "version": "0.0.1",
+  "author": "Steamclock Software <support@steamclock.com>",
+
+  "contributors": [ 
+    {
+      "name": "Angelina Fabbro",
+      "email": "angelina@steamclock.com"
+    } 
+  ],
+
+  "keywords": [
+    "api",
+    "content",
+    "curation",
+    "server"
+  ],
+
+  "dependencies": {
+    "express" : "3.x",
+    "pg" : "0.14.x"
+  },
+
+  "license": "MIT",
+
+  "engines": {
+    "node": ">=0.6"
+  }
+}
