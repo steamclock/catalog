@@ -11,7 +11,8 @@ var express = require('express')
   , fs = require('fs')
   , nodemailer = require("nodemailer")
   , rawData = fs.readFileSync('config.json')
-  , postgres = require('pg');
+  , postgres = require('pg')
+  , migrate = require('db-migrate');
 
 var app = express();
 
