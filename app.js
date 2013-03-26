@@ -5,7 +5,6 @@
 
 var express = require('express')
   , routes = require('./routes')
-  // , user = require('./routes/user')
   , http = require('http')
   , path = require('path')
   , fs = require('fs')
@@ -33,10 +32,11 @@ app.configure(function(){
   app.set('view engine', 'ejs');
   app.use(express.favicon());
   app.use(express.logger('dev'));
-  app.use(express.bodyParser());
+  app.use(express.bodyParser({uploadDir:'./uploads'}));
   app.use(express.methodOverride());
   app.use(app.router);
-  app.use(express.static(path.join(__dirname, 'public')));
+  //app.use(express.static(path.join(__dirname, 'public')));
+  app.use('/public', express.static(__dirname + '/public'));
 });
 
 app.configure('development', function(){
@@ -69,9 +69,10 @@ client.connect(function(err) {
     }
 });
 
+// Routes
 app.get('/', routes.index);
 app.get('/create', routes.create);
-// app.post('/create/submit', routes.submit);
+app.post('/submit', routes.submit);
 
 
 http.createServer(app).listen(app.get('port'), function(){
