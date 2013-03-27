@@ -13,9 +13,6 @@ var express = require('express')
   , config = require("./modules/config").config
   , migrate = require('db-migrate');
 
-
-
-
 var app = express();
 
 // App Configuration
@@ -47,13 +44,12 @@ var smtpTransport = nodemailer.createTransport("SMTP",{
     }
 });
 
-
 // Routes
 app.get('/', routes.index);
 app.get('/create', create.get);
-app.post('/submit', create.submit);
+app.post('/submit', create.submit, create.done);
 
-
+// Servin' it up
 http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));
 });
