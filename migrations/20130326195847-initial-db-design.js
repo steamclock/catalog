@@ -10,9 +10,8 @@ exports.up = function(db, callback) {
     program: 'string',
     medium: 'string',
     measurements: 'string',
-    url: 'string',
-    assetUrl: 'string',
-    category: 'string'
+    websiteUrl: 'string',
+    assetUrl: 'string'
   }, callback);
 };
 

@@ -17,3 +17,6 @@ node_modules
 config.json
 database.json
 logfile
+
+public/images/projects
+uploads

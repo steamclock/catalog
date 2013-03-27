@@ -5,26 +5,20 @@
 
 var express = require('express')
   , routes = require('./routes')
+  , create = require('./routes/create')
   , http = require('http')
   , path = require('path')
   , fs = require('fs')
   , nodemailer = require("nodemailer")
-  , rawData = fs.readFileSync('config.json')
-  , postgres = require('pg')
+  , config = require("./modules/config").config
   , migrate = require('db-migrate');
+
+
+
 
 var app = express();
 
 // App Configuration
-
-try {
-    app.config = JSON.parse(rawData);
-    console.dir("Configuration loaded...");
-} 
-catch (err) {
-    console.log('There has been an error parsing the config file.')
-    console.log(err);
-} 
 
 app.configure(function(){
   app.set('port', process.env.PORT || 3000);
@@ -35,7 +29,7 @@ app.configure(function(){
   app.use(express.bodyParser({uploadDir:'./uploads'}));
   app.use(express.methodOverride());
   app.use(app.router);
-  //app.use(express.static(path.join(__dirname, 'public')));
+  app.use(express.static(path.join(__dirname, 'public')));
   app.use('/public', express.static(__dirname + '/public'));
 });
 
@@ -46,33 +40,18 @@ app.configure('development', function(){
 // Nodemailer Setup 
 
 var smtpTransport = nodemailer.createTransport("SMTP",{
-    service: app.config.mail.service,
+    service: config.mail.service,
     auth: {
-        user: app.config.mail.username,
-        pass: app.config.mail.password
+        user: config.mail.username,
+        pass: config.mail.password
     }
 });
 
-// Postgres Test
-
-var connectionString = "pg://" + app.config.postgres.username +":" + app.config.postgres.password +  "@" + app.config.baseurl + "/"+ app.config.postgres.dbname,
-    client = new postgres.Client(connectionString);
-
-client.connect(function(err) {
-    // Just testing we can connect to the db for now
-    client.query('SELECT NOW() AS "theTime"', function(err, result) {
-      console.log("Postgrest test output: " + result.rows[0].theTime);
-    })
-
-    if (err) {
-        console.log(err);
-    }
-});
 
 // Routes
 app.get('/', routes.index);
-app.get('/create', routes.create);
-app.post('/submit', routes.submit);
+app.get('/create', create.get);
+app.post('/submit', create.submit);
 
 
 http.createServer(app).listen(app.get('port'), function(){

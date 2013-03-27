@@ -2,7 +2,23 @@
     <h1><%= title %></h1>
     <p>Welcome to the <%= title %> page. Form for creating a project goes here shortly.</p>
 <form method="post" enctype="multipart/form-data" action="/submit">
-    <input type="file" name="asset">
+    <label for="author">Your Name</label><input type="text" name="author">
+    <label for="websiteUrl">Your Website</label><input type="text" name="websiteUrl">
+
+    <label for="degreeTrack">Select your degree track</label>
+    <select name="degreeTrack">
+        <option>Degree 1</option>
+    </select>
+
+    <label for="program">Select your program</label>
+    <select name="program">
+        <option>Program 1</option>
+    </select>
+
+    <label for="title">Project Title</label><input type="text" name="title">
+    <label for="medium">Medium(s)</label><input type="text" name="medium">
+    <label for="measurements">Measurements</label><input type="text" name="measurements">
+    <label for="asset">Upload an Image</label><input type="file" name="asset">
     <input type="submit">
 </form>
 <% include footer %>
