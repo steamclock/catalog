@@ -4,7 +4,7 @@
  */
 
 var express = require('express')
-  , routes = require('./routes')
+  , pages = require('./routes/pages')
   , create = require('./routes/create')
   , http = require('http')
   , path = require('path')
@@ -45,7 +45,8 @@ var smtpTransport = nodemailer.createTransport("SMTP",{
 });
 
 // Routes
-app.get('/', routes.index);
+app.get('/', pages.index);
+app.get('/about', pages.about)
 app.get('/create', create.get);
 app.post('/submit', create.submit, create.done);
 
