@@ -52,17 +52,10 @@ app.get('/about', pages.about);
 app.get('/create', create.get);
 app.post('/submit', create.submit, create.done);
 
-// Route for individual projects
-// app.get('/:program/:author', function(req, res) {
-//     // just a stub for now, and we'll be rendering not returning JSON
-//     res.send({program:req.params.program, name: req.params.author, description: "description"});
-// });
+app.get('/:degreeTrack', projects.getListForDegreeTrack);
 
 // Routes that return JSON
-
-app.get('/:degreeTrack', projects.getProjectsForDegreeTrack);
-
-
+app.get('/json/:degreeTrack', projects.getProjectsForDegreeTrack);
 
 // Servin' it up
 http.createServer(app).listen(app.get('port'), function(){
