@@ -6,12 +6,12 @@ exports.up = function(db, callback) {
     id: { type: 'int', primaryKey: true, autoIncrement: true },
     title: 'string',
     author: 'string',
-    degreeTrack: 'string',
+    degreetrack: 'string',
     program: 'string',
     medium: 'string',
     measurements: 'string',
-    websiteUrl: 'string',
-    assetUrl: 'string'
+    websiteurl: 'string',
+    asseturl: 'string'
   }, callback);
 };
 

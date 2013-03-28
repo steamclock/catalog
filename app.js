@@ -6,6 +6,7 @@
 var express = require('express')
   , pages = require('./routes/pages')
   , create = require('./routes/create')
+  , projects = require('./routes/projects')
   , http = require('http')
   , path = require('path')
   , fs = require('fs')
@@ -44,13 +45,27 @@ var smtpTransport = nodemailer.createTransport("SMTP",{
     }
 });
 
-// Routes
+// Routes for website
 app.get('/', pages.index);
-app.get('/about', pages.about)
+app.get('/about', pages.about);
+
 app.get('/create', create.get);
 app.post('/submit', create.submit, create.done);
+
+// Route for individual projects
+// app.get('/:program/:author', function(req, res) {
+//     // just a stub for now, and we'll be rendering not returning JSON
+//     res.send({program:req.params.program, name: req.params.author, description: "description"});
+// });
+
+// Routes that return JSON
+
+app.get('/:degreeTrack', projects.getProjectsForDegreeTrack);
+
+
 
 // Servin' it up
 http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));
 });
+ 
