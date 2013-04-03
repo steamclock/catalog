@@ -26,7 +26,10 @@
     "pg" : "0.14.x",
     "nodemailer" : "0.3.x",
     "ejs" : "0.8.x",
-    "db-migrate" : "0.4.x"
+    "db-migrate" : "0.4.x",
+    "mocha" : "*",
+    "chai" : "*",
+    "chai-http" : "*"
   },
 
   "license": "MIT",
