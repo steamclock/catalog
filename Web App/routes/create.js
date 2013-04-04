@@ -26,8 +26,8 @@ exports.submit = function(req, res, next){
 
     client.query(
         "INSERT INTO projects(title, author, websiteurl, degree, program, medium, measurements, asseturl) values($1, $2, $3, $4, $5, $6, $7, $8)",
-        [req.body.title, req.body.author, req.body.websiteUrl, req.body.degreeTrack, req.body.program, req.body.medium, req.body.measurements, targetPath]);
-    console.log("Created new entry for project in DB.");
+        [req.body.title, req.body.author, req.body.websiteUrl, req.body.degree, req.body.program, req.body.medium, req.body.measurements, targetPath]);
+        console.log("Created new entry for project in DB.");
 
     next();
 };
