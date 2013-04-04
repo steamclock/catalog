@@ -2,7 +2,7 @@ var postgres = require('pg')
     , fs = require('fs')
     , config = require('./../modules/config').config;
 
-var connectionString = "pg://" + config.postgres.username +":" + config.postgres.password +  "@" + config.baseurl + "/"+ config.postgres.dbname,
+var connectionString = "pg://" + config.postgres.username +":" + config.postgres.password +  "@" + config.postgres.baseurl + "/"+ config.postgres.dbname,
     client = new postgres.Client(connectionString);
 
 client.connect(function(err) {

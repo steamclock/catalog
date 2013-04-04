@@ -8,7 +8,7 @@ exports.getListForDegree = function(req, res){
     var query = client.query('SELECT * FROM projects WHERE degree = $1', [req.params.degree], function(err, result){
         if (err) {
             console.log(err);
-            res.send({degree:req.params.degree});
+            res.send(err);
         } else {
             var rows = JSON.stringify(result.rows);
             res.render('list', { title: req.params.degree, projects: rows });
@@ -21,13 +21,15 @@ exports.getListForDegree = function(req, res){
  * GET projects for program. Returns JSON.
  */
 
-exports.getProjectsFordegree = function(req, res){
+exports.getProjectsForDegree = function(req, res){
+    console.log("Inside function to do query");
     var query = client.query('SELECT * FROM projects WHERE degree = $1', [req.params.degree], function(err, result){
         if (err) {
             console.log(err);
-            res.send({degree:req.params.degree});
+            res.send(err);
         } else {
             var rows = JSON.stringify(result.rows);
+            console.log(req.params.degree);
             console.log(rows);
             res.send(rows);
         }

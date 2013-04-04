@@ -14,8 +14,8 @@ exports.get = function(req, res){
  */
 
 exports.submit = function(req, res, next){
-    var tmpPath = req.files.asset.path;
-    var targetPath = './public/images/projects/' + req.files.asset.name;
+    var tmpPath = req.files.asset1.path;
+    var targetPath = './public/images/projects/' + req.files.asset1.name;
     fs.rename(tmpPath, targetPath, function(err) {
         if (err) throw err;
         // delete the temporary file, so that the explicitly set temporary upload dir does not get filled with unwanted files
@@ -25,8 +25,8 @@ exports.submit = function(req, res, next){
     });
 
     client.query(
-        "INSERT INTO projects(title, author, websiteUrl, degreeTrack, program, medium, measurements, assetUrl) values($1, $2, $3, $4, $5, $6, $7, $8)",
-        [req.body.title, req.body.author, req.body.websiteUrl, req.body.degreeTrack, req.body.program, req.body.medium, req.body.measurements, req.files.asset.name]);
+        "INSERT INTO projects(title, author, websiteurl, degree, program, medium, measurements, asseturl) values($1, $2, $3, $4, $5, $6, $7, $8)",
+        [req.body.title, req.body.author, req.body.websiteUrl, req.body.degreeTrack, req.body.program, req.body.medium, req.body.measurements, targetPath]);
     console.log("Created new entry for project in DB.");
 
     next();
