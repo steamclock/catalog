@@ -20,3 +20,7 @@ logfile
 
 public/images/projects
 uploads
+
+.DS_Store
+project.xcworkspace
+xcuserdata
