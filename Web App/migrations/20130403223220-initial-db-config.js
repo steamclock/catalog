@@ -10,11 +10,19 @@ exports.up = function(db, callback) {
     program: 'string',
     medium: 'string',
     measurements: 'string',
-    websiteurl: 'string',
-    asseturl: 'string'
+    websiteurl: 'string'
   }, callback);
+
+
+  db.createTable('assets', {
+    id : { type: 'int', primaryKey: true, autoIncrement : true },
+    projectid: 'int',
+    type : 'string',
+    url : 'string'
+  });
 };
 
 exports.down = function(db, callback) {
   db.dropTable('projects', callback);
+  db.dropTable('assets', callback);
 };

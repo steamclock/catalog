@@ -1,0 +1,13 @@
+function(array1, array2){
+    var array3 =[];
+
+    array1.forEach(element1, function(element){
+        array2.forEach(element2, function(element){
+            if (element1 === element2) 
+                array3.push(element1);
+            }
+        });
+    });
+
+    return array3;
+}([1,2,3] , [1,4,3]);

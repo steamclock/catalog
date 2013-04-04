@@ -52,10 +52,10 @@ app.get('/about', pages.about);
 app.get('/create', create.get);
 app.post('/submit', create.submit, create.done);
 
-app.get('/:degreeTrack', projects.getListForDegreeTrack);
+app.get('/:degree', projects.getListForDegree);
 
 // Routes that return JSON
-app.get('/json/:degreeTrack', projects.getProjectsForDegreeTrack);
+app.get('/json/:degree', projects.getProjectsForDegree);
 
 // Servin' it up
 http.createServer(app).listen(app.get('port'), function(){

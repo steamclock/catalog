@@ -1,0 +1,27 @@
+<% include header %>
+    <h1><%= title %></h1>
+    <p>Welcome to the <%= title %> page. Form for creating a project goes here shortly.</p>
+<form method="post" enctype="multipart/form-data" action="/submit">
+    <label for="author">Your Name</label><input type="text" name="author">
+    <label for="email">Your Email</label><input type="email" name="email">
+    <label for="websiteUrl">Your Website</label><input type="text" name="websiteUrl">
+
+    <label for="degree">Select your degree:</label>
+    <select name="degree">
+        <option value="design">Design</option> 
+        <option value="fine-arts">Fine Arts</option> 
+        <option value="media-arts">Media Arts</option> 
+        <option value="masters-of-applied-arts">Masters of Applied Arts (MAA)</option> 
+    </select>
+    <label for="title">Project Title</label><input type="text" name="title">
+    <label for="medium">Medium(s)</label><input type="text" name="medium">
+    <label for="measurements">Measurements</label><input type="text" name="measurements">
+
+    <label for="asset1">Image 1</label><input type="file" name="asset1">
+    <label for="asset2">Image 2</label><input type="file" name="asset2">
+    <label for="asset3">Image 3</label><input type="file" name="asset3">
+
+    <label for="videoURL">Video URL</label><input type="text" name="videoURL">
+    <input type="submit">
+</form>
+<% include footer %>

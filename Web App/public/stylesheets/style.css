@@ -1,0 +1,26 @@
+/*
+ *  Default styles - Justin, feel free to wipe these and start with a blank slate. These were just so my eyes wouldn't bleed - AF
+ */
+
+
+body {
+  padding: 50px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+a {
+  color: #00B7FF;
+}
+
+form label, form input, form select{
+    display: block;
+}
+
+nav{
+    float: left;
+}
+
+nav ul li {
+    float: left;
+    margin-right: 20px;
+}

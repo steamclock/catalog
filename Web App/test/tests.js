@@ -34,7 +34,7 @@ describe('Grad Catalog Tests', function() {
         });
     });
 
-    describe('/:degreeTrack', function() {
+    describe('json/:degree', function() {
         it('should return 200 OK', function() {
             chai.request(baseURL)
             .get('/json/degree1')
@@ -44,6 +44,12 @@ describe('Grad Catalog Tests', function() {
             });
         });
     });
+
+    describe('Testing submission form', function() {
+        it('should submit happily', function() {
+            //Should expect something here, but what? Refer to API for testing form submission.
+        });
+    })
 });
 
 
