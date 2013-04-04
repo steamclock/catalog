@@ -16,8 +16,11 @@
 		A6702573170E0C0A00840867 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = A6702572170E0C0A00840867 /* Default.png */; };
 		A6702575170E0C0A00840867 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A6702574170E0C0A00840867 /* Default@2x.png */; };
 		A6702577170E0C0A00840867 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A6702576170E0C0A00840867 /* Default-568h@2x.png */; };
-		A670257A170E0C0A00840867 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A6702579170E0C0A00840867 /* ViewController.m */; };
-		A670257D170E0C0A00840867 /* ViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A670257B170E0C0A00840867 /* ViewController.xib */; };
+		A670257A170E0C0A00840867 /* ProjectListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A6702579170E0C0A00840867 /* ProjectListViewController.m */; };
+		A670257D170E0C0A00840867 /* ProjectListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A670257B170E0C0A00840867 /* ProjectListViewController.xib */; };
+		A6702584170E212C00840867 /* ProjectCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A6702583170E212C00840867 /* ProjectCell.xib */; };
+		A6702588170E331600840867 /* ProjectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A6702586170E331600840867 /* ProjectViewController.m */; };
+		A6702589170E331600840867 /* ProjectViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A6702587170E331600840867 /* ProjectViewController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,9 +37,13 @@
 		A6702572170E0C0A00840867 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		A6702574170E0C0A00840867 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		A6702576170E0C0A00840867 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
-		A6702578170E0C0A00840867 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		A6702579170E0C0A00840867 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
-		A670257C170E0C0A00840867 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/ViewController.xib; sourceTree = "<group>"; };
+		A6702578170E0C0A00840867 /* ProjectListViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ProjectListViewController.h; sourceTree = "<group>"; };
+		A6702579170E0C0A00840867 /* ProjectListViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ProjectListViewController.m; sourceTree = "<group>"; };
+		A670257C170E0C0A00840867 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/ProjectListViewController.xib; sourceTree = "<group>"; };
+		A6702583170E212C00840867 /* ProjectCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProjectCell.xib; sourceTree = "<group>"; };
+		A6702585170E331600840867 /* ProjectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProjectViewController.h; sourceTree = "<group>"; };
+		A6702586170E331600840867 /* ProjectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProjectViewController.m; sourceTree = "<group>"; };
+		A6702587170E331600840867 /* ProjectViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProjectViewController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,12 +90,16 @@
 		A6702566170E0C0A00840867 /* Catalog */ = {
 			isa = PBXGroup;
 			children = (
+				A6702567170E0C0A00840867 /* Supporting Files */,
 				A670256F170E0C0A00840867 /* AppDelegate.h */,
 				A6702570170E0C0A00840867 /* AppDelegate.m */,
-				A6702578170E0C0A00840867 /* ViewController.h */,
-				A6702579170E0C0A00840867 /* ViewController.m */,
-				A670257B170E0C0A00840867 /* ViewController.xib */,
-				A6702567170E0C0A00840867 /* Supporting Files */,
+				A6702578170E0C0A00840867 /* ProjectListViewController.h */,
+				A6702579170E0C0A00840867 /* ProjectListViewController.m */,
+				A670257B170E0C0A00840867 /* ProjectListViewController.xib */,
+				A6702583170E212C00840867 /* ProjectCell.xib */,
+				A6702585170E331600840867 /* ProjectViewController.h */,
+				A6702586170E331600840867 /* ProjectViewController.m */,
+				A6702587170E331600840867 /* ProjectViewController.xib */,
 			);
 			path = Catalog;
 			sourceTree = "<group>";
@@ -162,7 +173,9 @@
 				A6702573170E0C0A00840867 /* Default.png in Resources */,
 				A6702575170E0C0A00840867 /* Default@2x.png in Resources */,
 				A6702577170E0C0A00840867 /* Default-568h@2x.png in Resources */,
-				A670257D170E0C0A00840867 /* ViewController.xib in Resources */,
+				A670257D170E0C0A00840867 /* ProjectListViewController.xib in Resources */,
+				A6702584170E212C00840867 /* ProjectCell.xib in Resources */,
+				A6702589170E331600840867 /* ProjectViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -175,7 +188,8 @@
 			files = (
 				A670256D170E0C0A00840867 /* main.m in Sources */,
 				A6702571170E0C0A00840867 /* AppDelegate.m in Sources */,
-				A670257A170E0C0A00840867 /* ViewController.m in Sources */,
+				A670257A170E0C0A00840867 /* ProjectListViewController.m in Sources */,
+				A6702588170E331600840867 /* ProjectViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -190,12 +204,12 @@
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
-		A670257B170E0C0A00840867 /* ViewController.xib */ = {
+		A670257B170E0C0A00840867 /* ProjectListViewController.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
 				A670257C170E0C0A00840867 /* en */,
 			);
-			name = ViewController.xib;
+			name = ProjectListViewController.xib;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -300,6 +314,7 @@
 				A6702582170E0C0A00840867 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

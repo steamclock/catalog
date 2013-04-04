@@ -82,22 +82,22 @@
 								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 								<reference key="IBUITabBar" ref="273954785"/>
 							</object>
-							<object class="IBUITabBarItem" id="975552343">
+							<object class="IBUITabBarItem" id="59632566">
 								<string key="IBUITitle">Visual Arts</string>
 								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 								<reference key="IBUITabBar" ref="273954785"/>
 							</object>
-							<object class="IBUITabBarItem" id="633511675">
+							<object class="IBUITabBarItem" id="208863288">
 								<string key="IBUITitle">Media Arts</string>
 								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 								<reference key="IBUITabBar" ref="273954785"/>
 							</object>
-							<object class="IBUITabBarItem" id="179465268">
+							<object class="IBUITabBarItem" id="988007553">
 								<string key="IBUITitle">MAA</string>
 								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 								<reference key="IBUITabBar" ref="273954785"/>
 							</object>
-							<object class="IBUITabBarItem" id="871793560">
+							<object class="IBUITabBarItem" id="931425126">
 								<string key="IBUITitle">About</string>
 								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 								<reference key="IBUITabBar" ref="273954785"/>
@@ -299,10 +299,10 @@
 						<array class="NSMutableArray" key="children">
 							<reference ref="432322919"/>
 							<reference ref="655455733"/>
-							<reference ref="975552343"/>
-							<reference ref="633511675"/>
-							<reference ref="179465268"/>
-							<reference ref="871793560"/>
+							<reference ref="59632566"/>
+							<reference ref="208863288"/>
+							<reference ref="988007553"/>
+							<reference ref="931425126"/>
 						</array>
 						<reference key="parent" ref="766721923"/>
 					</object>
@@ -366,22 +366,22 @@
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">17</int>
-						<reference key="object" ref="975552343"/>
+						<reference key="object" ref="59632566"/>
 						<reference key="parent" ref="273954785"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">18</int>
-						<reference key="object" ref="633511675"/>
+						<reference key="object" ref="208863288"/>
 						<reference key="parent" ref="273954785"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">19</int>
-						<reference key="object" ref="179465268"/>
+						<reference key="object" ref="988007553"/>
 						<reference key="parent" ref="273954785"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">20</int>
-						<reference key="object" ref="871793560"/>
+						<reference key="object" ref="931425126"/>
 						<reference key="parent" ref="273954785"/>
 					</object>
 				</array>
