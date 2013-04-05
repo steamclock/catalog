@@ -14,20 +14,44 @@ exports.get = function(req, res){
  */
 
 exports.submit = function(req, res, next){
-    var tmpPath = req.files.asset1.path;
-    var targetPath = './public/images/projects/' + req.files.asset1.name;
-    fs.rename(tmpPath, targetPath, function(err) {
-        if (err) throw err;
-        // delete the temporary file, so that the explicitly set temporary upload dir does not get filled with unwanted files
-        fs.unlink(tmpPath, function() {
-            if (err) throw err;
-        });
+
+    // console.log(req);
+    // var assets = req.files;
+
+
+    // for (var i = req.files.length - 1; i >= 0; i--) {
+    //     console.log(req.files[i]);
+    // };
+
+
+    //res.render('done', { title: 'Thanks for your Submission' });
+
+
+    // var targetPath = './public/images/projects/' + req.files.asset1.name;
+    // fs.rename(tmpPath, targetPath, function(err) {
+    //     if (err) throw err;
+    //     // delete the temporary file, so that the explicitly set temporary upload dir does not get filled with unwanted files
+    //     fs.unlink(tmpPath, function() {
+    //         if (err) throw err;
+    //     });
+    // });
+    console.log("Inside function to insert into DB");
+
+    var projectID;
+
+    var query = client.query(
+        "INSERT INTO projects(title, author, email, website, degree, medium, measurements) values($1, $2, $3, $4, $5, $6, $7)",
+        [req.body.title, req.body.author, req.body.email, req.body.website, req.body.degree, req.body.medium, req.body.measurements]);
+
+    query.on('error', function(error) {
+        console.log("Problem inserting row into DB, cap'n. Error: " + error)
+        res.render('done', { title: 'ERROR IN SUBMISSION' });
     });
 
-    client.query(
-        "INSERT INTO projects(title, author, websiteurl, degree, program, medium, measurements, asseturl) values($1, $2, $3, $4, $5, $6, $7, $8)",
-        [req.body.title, req.body.author, req.body.websiteUrl, req.body.degree, req.body.program, req.body.medium, req.body.measurements, targetPath]);
-        console.log("Created new entry for project in DB.");
+    query.on('end', function(result){
+        console.log("Created new entry for project in DB for );
+        //client.end();
+    });
 
     next();
 };

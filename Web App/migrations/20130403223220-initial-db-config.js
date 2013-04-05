@@ -6,12 +6,11 @@ exports.up = function(db, callback) {
     id: { type: 'int', primaryKey: true, autoIncrement: true },
     title: 'string',
     author: 'string',
+    email: 'string',
+    website: 'string',
     degree: 'string',
-    program: 'string',
     medium: 'string',
-    measurements: 'string',
-    websiteurl: 'string',
-    asseturl: 'string'
+    measurements: 'string'
   }, callback);
 
   db.createTable('assets', {

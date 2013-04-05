@@ -50,7 +50,7 @@ app.get('/', pages.index);
 app.get('/about', pages.about);
 
 app.get('/create', create.get);
-app.post('/submit', create.submit, create.done);
+app.post('/create/submit', create.submit, create.done);
 
 app.get('/:degree', projects.getListForDegree);
 
