@@ -13,10 +13,12 @@ results
 
 Web\ App/npm-debug.log
 Web\ App/node_modules
-
 Web\ App/config/config.json
 Web\ App/database.json
 Web\ App/logfile
-
 Web\ App/public/images/projects
 Web\ App/uploads
+
+.DS_Store
+project.xcworkspace
+xcuserdata
