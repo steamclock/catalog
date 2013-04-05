@@ -7,13 +7,21 @@ $(document).ready(function(){
         return this.optional(element) || (element.files[0].size <= param) 
     });
 
+    $.validator.addMethod('ecuad', function(value, element) {
+        // param = size (en bytes) 
+        // element = element to validate (<input>)
+        // value = value of the element (email address)
+        return (value.substring(value.indexOf('@')) === "ecuad.ca"); 
+    });
+
     $("#projectSubmission").validate({
         rules: {
             author: "required",
 
             email: {
-                required: true,
-                email: true
+                required : true,
+                email : true,
+                ecuad : true
             },
 
             title : "required",
@@ -33,8 +41,10 @@ $(document).ready(function(){
             author: "Please fill in your name.",
 
             email: {
-                required: "A valid email is required.",
-                email: "A valid email is required."
+                required: "A valid ecuad.ca email is required.",
+                email: "A valid ecuad.ca email is required.",
+                ecuad: "Please enter an ecuad.ca address only."
+
             },
 
             title: "A title for your project is required.",
