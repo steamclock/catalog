@@ -6,7 +6,9 @@
     "medium" : null,
     "title" : "Derp",
     "website" : "http://www.realityhacking.com",
-    "thumbnail" : "http://www.steamclock.com/img/home/lightbulb.png"
+    "thumbnail" : "http://www.steamclock.com/img/home/lightbulb.png",
+    "images" : [ "http://apod.nasa.gov/apod/image/1304/Me-and-the-milkyway_heden0.jpg", "http://apod.nasa.gov/apod/image/1304/M64HaLRGB_Pugh.jpg" ]
+    "video" : "http://vimeo.com/40128119"
   },
   { "author" : "Angelina",
     "degree" : "design",
@@ -16,7 +18,8 @@
     "medium" : null,
     "title" : "Foo",
     "website" : "http://www.realityhacking.com",
-    "thumbnail" : "http://www.steamclock.com/img/home/ruler-pen.png"
+    "thumbnail" : "http://www.steamclock.com/img/home/ruler-pen.png",
+    "images" : [ "http://apod.nasa.gov/apod/image/1304/Me-and-the-milkyway_heden0.jpg", "http://apod.nasa.gov/apod/image/1304/M64HaLRGB_Pugh.jpg", "http://apod.nasa.gov/apod/image/1304/panstarrsm31_pavel_1320.jpg" ]
   },
   { "author" : "Fakey McTestname",
     "degree" : "design",
@@ -26,7 +29,8 @@
     "medium" : null,
     "title" : "Bar",
     "website" : "",
-    "thumbnail" : "http://www.steamclock.com/img/home/wrench-driver.png"
+    "thumbnail" : "http://www.steamclock.com/img/home/wrench-driver.png",
+    "images" : [ "http://apod.nasa.gov/apod/image/1304/Me-and-the-milkyway_heden0.jpg", "http://apod.nasa.gov/apod/image/1304/M64HaLRGB_Pugh.jpg", "http://apod.nasa.gov/apod/image/1304/panstarrsm31_pavel_1320.jpg" ]
   },
   { "author" : "Herp McDerp",
     "degree" : "design",
@@ -36,6 +40,7 @@
     "medium" : null,
     "title" : "Baz",
     "website" : "",
-    "thumbnail" : "http://www.steamclock.com/img/home/rocket.png"
+    "thumbnail" : "http://www.steamclock.com/img/home/rocket.png",
+    "images" : [ "http://apod.nasa.gov/apod/image/1304/Me-and-the-milkyway_heden0.jpg", "http://apod.nasa.gov/apod/image/1304/M64HaLRGB_Pugh.jpg", "http://apod.nasa.gov/apod/image/1304/panstarrsm31_pavel_1320.jpg" ]
   }
 ]

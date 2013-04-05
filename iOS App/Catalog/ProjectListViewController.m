@@ -78,7 +78,7 @@
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    ProjectViewController* project = [[ProjectViewController alloc] init];
+    ProjectViewController* project = [[ProjectViewController alloc] initWithProject:self.projects[indexPath.row]];
     [self presentViewController:project animated:YES completion:^{
         
     }];

@@ -7,4 +7,6 @@
 
 @interface ProjectViewController : UIViewController <UIScrollViewDelegate>
 
+-(id)initWithProject:(NSDictionary*)project;
+
 @end

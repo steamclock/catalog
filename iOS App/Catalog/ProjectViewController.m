@@ -10,38 +10,48 @@
 @property (strong, nonatomic) IBOutlet UIScrollView* scrollView;
 @property (strong, nonatomic) IBOutlet UIPageControl* pageControl;
 
+@property (strong, nonatomic) NSDictionary* project;
+
 @end
 
 @implementation ProjectViewController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+-(id)initWithProject:(NSDictionary *)project {
+    
+    self = [super init];
     if (self) {
-        // Custom initialization
+        self.project = project;
     }
     return self;
+    
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     
-    self.scrollView.contentSize = CGSizeMake(1024 * 3, 748);
+    int numPages = [self.project[@"images"] count];
     
-    UIView* view1 = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 1024, 748)];
-    view1.backgroundColor = [UIColor redColor];
-    [self.scrollView addSubview:view1];
+    self.scrollView.contentSize = CGSizeMake(1024 * numPages, 748);
+    self.pageControl.numberOfPages = numPages;
+
+    int page = 0;
     
-    UIView* view2 = [[UIView alloc] initWithFrame:CGRectMake(1024, 0, 1024, 748)];
-    view2.backgroundColor = [UIColor greenColor];
-    [self.scrollView addSubview:view2];
-    
-    UIView* view3 = [[UIView alloc] initWithFrame:CGRectMake(2048, 0, 1024, 748)];
-    view3.backgroundColor = [UIColor blueColor];
-    [self.scrollView addSubview:view3];
-    
-    self.pageControl.numberOfPages = 3;
+    for(NSString* imageURL in self.project[@"images"]) {
+        UIImageView* imageView = [[UIImageView alloc] initWithFrame:CGRectMake(1024 * page, 0, 1024, 748)];
+        imageView.contentMode = UIViewContentModeScaleAspectFit;
+        
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            UIImage* image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:imageURL]]];
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                imageView.image = image;
+            });
+        });
+
+        [self.scrollView addSubview:imageView];
+        page++;
+    }
     
     self.scrollView.delegate = self;
 }
