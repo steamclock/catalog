@@ -1,23 +1,84 @@
 <% include header %>
-    <h1><%= title %></h1>
-    <p>Welcome to the <%= title %> page. Form for creating a project goes here shortly.</p>
-<form method="post" enctype="multipart/form-data" action="/submit">
-    <label for="author">Your Name</label><input type="text" name="author">
-    <label for="email">Your Email</label><input type="email" name="email">
-    <label for="websiteurl">Your Website</label><input type="text" name="websiteUrl">
+<div class="span6 offset1 white-background">
+  <div class="span3 pull-left">
+    <a href="http://grad2013.ecuad.ca/" title="Go to the Grad Exhibition Catalogue" target="_blank"><img src="public/images/logo.jpg" /></a>
+  </div>
+  <div class="span3 pull-right">
+    <p class="ecuad-link"><a href="http://www.ecuad.ca/" title="Go to the Emily Carr University of Art + Design Homepage" target="_blank">ECUAD.CA</a></p>
+  </div>
 
-    <label for="degree">Select your degree:</label>
-    <select name="degree">
-        <option value="design">Design</option> 
-        <option value="fine-arts">Fine Arts</option> 
-        <option value="media-arts">Media Arts</option> 
-        <option value="masters-of-applied-arts">Masters of Applied Arts (MAA)</option> 
-    </select>
-    <label for="title">Project Title</label><input type="text" name="title">
-    <label for="medium">Medium(s)</label><input type="text" name="medium">
-    <label for="measurements">Measurements</label><input type="text" name="measurements">
+  <div class="clearfix"></div>        
 
-    <label for="asset1">Image 1</label><input type="file" name="asset1">
-    <input type="submit">
-</form>
+  <h1>Submit Your Project</h1>
+
+  <h2>1. Your Information</h2>
+  <label>Your Name</label>
+  <input type="text" name="Your Name">
+  <label>Your ECUAD.ca Email Address</label>
+  <input type="email" name="Your ECUAD.ca Email Address"><span class="help-inline"><small><em>Must be @ecuad.ca</em></small></span>
+
+  <h2>2. Information About Your Project</h2>
+  <label>Title of Your Project</label>
+  <input type="text" name="Title of Your Project">
+  <label>Select Your Degree Track</label>
+  <select>
+    <option>Design</option>
+    <option>Media Arts</option>
+    <option>Visual Arts</option>
+    <option>MAA</option>
+  </select>
+  <label>Media(s)</label>
+  <input type="text" name="Media(s) Used">
+  <label>Measurements</label>
+  <input type="text" name="Measurements (w x h x d)"><span class="help-inline"><small><em>Width x Height x Depth // cm for units</em></small></span>
+
+  <h2>3. Images</h2>
+  <p>You can sumbit <em>up to 3 assets</em> of your project.</p>
+  <ul>
+    <li>images must be saved as <em>.jpg format</em></li>
+    <li>the <em>longest edge</em> of the image must be <em>at least 1500 pixels</em> long</li>
+    <li>each image must be <em>less than 500KB</em> in size</li>
+  </ul>
+
+  <h3>Size Matters</h3>
+  <p>The recommended image size is <em>1500px (w) x 1126px (h)</em> compressed to be <em>approximately 300KB</em>.</p>
+
+  <img class="bottom-image" src="public/images/size-matters.jpg" />
+
+  <div class="fileupload fileupload-new" data-provides="fileupload">
+    <div class="input-append">
+      <div class="uneditable-input"><i class="icon-file fileupload-exists"></i> <span class="fileupload-preview"></span></div><span class="btn btn-file"><span class="fileupload-new">Image 1</span><span class="fileupload-exists">Change</span><input type="file" /></span><a href="#" class="btn fileupload-exists" data-dismiss="fileupload">Remove</a>
+    </div>
+  </div>
+
+  <div class="fileupload fileupload-new" data-provides="fileupload">
+    <div class="input-append">
+      <div class="uneditable-input"><i class="icon-file fileupload-exists"></i> <span class="fileupload-preview"></span></div><span class="btn btn-file"><span class="fileupload-new">Image 2</span><span class="fileupload-exists">Change</span><input type="file" /></span><a href="#" class="btn fileupload-exists" data-dismiss="fileupload">Remove</a>
+    </div>
+  </div>
+
+  <div class="fileupload fileupload-new" data-provides="fileupload">
+    <div class="input-append">
+      <div class="uneditable-input"><i class="icon-file fileupload-exists"></i> <span class="fileupload-preview"></span></div><span class="btn btn-file"><span class="fileupload-new">Image 3</span><span class="fileupload-exists">Change</span><input type="file" /></span><a href="#" class="btn fileupload-exists" data-dismiss="fileupload">Remove</a>
+    </div>
+  </div>
+
+  <h2>4. Video</h2>
+  <ul>
+    <li>must be <em>hosted on Vimeo</em></li>
+    <li><em>paste the URL from Vimeo</em> into the field below</li>
+    <li>follow the <a href="https://vimeo.com/help/compression" title="Click here to read the Vimeo Compression Guidlines." target="_blank">Vimeo Compression Guidelines</a> for best quality</li>
+  </ul>
+  
+  <img src="public/images/vimeo-ex.jpg" />
+
+  <label>Vimeo URL</label>
+  <input type="text" name="Vimeo Link">
+  
+  <div class="clearfix"></div>
+  
+  <input type="submit" value="Submit For Approval" class="btn btn-info">
+  
+  </form>
+</div>
 <% include footer %>
