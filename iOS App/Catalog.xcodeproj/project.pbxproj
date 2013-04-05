@@ -21,6 +21,7 @@
 		A6702584170E212C00840867 /* ProjectCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A6702583170E212C00840867 /* ProjectCell.xib */; };
 		A6702588170E331600840867 /* ProjectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A6702586170E331600840867 /* ProjectViewController.m */; };
 		A6702589170E331600840867 /* ProjectViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A6702587170E331600840867 /* ProjectViewController.xib */; };
+		A6702591170F45E400840867 /* sample.json in Resources */ = {isa = PBXBuildFile; fileRef = A6702590170F45E400840867 /* sample.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -44,6 +45,7 @@
 		A6702585170E331600840867 /* ProjectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProjectViewController.h; sourceTree = "<group>"; };
 		A6702586170E331600840867 /* ProjectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProjectViewController.m; sourceTree = "<group>"; };
 		A6702587170E331600840867 /* ProjectViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProjectViewController.xib; sourceTree = "<group>"; };
+		A6702590170F45E400840867 /* sample.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = sample.json; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,6 +65,7 @@
 		A6702554170E0C0A00840867 = {
 			isa = PBXGroup;
 			children = (
+				A6702590170F45E400840867 /* sample.json */,
 				A6702566170E0C0A00840867 /* Catalog */,
 				A670255F170E0C0A00840867 /* Frameworks */,
 				A670255E170E0C0A00840867 /* Products */,
@@ -176,6 +179,7 @@
 				A670257D170E0C0A00840867 /* ProjectListViewController.xib in Resources */,
 				A6702584170E212C00840867 /* ProjectCell.xib in Resources */,
 				A6702589170E331600840867 /* ProjectViewController.xib in Resources */,
+				A6702591170F45E400840867 /* sample.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

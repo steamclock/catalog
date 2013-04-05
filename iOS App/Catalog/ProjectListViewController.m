@@ -12,6 +12,7 @@
 @property (strong, nonatomic) IBOutlet UICollectionView* collectionView;
 @property (strong, nonatomic) IBOutlet UITabBar* tabBar;
 @property (strong, nonatomic) NSMutableDictionary* cachedImages;
+@property (strong, nonatomic) NSArray* projects;
 @end
 
 @implementation ProjectListViewController
@@ -28,6 +29,8 @@
     [self.tabBar setSelectedItem:self.tabBar.items[0]];
     
     self.cachedImages = [NSMutableDictionary new];
+    
+    self.projects = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"sample" ofType:@"json"]] options:0 error:nil];
 }
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
@@ -35,13 +38,13 @@
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return 100;
+    return self.projects.count;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     UICollectionViewCell* cell = [collectionView dequeueReusableCellWithReuseIdentifier:REUSE_IDENTIFIER forIndexPath:indexPath];
     
-    NSString* imageURL = @"http://www.steamclock.com/img/home/peer1-mapoftheinternet2.png";
+    NSString* imageURL = self.projects[indexPath.row][@"thumbnail"];
     UIImage* cachedimage = self.cachedImages[imageURL];
     
     if(cachedimage) {
@@ -65,8 +68,12 @@
         });
     }
     
-    UILabel* label = (UILabel*)[cell viewWithTag:101];
-    label.text = [NSString stringWithFormat:@"%d", indexPath.row];
+    UILabel* title = (UILabel*)[cell viewWithTag:101];
+    title.text = self.projects[indexPath.row][@"title"];
+
+    UILabel* author = (UILabel*)[cell viewWithTag:102];
+    author.text = self.projects[indexPath.row][@"author"];
+    
     return cell;
 }
 
@@ -75,6 +82,11 @@
     [self presentViewController:project animated:YES completion:^{
         
     }];
+}
+
+-(void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    [self.cachedImages removeAllObjects];
 }
 
 @end
