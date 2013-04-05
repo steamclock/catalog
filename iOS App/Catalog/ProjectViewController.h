@@ -5,7 +5,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ProjectViewController : UIViewController <UIScrollViewDelegate>
+@interface ProjectViewController : UIViewController <UIScrollViewDelegate, UIWebViewDelegate>
 
 -(id)initWithProject:(NSDictionary*)project;
 

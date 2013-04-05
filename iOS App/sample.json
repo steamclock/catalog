@@ -7,8 +7,8 @@
     "title" : "Derp",
     "website" : "http://www.realityhacking.com",
     "thumbnail" : "http://www.steamclock.com/img/home/lightbulb.png",
-    "images" : [ "http://apod.nasa.gov/apod/image/1304/Me-and-the-milkyway_heden0.jpg", "http://apod.nasa.gov/apod/image/1304/M64HaLRGB_Pugh.jpg" ]
-    "video" : "http://vimeo.com/40128119"
+    "images" : [ "http://apod.nasa.gov/apod/image/1304/Me-and-the-milkyway_heden0.jpg" ],
+    "video" : "http://player.vimeo.com/video/40128119"
   },
   { "author" : "Angelina",
     "degree" : "design",
