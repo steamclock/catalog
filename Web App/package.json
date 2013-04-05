@@ -26,7 +26,8 @@
     "pg" : "0.14.x",
     "nodemailer" : "0.3.x",
     "ejs" : "0.8.x",
-    "db-migrate" : "0.4.x"
+    "db-migrate" : "0.4.x",
+    "express-validator" : "0.3.2"
   },
 
   "devDependencies": {
@@ -35,7 +36,7 @@
     "chai-http" : "*"
   },
 
-  "license" : "MIT",
+  "license": "MIT",
 
   "engines": {
     "node": ">=0.6"

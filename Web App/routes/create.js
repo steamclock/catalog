@@ -17,15 +17,9 @@ exports.submit = function(req, res, next){
 
     // console.log(req);
     // var assets = req.files;
-
-
     // for (var i = req.files.length - 1; i >= 0; i--) {
     //     console.log(req.files[i]);
     // };
-
-
-    //res.render('done', { title: 'Thanks for your Submission' });
-
 
     // var targetPath = './public/images/projects/' + req.files.asset1.name;
     // fs.rename(tmpPath, targetPath, function(err) {
@@ -35,9 +29,13 @@ exports.submit = function(req, res, next){
     //         if (err) throw err;
     //     });
     // });
-    console.log("Inside function to insert into DB");
 
-    var projectID;
+    // 1. Validate and respond accordingly
+
+    // 2. Insert project into project table 
+
+    // Generate random URL token here
+    // Also need a bool in this table for approved or not
 
     var query = client.query(
         "INSERT INTO projects(title, author, email, website, degree, medium, measurements) values($1, $2, $3, $4, $5, $6, $7)",
@@ -49,9 +47,17 @@ exports.submit = function(req, res, next){
     });
 
     query.on('end', function(result){
-        console.log("Created new entry for project in DB for );
+        console.log("Created new entry for project in DB.");
         //client.end();
     });
+
+    // 3. Get project id of new project by user's email
+
+    // 4. Insert assets into asset table keyed by project ID
+
+
+    // 5. Email user URL for editing and as confirmation.
+
 
     next();
 };

@@ -1,7 +1,7 @@
 <% include header %>
 <div class="span6 offset1 white-background">
   <div class="span3 pull-left">
-    <a href="http://grad2013.ecuad.ca/" title="Go to the Grad Exhibition Catalogue" target="_blank"><img src="public/images/logo.jpg" /></a>
+    <a href="http://grad2013.ecuad.ca/" title="Go to the Grad Exhibition Catalogue" target="_blank"><img src="/public/images/logo.jpg" /></a>
   </div>
   <div class="span3 pull-right">
     <p class="ecuad-link"><a href="http://www.ecuad.ca/" title="Go to the Emily Carr University of Art + Design Homepage" target="_blank">ECUAD.CA</a></p>
@@ -12,17 +12,17 @@
   <h1>Submit Your Project</h1>
 
   <h2>1. Your Information</h2>
-  <form method="post" enctype="multipart/form-data" action="/create/submit">
+  <form method="post" enctype="multipart/form-data" action="/create/submit" id="projectSubmission">
   <label>Your Name</label>
-  <input type="text" name="author">
+  <input type="text" name="author" class="required" minlength="5">
   <label>Your ECUAD.ca Email Address</label>
-  <input type="email" name="email"><span class="help-inline"><small><em>Must be @ecuad.ca</em></small></span>
+  <input type="email" name="email" class="required email" minlength="10"><span class="help-inline"><small><em>Must be @ecuad.ca</em></small></span>
   <label>Your Online Portfolio</label>
-  <input type="url" name="website"><span class="help-inline"><small><em>A URL where you host more of your work</em></small></span>
+  <input type="url" name="website url" minlength="10"><span class="help-inline"><small><em>A URL where you host more of your work</em></small></span>
 
   <h2>2. Information About Your Project</h2>
   <label>Title of Your Project</label>
-  <input type="text" name="title">
+  <input type="text" name="title" class="required">
   <label>Select Your Degree Track</label>
   <select name="degree">
     <option value="design">Design</option>
@@ -31,7 +31,7 @@
     <option value="masters-of-applied-arts">MAA</option>
   </select>
   <label>Media(s)</label>
-  <input type="text" name="media">
+  <input type="text" name="medium">
   <label>Measurements</label>
   <input type="text" name="measurements"><span class="help-inline"><small><em>Width x Height x Depth // cm for units</em></small></span>
 
@@ -46,7 +46,7 @@
   <h3>Size Matters</h3>
   <p>The recommended image size is <em>1500px (w) x 1126px (h)</em> compressed to be <em>approximately 300KB</em>.</p>
 
-  <img class="bottom-image" src="public/images/size-matters.jpg" />
+  <img class="bottom-image" src="/public/images/size-matters.jpg" />
 
   <div class="fileupload fileupload-new" data-provides="fileupload">
     <div class="input-append">
@@ -73,7 +73,7 @@
     <li>follow the <a href="https://vimeo.com/help/compression" title="Click here to read the Vimeo Compression Guidlines." target="_blank">Vimeo Compression Guidelines</a> for best quality</li>
   </ul>
   
-  <img src="public/images/vimeo-ex.jpg" />
+  <img src="/public/images/vimeo-ex.jpg" />
 
   <label>Vimeo URL</label>
   <input type="url" name="video">
@@ -84,4 +84,5 @@
   
   </form>
 </div>
+<div class="error"><span></span></div>
 <% include footer %>
