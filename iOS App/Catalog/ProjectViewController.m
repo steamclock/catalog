@@ -2,13 +2,13 @@
 //  ProjectViewController.m
 //  Catalog
 //
-//  Created by Nigel Brooke on 2013-04-04.
-//  Copyright (c) 2013 Nigel Brooke. All rights reserved.
-//
 
 #import "ProjectViewController.h"
 
 @interface ProjectViewController ()
+
+@property (strong, nonatomic) IBOutlet UIScrollView* scrollView;
+@property (strong, nonatomic) IBOutlet UIPageControl* pageControl;
 
 @end
 
@@ -26,7 +26,24 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
+    
+    self.scrollView.contentSize = CGSizeMake(1024 * 3, 748);
+    
+    UIView* view1 = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 1024, 748)];
+    view1.backgroundColor = [UIColor redColor];
+    [self.scrollView addSubview:view1];
+    
+    UIView* view2 = [[UIView alloc] initWithFrame:CGRectMake(1024, 0, 1024, 748)];
+    view2.backgroundColor = [UIColor greenColor];
+    [self.scrollView addSubview:view2];
+    
+    UIView* view3 = [[UIView alloc] initWithFrame:CGRectMake(2048, 0, 1024, 748)];
+    view3.backgroundColor = [UIColor blueColor];
+    [self.scrollView addSubview:view3];
+    
+    self.pageControl.numberOfPages = 3;
+    
+    self.scrollView.delegate = self;
 }
 
 - (void)didReceiveMemoryWarning
@@ -35,4 +52,11 @@
     // Dispose of any resources that can be recreated.
 }
 
+-(IBAction)dismiss:(id)sender {
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+-(void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    self.pageControl.currentPage = floor((float)(scrollView.contentOffset.x + 512) / 1024.0f);
+}
 @end
