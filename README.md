@@ -14,9 +14,16 @@ Content items are submit for administrator curation. Administrators have access 
 ## How to use it
 ---
 
+Note that all of these instructions are for getting the dev version of the app up and running. Production configuration will probably vary, as determined by whatever we figure out for deployment strategy. :)
+
 1. Clone the repo.
 2. `npm install` to install all the dependencies (there aren't very many)
-3. Set up your config file:
+3. `npm install -g db-migrate` - because for some reason just installing it locally hasn't been playing nice
+4. Create a postgres DB. Making the assumption you have postgres installed and running, if you do not this is the time to acquire and install it, then create a DB. Note the username and password.
+
+5. Set up your config files:
+
+In a file at /config/config.json
 
 ```json
 {
@@ -36,6 +43,26 @@ Content items are submit for administrator curation. Administrators have access 
     }
 }
 ```
+
+In a file in your document root put a file called database.json
+
+```json
+{
+  "dev": {
+    "driver": "pg",
+    "user": "username",
+    "password": "password",
+    "host": "localhost",
+    "database": "emilycarr"
+  }
+}
+```
+
+There is a ticket open in Issues to consolidate the location and contents of the initial configurations into a single place.
+
+6. Run `db-migrate up` and you should have your tables in your DB set up properly.
+
+7. Run `'node app' and navigate to 'localhost:3000' and you should be good to go.
 
 ## License
 
