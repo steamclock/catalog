@@ -9,8 +9,13 @@
 
 @property (strong, nonatomic) IBOutlet UIScrollView* scrollView;
 @property (strong, nonatomic) IBOutlet UIPageControl* pageControl;
+@property (strong, nonatomic) IBOutlet UIView* detailContainer;
 
 @property (strong, nonatomic) NSDictionary* project;
+
+@property BOOL showingDetails;
+@property CGRect showDetailsFrame;
+@property CGRect hideDetailsFrame;
 
 @end
 
@@ -66,6 +71,26 @@
     self.scrollView.delegate = self;
 }
 
+-(void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    self.showDetailsFrame = self.detailContainer.frame;
+    CGRect hide = self.showDetailsFrame;
+    hide.origin.y = -hide.size.height;
+    self.hideDetailsFrame = hide;
+    self.showingDetails = NO;
+}
+
+-(void)viewDidLayoutSubviews {
+    [super viewDidLayoutSubviews];
+    self.detailContainer.frame = self.hideDetailsFrame;
+}
+
+-(void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+}
+
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -90,4 +115,14 @@
     }
     return NO;
 }
+
+-(IBAction)detailButtonPressed:(id)sender {
+    CGRect dest = self.showingDetails ? self.hideDetailsFrame : self.showDetailsFrame;
+    self.showingDetails = !self.showingDetails;
+    [UIView animateWithDuration:1.0 animations:^{
+        self.detailContainer.frame = dest;
+    }];
+}
+
+
 @end
