@@ -8,6 +8,7 @@
 @interface ProjectViewController ()
 
 @property (strong, nonatomic) IBOutlet UIScrollView* scrollView;
+@property (strong, nonatomic) IBOutlet UIButton* backButton;
 @property (strong, nonatomic) IBOutlet UIPageControl* pageControl;
 @property (strong, nonatomic) IBOutlet UIView* detailContainer;
 
@@ -16,6 +17,14 @@
 @property BOOL showingDetails;
 @property CGRect showDetailsFrame;
 @property CGRect hideDetailsFrame;
+@property CGRect showDetailsBackFrame;
+@property CGRect hideDetailsBackFrame;
+
+@property (strong, nonatomic) IBOutlet UILabel* name;
+@property (strong, nonatomic) IBOutlet UILabel* author;
+@property (strong, nonatomic) IBOutlet UILabel* medium;
+@property (strong, nonatomic) IBOutlet UILabel* measurements;
+@property (strong, nonatomic) IBOutlet UILabel* website;
 
 @end
 
@@ -31,8 +40,7 @@
     
 }
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
     
     BOOL hasVideo = self.project[@"video"] && [self.project[@"video"] length];
@@ -69,32 +77,39 @@
     }
     
     self.scrollView.delegate = self;
-}
 
--(void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    
+    // Figure out the two possible frames for the detail view and the back button (for animated show/hide of the details)
     self.showDetailsFrame = self.detailContainer.frame;
+    self.showDetailsBackFrame = self.backButton.frame;
+    
     CGRect hide = self.showDetailsFrame;
-    hide.origin.y = -hide.size.height;
+    hide.origin.y = -self.showDetailsFrame.size.height;
     self.hideDetailsFrame = hide;
+    
+    hide = self.showDetailsBackFrame;
+    hide.origin.y = hide.origin.y - self.showDetailsFrame.size.height;
+    self.hideDetailsBackFrame = hide;
+    
     self.showingDetails = NO;
+
+    self.name.text = self.project[@"title"];
+    self.author.text = self.project[@"author"];
+    self.medium.text = self.project[@"medium"];
+    self.measurements.text = self.project[@"measurements"];
+    self.website.text = self.project[@"website"];
 }
 
 -(void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
+    
+    // reset to the hidden position after laying out view
+    self.detailContainer.alpha = 0.0f;
     self.detailContainer.frame = self.hideDetailsFrame;
+    self.backButton.frame = self.hideDetailsBackFrame;
 }
 
--(void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-}
-
-
-- (void)didReceiveMemoryWarning
-{
+- (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 -(IBAction)dismiss:(id)sender {
@@ -102,27 +117,47 @@
 }
 
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    self.pageControl.currentPage = floor((float)(scrollView.contentOffset.x + 512) / 1024.0f);
+    // Check if current page has changed, to update page control, and hide details view if needed
+    int newPage = floor((float)(scrollView.contentOffset.x + 512) / 1024.0f);
+    if (newPage != self.pageControl.currentPage) {
+        self.pageControl.currentPage = newPage;
+        if(self.showingDetails) {
+            [self detailButtonPressed:nil];
+        }
+    }
 }
 
 -(BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
-    if(navigationType == UIWebViewNavigationTypeOther) { // initialLoad
+    if(navigationType == UIWebViewNavigationTypeOther) {
+        // Initial load lett it go
         return YES;
     }
     else
     {
+        // Anything else, send it to Safari
         [[UIApplication sharedApplication] openURL:request.URL];
     }
     return NO;
 }
 
 -(IBAction)detailButtonPressed:(id)sender {
-    CGRect dest = self.showingDetails ? self.hideDetailsFrame : self.showDetailsFrame;
+    // Figure out if we are showing or hiding
+    CGRect destDetails = self.showingDetails ? self.hideDetailsFrame : self.showDetailsFrame;
+    CGRect destBack = self.showingDetails ? self.hideDetailsBackFrame : self.showDetailsBackFrame;
+    float destAlpha = self.showingDetails ? 0.0f : 1.0f;
+    
     self.showingDetails = !self.showingDetails;
-    [UIView animateWithDuration:1.0 animations:^{
-        self.detailContainer.frame = dest;
+
+    // Run show/hide animation
+    [UIView animateWithDuration:0.5 animations:^{
+        self.backButton.frame = destBack;
+        self.detailContainer.frame = destDetails;
+        self.detailContainer.alpha = destAlpha;
     }];
 }
 
+-(IBAction)websiteClicked:(id)sender {
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:self.project[@"website"]]];
+}
 
 @end

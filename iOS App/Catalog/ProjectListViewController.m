@@ -17,6 +17,24 @@
 
 @implementation ProjectListViewController
 
+-(NSArray*)sanitizeProjects:(NSArray*)projects {
+    // Strip NSNulls out of the project list
+    NSMutableArray* newArray = [NSMutableArray new];
+    
+    [projects enumerateObjectsUsingBlock:^(NSDictionary* obj, NSUInteger idx, BOOL *stop) {
+        NSMutableDictionary* newProject = [NSMutableDictionary new];
+        [obj enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+            if(![obj isKindOfClass:[NSNull class]]) {
+                newProject[key] = obj;
+            }
+        }];
+        
+        [newArray addObject:newProject];
+    }];
+    
+    return newArray;
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -30,7 +48,7 @@
     
     self.cachedImages = [NSMutableDictionary new];
     
-    self.projects = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"sample" ofType:@"json"]] options:0 error:nil];
+    self.projects = [self sanitizeProjects:[NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"sample" ofType:@"json"]] options:0 error:nil]];
 }
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
