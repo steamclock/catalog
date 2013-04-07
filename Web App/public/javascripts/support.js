@@ -12,24 +12,37 @@ $(document).ready(function(){
 
     $.validator.addMethod('filedimensions', function(value, element, param) {
         var img = new Image(), file, height, width, fileList = $(element)[0].files;
-
-        console.log(fileList);
-
-        if (!fileList[0]) {
+        if (!fileList[0] && (!element.name != "asset1")) {
             return true; // No file? No problem.
         } else {
-            img.src = window.URL.createObjectURL(fileList[0]);
+            
             img.onload = function(){
                 height = img.naturalHeight;
                 width = img.naturalWidth;
-                window.URL.revokeObjectURL(img.src);
-        }
-        return (width >= param || height >= param);
+            };
+
+            img.src = window.URL.createObjectURL(fileList[0]);
+
+            while (img.complete){
+                
+            }
+
+            console.log("width: " + width + "height: " + height)
+            console.log("param:" + param);
+
+            return (width >= param || height >= param);
         }
     });
 
+    $.validator.addMethod('filequota', function(element) {
+
+
+    });
+
     $.validator.addMethod('ecuad', function(value, element) {
-        return (value.substring(value.indexOf('@')) === "@ecuad.ca"); 
+        // This may be the tersest thing I've written in a long time
+        // I regret nothing
+        return ((value.substring(value.indexOf('@')) === "@ecuad.ca") || (value.substring(value.indexOf('@')) === "@steamclock.com")); 
     });
 
     $.validator.addMethod('vimeo', function(value, element) {
@@ -55,13 +68,15 @@ $(document).ready(function(){
 
             medium : "required",
 
-            image1 : { accept : "image/*", filesize : "524288", filedimensions : 1500 },
+            image1 : { accept : "image/*", filesize : "524288", filedimensions : 1500, required : true },
 
             image2 : { accept : "image/*", filesize : "524288", filedimensions : 1500 },
 
             image3 : { accept : "image/*", filesize : "524288", filedimensions : 1500 },
 
-            video : { vimeo : true }
+            video : { vimeo : true },
+
+
 
         },
 
@@ -73,7 +88,6 @@ $(document).ready(function(){
                 required: "A valid ecuad.ca email is required",
                 email: "A valid ecuad.ca email is required",
                 ecuad: "Please enter an ecuad.ca address only"
-
             },
 
             title: "A title for your project is required",
