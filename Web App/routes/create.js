@@ -1,5 +1,7 @@
 var fs = require('fs')
-    , client = require('./../modules/postgres').client;
+    , client = require('./../modules/postgres').client
+    , nodemailer = require("nodemailer")
+    , crypto = require('crypto');
 
 /*
  * GET form to create new project
@@ -14,12 +16,54 @@ exports.get = function(req, res){
  */
 
 exports.submit = function(req, res, next){
+    //console.log(req);
+    var projectRows = [];
 
-    // console.log(req);
-    // var assets = req.files;
-    // for (var i = req.files.length - 1; i >= 0; i--) {
-    //     console.log(req.files[i]);
-    // };
+    //console.log(req.files);
+
+    for (asset in req.files){
+        //console.log(projectRows.row[0].id);
+
+        for (p in asset) {
+            console.log(typeof(asset[p]), p);
+        }
+
+
+        console.log(asset);
+        console.log(asset.name);
+    }
+
+
+
+
+    // ----
+    // // Generate a unique hash for edit link using submitter's email address
+    // var email = req.body.email, token = crypto.createHash('md5').update(email).digest("hex");
+
+    // //Insert ze project
+    // var projectInsertion = client.query(
+    //     "INSERT INTO projects(title, author, email, website, degree, medium, measurements, token) values($1, $2, $3, $4, $5, $6, $7, $8)",
+    //     [req.body.title, req.body.author, req.body.email, req.body.website, req.body.degree, req.body.medium, req.body.measurements, token]
+    // );
+
+    // var projectRows = [];
+    // projectInsertion.on('row', function(row, result) {
+    //     result.addRow(row);
+    //     projectRows.push(row);
+    // });
+
+    // projectInsertion.on('error', function(error) {
+    //     console.log("Problem inserting row into DB, cap'n. Error: " + error)
+    //     res.render('done', { title: 'ERROR IN SUBMISSION' });
+    // });
+
+    // projectInsertion.on('end', function(result){
+    //     console.log("Created new entry for project in DB.");
+    //     console.log("Project ID: " + result.rows[0].id); // use this to add assets to DB
+    // });
+
+
+    // ------
 
     // var targetPath = './public/images/projects/' + req.files.asset1.name;
     // fs.rename(tmpPath, targetPath, function(err) {
@@ -30,28 +74,13 @@ exports.submit = function(req, res, next){
     //     });
     // });
 
-    // 1. Validate and respond accordingly
+    // var assetInsertion = client.query(
+    //     "INSERT into assets(projectid, type, url) values($1)",
+    //     [currentasset]
+    // );
 
-    // 2. Insert project into project table 
 
-    // Generate random URL token here
-    // Also need a bool in this table for approved or not
 
-    var query = client.query(
-        "INSERT INTO projects(title, author, email, website, degree, medium, measurements) values($1, $2, $3, $4, $5, $6, $7)",
-        [req.body.title, req.body.author, req.body.email, req.body.website, req.body.degree, req.body.medium, req.body.measurements]);
-
-    query.on('error', function(error) {
-        console.log("Problem inserting row into DB, cap'n. Error: " + error)
-        res.render('done', { title: 'ERROR IN SUBMISSION' });
-    });
-
-    query.on('end', function(result){
-        console.log("Created new entry for project in DB.");
-        //client.end();
-    });
-
-    // 3. Get project id of new project by user's email
 
     // 4. Insert assets into asset table keyed by project ID
 

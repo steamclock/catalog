@@ -10,7 +10,8 @@ exports.up = function(db, callback) {
     website: 'string',
     degree: 'string',
     medium: 'string',
-    measurements: 'string'
+    measurements: 'string',
+    token: 'string'
   }, callback);
 
   db.createTable('assets', {

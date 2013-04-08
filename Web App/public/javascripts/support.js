@@ -45,11 +45,11 @@ $(document).ready(function(){
 
             medium : "required",
 
-            image1 : { accept : "image/*", filesize : "524288", filedimensions : 1500, required : true },
+            image1 : { accept : "image/*", filesize : "524288", required : true },
 
-            image2 : { accept : "image/*", filesize : "524288", filedimensions : 1500 },
+            image2 : { accept : "image/*", filesize : "524288" },
 
-            image3 : { accept : "image/*", filesize : "524288", filedimensions : 1500 },
+            image3 : { accept : "image/*", filesize : "524288" },
 
             video : { vimeo : true },
 
