@@ -16,74 +16,69 @@ exports.get = function(req, res){
  */
 
 exports.submit = function(req, res, next){
-    //console.log(req);
-    var projectRows = [];
 
-    //console.log(req.files);
+    // Generate a unique hash for edit link using submitter's email address
+    var email = req.body.email, token = crypto.createHash('md5').update(email).digest("hex");
 
-    for (asset in req.files){
-        //console.log(projectRows.row[0].id);
-
-        for (p in asset) {
-            console.log(typeof(asset[p]), p);
-        }
+    //Insert ze project
+    var projectInsertion = client.query(
+        "INSERT INTO projects(title, author, email, website, degree, medium, measurements, token) values($1, $2, $3, $4, $5, $6, $7, $8) RETURNING id",
+        [req.body.title, req.body.author, req.body.email, req.body.website, req.body.degree, req.body.medium, req.body.measurements, token]
+    );
 
 
-        console.log(asset);
-        console.log(asset.name);
-    }
+    projectInsertion.on('row', function(row, result) {
+        result.addRow(row);
+    });
+
+    projectInsertion.on('error', function(error) {
+        console.log("Problem inserting row into DB, cap'n. Error: " + error)
+        res.render('done', { title: 'ERROR IN SUBMISSION' });
+    });
+
+    var projectID = [];
+
+    projectInsertion.on('end', function(result){
+        console.log("Created new entry for project in DB.");
+        console.log("Project ID: " + result.rows[0].id); // use this to add assets to DB
+        projectID.push(result.rows[0].id);
+    });
 
 
+    // Iterate over files and insert into assets table as well as move files to appropriate location
 
+    req.files.images.forEach(function(file) {
+        console.log(file.path);
+        // get the temporary location of the file
+        var tmp_path = file.path;
+        // set where the file should actually exists - in this case it is in the "images" directory
+        var target_path = './public/images/projects/' + file.name;
+        // move the file from the temporary location to the intended location
 
-    // ----
-    // // Generate a unique hash for edit link using submitter's email address
-    // var email = req.body.email, token = crypto.createHash('md5').update(email).digest("hex");
+        fs.renameSync(tmp_path, target_path);
+        fs.unlinkSync(tmp_path);
 
-    // //Insert ze project
-    // var projectInsertion = client.query(
-    //     "INSERT INTO projects(title, author, email, website, degree, medium, measurements, token) values($1, $2, $3, $4, $5, $6, $7, $8)",
-    //     [req.body.title, req.body.author, req.body.email, req.body.website, req.body.degree, req.body.medium, req.body.measurements, token]
-    // );
+        console.log("Log experiment" + projectID[0]);
 
-    // var projectRows = [];
-    // projectInsertion.on('row', function(row, result) {
-    //     result.addRow(row);
-    //     projectRows.push(row);
-    // });
+        var localFileURL = "/public/images/projects/" + file.name;
 
-    // projectInsertion.on('error', function(error) {
-    //     console.log("Problem inserting row into DB, cap'n. Error: " + error)
-    //     res.render('done', { title: 'ERROR IN SUBMISSION' });
-    // });
+        var assetInsertion = client.query(
+            "INSERT into assets(projectid, type, url) values($1, $2, $3)",
+            [projectID, "image", localFileURL]
+        );
 
-    // projectInsertion.on('end', function(result){
-    //     console.log("Created new entry for project in DB.");
-    //     console.log("Project ID: " + result.rows[0].id); // use this to add assets to DB
-    // });
+        assetInsertion.on('error', function(error) {
+            console.log("Problem inserting row into DB, cap'n. Error: " + error)
+            res.render('done', { title: 'ERROR IN ASSET INSERTION' });
+        });        
 
+        assetInsertion.on('end', function(result){
+            console.log("Inserted image into assets table");
+        });
 
-    // ------
+    });
 
-    // var targetPath = './public/images/projects/' + req.files.asset1.name;
-    // fs.rename(tmpPath, targetPath, function(err) {
-    //     if (err) throw err;
-    //     // delete the temporary file, so that the explicitly set temporary upload dir does not get filled with unwanted files
-    //     fs.unlink(tmpPath, function() {
-    //         if (err) throw err;
-    //     });
-    // });
-
-    // var assetInsertion = client.query(
-    //     "INSERT into assets(projectid, type, url) values($1)",
-    //     [currentasset]
-    // );
-
-
-
-
-    // 4. Insert assets into asset table keyed by project ID
-
+    // Add video link to assets if it exists
 
     // 5. Email user URL for editing and as confirmation.
 
