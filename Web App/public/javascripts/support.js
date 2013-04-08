@@ -4,39 +4,16 @@ $(document).ready(function(){
         var fileList = $(element)[0].files;
 
         if (!fileList[0]) {
-            return true; // No file? No problem.
+            return true; // No file? No problem. TODO: validate at least one photo is attached to form
         } else {
             return (fileList[0].size <= param);
         }
     });
+    var dimensions = {};
+
 
     $.validator.addMethod('filedimensions', function(value, element, param) {
-        var img = new Image(), file, height, width, fileList = $(element)[0].files;
-        if (!fileList[0] && (!element.name != "asset1")) {
-            return true; // No file? No problem.
-        } else {
-            
-            img.onload = function(){
-                height = img.naturalHeight;
-                width = img.naturalWidth;
-            };
-
-            img.src = window.URL.createObjectURL(fileList[0]);
-
-            while (img.complete){
-                
-            }
-
-            console.log("width: " + width + "height: " + height)
-            console.log("param:" + param);
-
-            return (width >= param || height >= param);
-        }
-    });
-
-    $.validator.addMethod('filequota', function(element) {
-
-
+        // TODO: Read in JPG headers, grab dimensions, reject accordingly
     });
 
     $.validator.addMethod('ecuad', function(value, element) {
@@ -94,11 +71,11 @@ $(document).ready(function(){
 
             medium: "Please tell us what your project is made of",
 
-            image1 : { accept : "File must be JPG.", filesize : "File must be less than 500kb", filedimensions : "At least one dimension must measure 1500px" },
+            image1 : { accept : "File must be JPG.", filesize : "File must be less than 500kb" },
 
-            image2 : { accept : "File must be JPG.", filesize : "File must be less than 500kb", filedimensions : "At least one dimension must measure 1500px" },
+            image2 : { accept : "File must be JPG.", filesize : "File must be less than 500kb" },
 
-            image3 : { accept : "File must be JPG.", filesize : "File must be less than 500kb", filedimensions : "At least one dimension must measure 1500px" },
+            image3 : { accept : "File must be JPG.", filesize : "File must be less than 500kb" },
 
             video : "URL must be a valid Vimeo URL",
 
