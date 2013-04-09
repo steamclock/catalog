@@ -1,5 +1,7 @@
 var fs = require('fs')
-    , client = require('./../modules/postgres').client;
+    , client = require('./../modules/postgres').client
+    , nodemailer = require("nodemailer")
+    , crypto = require('crypto');
 
 /*
  * GET form to create new project
@@ -13,53 +15,79 @@ exports.get = function(req, res){
  * POST form to create new project
  */
 
-exports.submit = function(req, res, next){
+exports.submit = function(req, res){
 
-    // console.log(req);
-    // var assets = req.files;
-    // for (var i = req.files.length - 1; i >= 0; i--) {
-    //     console.log(req.files[i]);
-    // };
+    // Generate a unique hash for edit link using submitter's email address
+    var email = req.body.email, token = crypto.createHash('md5').update(email).digest("hex");
 
-    // var targetPath = './public/images/projects/' + req.files.asset1.name;
-    // fs.rename(tmpPath, targetPath, function(err) {
-    //     if (err) throw err;
-    //     // delete the temporary file, so that the explicitly set temporary upload dir does not get filled with unwanted files
-    //     fs.unlink(tmpPath, function() {
-    //         if (err) throw err;
-    //     });
-    // });
+    //Insert ze project
+    var projectInsertion = client.query(
+        "INSERT INTO projects(title, author, email, website, degree, medium, measurements, token) values($1, $2, $3, $4, $5, $6, $7, $8) RETURNING id",
+        [req.body.title, req.body.author, req.body.email, req.body.website, req.body.degree, req.body.medium, req.body.measurements, token]
+    );
 
-    // 1. Validate and respond accordingly
 
-    // 2. Insert project into project table 
+    projectInsertion.on('row', function(row, result) {
+        result.addRow(row);
+    });
 
-    // Generate random URL token here
-    // Also need a bool in this table for approved or not
-
-    var query = client.query(
-        "INSERT INTO projects(title, author, email, website, degree, medium, measurements) values($1, $2, $3, $4, $5, $6, $7)",
-        [req.body.title, req.body.author, req.body.email, req.body.website, req.body.degree, req.body.medium, req.body.measurements]);
-
-    query.on('error', function(error) {
+    projectInsertion.on('error', function(error) {
         console.log("Problem inserting row into DB, cap'n. Error: " + error)
         res.render('done', { title: 'ERROR IN SUBMISSION' });
     });
 
-    query.on('end', function(result){
+    var projectID = [];
+
+    projectInsertion.on('end', function(result){
         console.log("Created new entry for project in DB.");
-        //client.end();
+        console.log("Project ID: " + result.rows[0].id); // use this to add assets to DB
+        projectID.push(result.rows[0].id);
     });
 
-    // 3. Get project id of new project by user's email
 
-    // 4. Insert assets into asset table keyed by project ID
+    // Iterate over files and insert into assets table as well as move files to appropriate location
 
+    req.files.images.forEach(function(file) {
+        console.log(file.path);
+        // get the temporary location of the file
+        var tmp_path = file.path;
+        // set where the file should actually exists - in this case it is in the "images" directory
+        var target_path = './public/images/projects/' + file.name;
+        // move the file from the temporary location to the intended location
+        fs.readFile(file.path, function (err, data) {
+          fs.writeFile(target_path, data, function (err) {
+            console.log("File copied");
+          });
+        });
+
+        fs.unlinkSync(tmp_path);
+
+        console.log("Log experiment" + projectID[0]);
+
+        var localFileURL = "/public/images/projects/" + file.name;
+
+        var assetInsertion = client.query(
+            "INSERT into assets(projectid, type, url) values($1, $2, $3)",
+            [projectID[0], "image", localFileURL]
+        );
+
+        assetInsertion.on('error', function(error) {
+            console.log("Problem inserting row into DB, cap'n. Error: " + error)
+            res.render('done', { title: 'ERROR IN ASSET INSERTION' });
+        });        
+
+        assetInsertion.on('end', function(result){
+            console.log("Inserted image into assets table");
+        });
+
+    });
+
+    if (req.video) {}; // Video
 
     // 5. Email user URL for editing and as confirmation.
 
 
-    next();
+    res.redirect('/done');
 };
 
 /*
