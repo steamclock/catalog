@@ -8,7 +8,7 @@ var fs = require('fs')
  */
 
 exports.get = function(req, res){
-  res.render('create', { title: 'Submit your Grad Show Project' });
+  res.render('create', { title: 'Submit Your Project' });
 };
 
 /*
@@ -95,5 +95,5 @@ exports.submit = function(req, res){
  */
 
 exports.done = function(req, res){
-    res.render('done', { title: 'Thanks for your Submission' });
+    res.render('done', { title: 'Thanks For Your Submission' });
 };

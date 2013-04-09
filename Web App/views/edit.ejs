@@ -1,3 +1,107 @@
 <% include header %>
-<p>Body!</p>
+
+    <div class="row-fluid">
+      <div class="span6 offset1 white-background-submissions">
+
+        <h1>Edit Your Submission</h1>
+
+        <p>Making changes to your submission is easy. You can <em>edit text</em>, <em>swap out images</em>, <em>delete images</em>, or <em>change the URL of your video</em>. Make sure to click “Submit Changes For Approval” at the bottom of this page for your changes to take affect.</p>
+
+        <h2>1. Your Information</h2>
+        <label>Your Name</label>
+        <input type="text" id="input-warning" name="Your Name">
+        <label>Your ECUAD.ca Email Address</label>
+        <input type="email" name="Your ECUAD.ca Email Address"><span class="help-inline"><small><em>Must be @ecuad.ca</em></small></span>
+
+        <h2>2. Information About Your Project</h2>
+        <label>Title of Your Project</label>
+        <input type="text" name="Title of Your Project">
+        <label>Select Your Degree Track</label>
+        <select>
+          <option>Design</option>
+          <option>Media Arts</option>
+          <option>Visual Arts</option>
+          <option>MAA</option>
+        </select>
+        <label>Media(s)</label>
+        <input type="text" name="Media(s) Used">
+        <label>Measurements</label>
+        <input type="text" name="Measurements (w x h x d)"><span class="help-inline"><small><em>Width x Height x Depth // cm for units</em></small></span>
+
+        <h2>3. Images</h2>
+        <p>Remember, you can sumbit <em>up to 3 assets</em> of your project.</p>
+        <ul>
+          <li>images must be saved as <em>.jpg format</em></li>
+          <li>the <em>longest edge</em> of the image must be <em>at least 1500 pixels</em> long</li>
+          <li>each image must be <em>less than 500KB</em> in size</li>
+        </ul>
+
+        <h3>Size Matters</h3>
+        <p>The recommended image size is <em>1500px (w) x 1126px (h)</em> compressed to be <em>approximately 300KB</em>.</p>
+
+        <img src="/public/images/size-matters.jpg" />
+
+    <h3>Your Current Assets</h3>
+    <p>Below are the images you’ve previously submitted to the Catalog. To swap a current image for an new one, click the “Change Image” button under the thumbnail. To completely remove an image from your sumbission, click the “Delete” radio button.</p>
+
+  <div class="row-fluid">
+
+      <div class="span4">
+        <img src="http://placehold.it/150x150" class="img-rounded">
+        <div class="form-inline">
+            <div class="fileupload fileupload-new" data-provides="fileupload">
+            <span class="btn btn-file btn-mini btn-info"><span class="fileupload-new">Change Image</span><span class="fileupload-exists">Change Again</span><input type="file" /></span>
+            <label class="checkbox">
+              <input type="checkbox">Delete</label>
+          </div> <!-- End Fileupload Div -->
+        </div> <!-- End Form -->
+      </div> <!-- End Span4 -->
+
+      <div class="span4">
+        <img src="http://placehold.it/150x150" class="img-rounded">
+        <div class="form-inline">
+            <div class="fileupload fileupload-new" data-provides="fileupload">
+            <span class="btn btn-file btn-mini btn-info"><span class="fileupload-new">Change Image</span><span class="fileupload-exists">Change Change</span><input type="file" /></span>
+            <label class="checkbox">
+              <input type="checkbox">Delete</label>
+          </div> <!-- End Fileupload Div -->
+        </div> <!-- End Form -->
+      </div> <!-- End Span4 -->
+
+      <div class="span4">
+        <img src="http://placehold.it/150x150" class="img-rounded">
+        <div class="form-inline">
+            <div class="fileupload fileupload-new" data-provides="fileupload">
+            <span class="btn btn-file btn-mini btn-info"><span class="fileupload-new">Change Image</span><span class="fileupload-exists">Change Again</span><input type="file" /></span>
+            <label class="checkbox">
+              <input type="checkbox">Delete</label>
+          </div> <!-- End Fileupload Div -->
+        </div> <!-- End Form -->
+      </div> <!-- End Span4 -->
+
+    </div> <!-- End Row -->
+
+        <h2>4. Video</h2>
+        <ul>
+          <li>must be <em>hosted on Vimeo</em></li>
+          <li><em>paste the URL from Vimeo</em> into the field below</li>
+          <li>follow the <a href="https://vimeo.com/help/compression" title="Click here to read the Vimeo Compression Guidlines." target="_blank">Vimeo Compression Guidelines</a> for best quality</li>
+        </ul>
+        
+        <img src="/public/images/vimeo-ex.jpg" />
+
+        <label>Vimeo URL</label>
+        <input type="text" name="Vimeo Link">
+        
+        <div class="clearfix"></div>
+        <div class="well">
+        <p><span class="label label-warning">Heads up!</span> Resubmitting means <em>your work will not be available</em> on the website or in the app until is has been approved by the Curatorial Team.</p>
+
+        <input type="submit" value="Submit Changes For Approval" class="btn btn-info">
+      </div>
+        
+        </div>
+        </form>
+  </div>
+
 <% include footer %>
