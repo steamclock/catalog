@@ -15,7 +15,7 @@ exports.get = function(req, res){
  * POST form to create new project
  */
 
-exports.submit = function(req, res, next){
+exports.submit = function(req, res){
 
     // Generate a unique hash for edit link using submitter's email address
     var email = req.body.email, token = crypto.createHash('md5').update(email).digest("hex");
@@ -87,7 +87,7 @@ exports.submit = function(req, res, next){
     // 5. Email user URL for editing and as confirmation.
 
 
-    next();
+    res.redirect('/done');
 };
 
 /*
