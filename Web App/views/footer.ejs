@@ -1,9 +1,77 @@
-        </div>
+    <div class="row-fluid">
+      <div class="span12 white-background">
+      <div class="span4">
+        <p class="footer"><strong>The Show at<br>
+        Emily Carr University</strong><br>
+        New Adventures in<br>
+        Design, Visual Art<br>
+        &amp; Media</p>
+      </div>
+      <div class="span4">
+        <p class="footer"><strong>Opening Night</strong><br>
+        4 May | 5–10pm<br>
+        <br>
+        <strong>Daily</strong><br>
+        5 to 19 May | 10am–6pm</p>
+      </div>
+      <div class="span4">
+        <p class="footer">1399 &amp; 1400 Johnston St.<br>
+        Granville Island Vancouver, BC<br>
+        <strong>T 604.844.3800<br>
+        Guided Tours Available</strong><br>
+        Details at <a href="http://www.ecuad.ca/" title="This is a link to the homepage of Emily Carr University of Art + Design" target="_blank">ecuad.ca</a></p>
+      </div>
     </div>
+
+    <div class="row-fluid">
+      <div class="span12 white-background">
+        <hr style="margin: -30px 0 20px 0;">
+        <p style="text-align: center;"><small>Copyright 2013.</small><a href="http://www.ecuad.ca/" title="This is a link to the homepage of Emily Carr University of Art + Design" target="_blank"><img class="ecuad-logo hires" alt="The Emily Carr University of Art + Design logo." src="//:0" data-src="/public/images/ecuad-logo.png" width="155" /></a>
+      </div>
+    </div>
+
+</div><!-- End of the Container -->
+
+<script type="text/javascript">
+(function () {
+  var images = document.getElementsByClassName("hires");
+
+  for(var i = 0; i < images.length; i++) {
+    var imageSource = images[i].getAttribute("data-src");
+    var imageType = imageSource.substr(-4);
+
+    imageSource = imageSource.substr(0, imageSource.length - 4);
+
+    if (window.devicePixelRatio == 2) {
+      imageSource = (imageSource + "@2x" + imageType);
+    } else {
+      imageSource = (imageSource + imageType);
+    }
+
+    images[i].src = imageSource;
+  }
+})();
+</script>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <script type="text/javascript" src="/public/javascripts/bootstrap.js"></script>
-<script type="text/javascript" src="/public/javascripts/jquery.validate.min.js"></script>
-<script type="text/javascript" src="/public/javascripts/additional-methods.min.js"></script>
-<script type="text/javascript" src="/public/javascripts/support.js"></script>
+<script type="text/javascript">
+  $(".container-video").fitVids();
+  $(".container-video-peer1").fitVids();
+</script>
+<script>
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-585700-6']);
+  _gaq.push(['_setDomainName', 'none']);
+  _gaq.push(['_setAllowLinker', true]);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+  </script>
+
 </body>
+
 </html>
