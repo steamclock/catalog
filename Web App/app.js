@@ -12,8 +12,9 @@ var express = require('express')
   , path = require('path')
   , fs = require('fs')
   , nodemailer = require("nodemailer")
-  , config = require("./modules/config").config
-  , migrate = require('db-migrate');
+  , config = require('./modules/config').config
+  , migrate = require('db-migrate')
+  , favicons = require('connect-favicons');
 
 var app = express();
 
@@ -22,6 +23,7 @@ var app = express();
 app.configure(function(){
   app.set('port', process.env.PORT || 3000);
   app.set('views', __dirname + '/views');
+  app.use(favicons(__dirname + '/public/images/icons'));
   app.set('view engine', 'ejs');
   app.use(express.favicon());
   app.use(express.logger('dev'));

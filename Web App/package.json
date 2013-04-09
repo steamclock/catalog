@@ -1,5 +1,5 @@
 {
-  "name": "curatable-catalog",
+  "name": "gradcatalog",
   "description": "A simple application for curating and serving up content to content-based applications",
   "version": "0.0.1",
   "author": "Steamclock Software <support@steamclock.com>",
@@ -27,7 +27,7 @@
     "nodemailer" : "0.3.x",
     "ejs" : "0.8.x",
     "db-migrate" : "0.4.x",
-    "express-validator" : "0.3.2"
+    "connect-favicons" : "0.0.2"
   },
 
   "devDependencies": {
