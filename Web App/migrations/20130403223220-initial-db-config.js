@@ -11,7 +11,8 @@ exports.up = function(db, callback) {
     degree: 'string',
     medium: 'string',
     measurements: 'string',
-    token: 'string'
+    token: 'string',
+    published: { type: 'boolean', defaultValue: false }
   }, callback);
 
   db.createTable('assets', {

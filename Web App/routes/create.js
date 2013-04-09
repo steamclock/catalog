@@ -54,8 +54,12 @@ exports.submit = function(req, res, next){
         // set where the file should actually exists - in this case it is in the "images" directory
         var target_path = './public/images/projects/' + file.name;
         // move the file from the temporary location to the intended location
+        fs.readFile(file.path, function (err, data) {
+          fs.writeFile(target_path, data, function (err) {
+            console.log("File copied");
+          });
+        });
 
-        fs.renameSync(tmp_path, target_path);
         fs.unlinkSync(tmp_path);
 
         console.log("Log experiment" + projectID[0]);
@@ -64,7 +68,7 @@ exports.submit = function(req, res, next){
 
         var assetInsertion = client.query(
             "INSERT into assets(projectid, type, url) values($1, $2, $3)",
-            [projectID, "image", localFileURL]
+            [projectID[0], "image", localFileURL]
         );
 
         assetInsertion.on('error', function(error) {
@@ -78,7 +82,7 @@ exports.submit = function(req, res, next){
 
     });
 
-    // Add video link to assets if it exists
+    if (req.video) {}; // Video
 
     // 5. Email user URL for editing and as confirmation.
 
