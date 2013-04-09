@@ -97,3 +97,11 @@ exports.submit = function(req, res){
 exports.done = function(req, res){
     res.render('done', { title: 'Thanks For Your Submission' });
 };
+
+/*
+ * GET denied page.
+ */
+
+exports.denied = function(req, res){
+    res.render('denied', { title: 'Denied: You have already submitted' });
+};

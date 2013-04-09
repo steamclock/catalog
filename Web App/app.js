@@ -56,6 +56,7 @@ app.get('/about', pages.about);
 app.get('/create', create.get);
 app.post('/create/submit', create.submit); //TODO: Change this so that we just do a redirect to a totally different route rather than rendering done template at same route
 app.get('/create/done', create.done);
+app.get('/create/denied', create.denied);
 
 // Editing a submission
 
