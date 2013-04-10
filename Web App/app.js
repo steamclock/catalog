@@ -11,8 +11,6 @@ var express = require('express')
   , http = require('http')
   , path = require('path')
   , fs = require('fs')
-  , nodemailer = require("nodemailer")
-  , config = require('./modules/config').config
   , migrate = require('db-migrate')
   , favicons = require('connect-favicons');
 
@@ -36,16 +34,6 @@ app.configure(function(){
 
 app.configure('development', function(){
   app.use(express.errorHandler());
-});
-
-// Nodemailer Setup 
-
-var smtpTransport = nodemailer.createTransport("SMTP",{
-    service: config.mail.service,
-    auth: {
-        user: config.mail.username,
-        pass: config.mail.password
-    }
 });
 
 // Routes for website

@@ -3,9 +3,7 @@ var fs = require('fs')
 
 try {
     config = JSON.parse(rawData);
-    console.dir("Configuration loaded...");
-} 
-catch (err) {
+} catch (err) {
     console.log('There has been an error parsing the config file.')
     console.log(err);
 } 

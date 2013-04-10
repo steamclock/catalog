@@ -1,6 +1,6 @@
 var fs = require('fs')
     , client = require('./../modules/postgres').client
-    , nodemailer = require("nodemailer")
+    , mail = require('./../modules/mail')
     , crypto = require('crypto');
 
 /*
@@ -17,10 +17,6 @@ exports.get = function(req, res){
 
 exports.submit = function(req, res){
 
-    // TODO: This function is wayy to huge. Factor out DB stuff into it's own module now that its grown.
-
-
-    console.log(req);
     // Generate a unique hash for edit link using submitter's email address
     var email = req.body.email, token = crypto.createHash('md5').update(email).digest("hex");
 
@@ -30,62 +26,60 @@ exports.submit = function(req, res){
         [req.body.title, req.body.author, req.body.email, req.body.website, req.body.degree, req.body.medium, req.body.measurements, token]
     );
 
-
     projectInsertion.on('row', function(row, result) {
         result.addRow(row);
+        rows = result;
+        this.rows = result;
     });
+
+   console.log("derp" + projectInsertion.rows);
 
     projectInsertion.on('error', function(error) {
         console.log("Problem inserting row into DB, cap'n. Error: " + error)
         res.render('done', { title: 'ERROR IN SUBMISSION' });
     });
 
-    var projectID = [];
-
     projectInsertion.on('end', function(result){
         console.log("Created new entry for project in DB.");
         console.log("Project ID: " + result.rows[0].id); // use this to add assets to DB
-        projectID.push(result.rows[0].id);
     });
-
 
     // Iterate over files and insert into assets table as well as move files to appropriate location
-
+     console.log("rows:" + rows);
     req.files.images.forEach(function(file) {
-        console.log(file.path);
-        // get the temporary location of the file
-        var tmp_path = file.path;
-        // set where the file should actually exists - in this case it is in the "images" directory
-        var target_path = './public/images/projects/' + file.name;
-        // move the file from the temporary location to the intended location
-        fs.readFile(file.path, function (err, data) {
-          fs.writeFile(target_path, data, function (err) {
-            console.log("File copied");
-          });
-        });
+        if (file.name) {
+            // get the temporary location of the file
+            var tmp_path = file.path;
+            // set where the file should actually exists - in this case it is in the "images" directory
+            var target_path = './public/images/projects/' + file.name;
+            // move the file from the temporary location to the intended location
+            fs.readFile(file.path, function (err, data) {
+              fs.writeFile(target_path, data, function (err) {
+                console.log("File copied");
+              });
+            });
 
-        fs.unlinkSync(tmp_path);
+            fs.unlinkSync(tmp_path);
 
-        console.log("Log experiment" + projectID[0]);
+            var localFileURL = "/public/images/projects/" + file.name;
 
-        var localFileURL = "/public/images/projects/" + file.name;
+            var assetInsertion = client.query(
+                "INSERT into assets(projectid, type, url) values($1, $2, $3)",
+                [projectID[0], "image", localFileURL]
+            );
 
-        var assetInsertion = client.query(
-            "INSERT into assets(projectid, type, url) values($1, $2, $3)",
-            [projectID[0], "image", localFileURL]
-        );
+            assetInsertion.on('error', function(error) {
+                console.log("Problem image into DB, cap'n. Error: " + error)
+                res.render('done', { title: 'ERROR IN ASSET INSERTION' });
+            });        
 
-        assetInsertion.on('error', function(error) {
-            console.log("Problem image into DB, cap'n. Error: " + error)
-            res.render('done', { title: 'ERROR IN ASSET INSERTION' });
-        });        
-
-        assetInsertion.on('end', function(result){
-            console.log("Inserted image into assets table");
-        });
-
+            assetInsertion.on('end', function(result){
+                console.log("Inserted image into assets table");
+            });
+        }
     });
     
+    // If there's a video, add that too
     if (req.body.video) {
         var videoUrl;
         // Remove https if found
@@ -108,8 +102,10 @@ exports.submit = function(req, res){
             console.log("Inserted video URL into assets table");
         });
     }; // Video
+    res.redirect('/done')
 
-    res.redirect('/done');
+    var projectEditURL = req.headers.host + "/edit/" + token;
+    mail.send(req.body.email, projectEditURL);
 };
 
 /*
