@@ -18,6 +18,7 @@ exports.get = function(req, res){
 
 exports.submit = function(req, res){
     // Generate a unique hash for edit link using submitter's email address
+    // TODO: use a config var somewhere to salt this properly
     var email = req.body.email, token = crypto.createHash('md5').update(email).digest("hex");
 
     async.waterfall([
@@ -91,7 +92,7 @@ exports.submit = function(req, res){
                 }
                 var videoInsertion = client.query(
                     "INSERT into assets(projectid, type, url) values($1, $2, $3)",
-                    [projectID[0], "video", videoUrl]
+                    [projectID, "video", videoUrl]
                 );
 
                 videoInsertion.on('error', function(error) {
