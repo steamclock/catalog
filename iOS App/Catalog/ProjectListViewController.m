@@ -15,9 +15,10 @@
 @property (strong, nonatomic) IBOutlet UIButton* visualArts;
 @property (strong, nonatomic) IBOutlet UIButton* mediaArts;
 @property (strong, nonatomic) IBOutlet UIButton* MAA;
+@property (strong, nonatomic) IBOutlet UIButton* search;
 @property (strong, nonatomic) IBOutlet UIButton* about;
 
-@property (strong, nonatomic) IBOutlet UIWebView* aboutWebView;
+@property (strong, nonatomic) UIWebView* aboutWebView;
 
 @property (strong, nonatomic) NSMutableDictionary* cachedImages;
 @property (strong, nonatomic) NSArray* projects;
@@ -61,9 +62,12 @@
     
     self.cachedImages = [NSMutableDictionary new];
     
+    self.aboutWebView = [[UIWebView alloc] initWithFrame:self.collectionView.frame];
+    self.aboutWebView.hidden = YES;
     NSString *filePath = [[NSBundle mainBundle] pathForResource:@"about" ofType:@"html"];
     NSData *htmlData = [NSData dataWithContentsOfFile:filePath];
     [self.aboutWebView loadData:htmlData MIMEType:@"text/html" textEncodingName:@"UTF-8" baseURL:nil];
+    [self.view addSubview:self.aboutWebView];
 }
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
@@ -128,6 +132,7 @@
     self.visualArts.selected = NO;
     self.mediaArts.selected = NO;
     self.MAA.selected = NO;
+    self.search.selected = NO;
     self.about.selected = NO;
     self.aboutWebView.hidden = YES;
 }
@@ -189,6 +194,18 @@
     self.MAA.selected = YES;
     
     self.projects = [self sanitizeProjects:[NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"sample5" ofType:@"json"]] options:0 error:nil]];
+    [self.collectionView reloadData];
+}
+
+-(IBAction)showSearch:(id)sender {
+    if(self.search.selected) {
+        return;
+    }
+    
+    [self unselectAll];
+    self.search.selected = YES;
+    
+    self.projects = [self sanitizeProjects:[NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"sample" ofType:@"json"]] options:0 error:nil]];
     [self.collectionView reloadData];
 }
 
