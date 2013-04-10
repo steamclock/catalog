@@ -9,7 +9,7 @@ var fs = require('fs')
  */
 
 exports.get = function(req, res){
-  res.render('create', { title: 'Submit Your Project' });
+  res.render('create/create', { title: 'Submit Your Project' });
 };
 
 /*
@@ -70,7 +70,7 @@ exports.submit = function(req, res){
 
                     assetInsertion.on('error', function(error) {
                         console.log("Error: " + error)
-                        res.render('done', { title: 'ERROR IN ASSET INSERTION' });
+                        res.render('create/done', { title: 'ERROR IN ASSET INSERTION' });
                     });        
 
                     assetInsertion.on('end', function(result){
@@ -97,7 +97,7 @@ exports.submit = function(req, res){
 
                 videoInsertion.on('error', function(error) {
                     console.log("Problem inserting video into DB, cap'n. Error: " + error)
-                    res.render('done', { title: 'ERROR IN ASSET INSERTION' });
+                    res.render('create/done', { title: 'ERROR IN ASSET INSERTION' });
                 });        
 
                 videoInsertion.on('end', function(result){
@@ -129,7 +129,7 @@ exports.submit = function(req, res){
  */
 
 exports.done = function(req, res){
-    res.render('done', { title: 'Thanks For Your Submission' });
+    res.render('create/done', { title: 'Thanks For Your Submission' });
 };
 
 /*
@@ -137,5 +137,5 @@ exports.done = function(req, res){
  */
 
 exports.denied = function(req, res){
-    res.render('denied', { title: 'Denied: You have already submitted' });
+    res.render('create/denied', { title: 'Denied: You have already submitted' });
 };

@@ -48,7 +48,8 @@ app.get('/create/denied', create.denied);
 
 // Editing a submission
 
-app.get('/edit', edit.get);
+app.get('/edit/:token', edit.get);
+app.get('/edit/done', edit.done);
 
 
 // Degree page that lists all projects for a given degree
