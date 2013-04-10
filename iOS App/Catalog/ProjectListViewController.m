@@ -10,10 +10,21 @@
 
 @interface ProjectListViewController ()
 @property (strong, nonatomic) IBOutlet UICollectionView* collectionView;
-@property (strong, nonatomic) IBOutlet UITabBar* tabBar;
+@property (strong, nonatomic) IBOutlet UIButton* home;
+@property (strong, nonatomic) IBOutlet UIButton* design;
+@property (strong, nonatomic) IBOutlet UIButton* visualArts;
+@property (strong, nonatomic) IBOutlet UIButton* mediaArts;
+@property (strong, nonatomic) IBOutlet UIButton* MAA;
+@property (strong, nonatomic) IBOutlet UIButton* about;
+
+@property (strong, nonatomic) IBOutlet UIWebView* aboutWebView;
+
 @property (strong, nonatomic) NSMutableDictionary* cachedImages;
 @property (strong, nonatomic) NSArray* projects;
+
+
 @end
+
 
 @implementation ProjectListViewController
 
@@ -44,11 +55,15 @@
     
     [self.collectionView registerNib:[UINib nibWithNibName:@"ProjectCell" bundle:[NSBundle mainBundle]] forCellWithReuseIdentifier:REUSE_IDENTIFIER];
     
-    [self.tabBar setSelectedItem:self.tabBar.items[0]];
+    [self showHome:nil];
+    
+    self.home.selected = YES;
     
     self.cachedImages = [NSMutableDictionary new];
     
-    self.projects = [self sanitizeProjects:[NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"sample" ofType:@"json"]] options:0 error:nil]];
+    NSString *filePath = [[NSBundle mainBundle] pathForResource:@"about" ofType:@"html"];
+    NSData *htmlData = [NSData dataWithContentsOfFile:filePath];
+    [self.aboutWebView loadData:htmlData MIMEType:@"text/html" textEncodingName:@"UTF-8" baseURL:nil];
 }
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
@@ -106,5 +121,87 @@
     [super didReceiveMemoryWarning];
     [self.cachedImages removeAllObjects];
 }
+
+-(void)unselectAll {
+    self.home.selected = NO;
+    self.design.selected = NO;
+    self.visualArts.selected = NO;
+    self.mediaArts.selected = NO;
+    self.MAA.selected = NO;
+    self.about.selected = NO;
+    self.aboutWebView.hidden = YES;
+}
+
+-(IBAction)showHome:(id)sender {
+    if(self.home.selected) {
+        return;
+    }
+    
+    [self unselectAll];
+    self.home.selected = YES;
+    
+    self.projects = [self sanitizeProjects:[NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"sample" ofType:@"json"]] options:0 error:nil]];
+    [self.collectionView reloadData];
+}
+
+-(IBAction)showDesign:(id)sender {
+    if(self.design.selected) {
+        return;
+    }
+    
+    [self unselectAll];
+    self.design.selected = YES;
+    
+    self.projects = [self sanitizeProjects:[NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"sample2" ofType:@"json"]] options:0 error:nil]];
+    [self.collectionView reloadData];
+}
+
+-(IBAction)showVisualArts:(id)sender {
+    if(self.visualArts.selected) {
+        return;
+    }
+
+    [self unselectAll];
+    self.visualArts.selected = YES;
+    
+    self.projects = [self sanitizeProjects:[NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"sample3" ofType:@"json"]] options:0 error:nil]];
+    [self.collectionView reloadData];
+}
+
+-(IBAction)showMediaArts:(id)sender {
+    if(self.mediaArts.selected) {
+        return;
+    }
+    
+    [self unselectAll];
+    self.mediaArts.selected = YES;
+    
+    self.projects = [self sanitizeProjects:[NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"sample4" ofType:@"json"]] options:0 error:nil]];
+    [self.collectionView reloadData];
+}
+
+-(IBAction)showMAA:(id)sender {
+    if(self.MAA.selected) {
+        return;
+    }
+
+    [self unselectAll];
+    self.MAA.selected = YES;
+    
+    self.projects = [self sanitizeProjects:[NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"sample5" ofType:@"json"]] options:0 error:nil]];
+    [self.collectionView reloadData];
+}
+
+-(IBAction)showAbout:(id)sender {
+    if(self.about.selected) {
+        return;
+    }
+    
+    [self unselectAll];
+    
+    self.about.selected = YES;
+    self.aboutWebView.hidden = NO;
+}
+
 
 @end

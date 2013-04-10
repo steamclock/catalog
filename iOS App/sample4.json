@@ -1,0 +1,12 @@
+[ { "author" : "Herp McDerp",
+    "degree" : "design",
+    "email" : "",
+    "id" : 4,
+    "measurements" : "",
+    "medium" : null,
+    "title" : "Baz",
+    "website" : "",
+    "thumbnail" : "http://www.steamclock.com/img/home/rocket.png",
+    "images" : [ "http://apod.nasa.gov/apod/image/1304/Me-and-the-milkyway_heden0.jpg", "http://apod.nasa.gov/apod/image/1304/M64HaLRGB_Pugh.jpg", "http://apod.nasa.gov/apod/image/1304/panstarrsm31_pavel_1320.jpg" ]
+  }
+]
