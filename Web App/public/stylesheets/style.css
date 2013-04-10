@@ -101,6 +101,11 @@ body {
           box-shadow: 0 2px 2px rgba(0, 0, 0, 0.05);
 }
 
+.ecuad-logo-top {
+  float: right;
+  margin: 20px;
+}
+
 img {
   max-width: 100%;
 }
@@ -4029,7 +4034,7 @@ a.thumbnail:focus {
   .navbar .nav.pull-right {
     float: right !important;
     width: auto !important;
-    margin: 32px 0 0 0;
+    margin: 22px 0 0 0;
   }
 
   .navbar .nav > li {
