@@ -103,7 +103,7 @@ exports.submit = function(req, res){
                     console.log("Inserted video URL into assets table");
                 });
             };
-            res.redirect('/done');
+            res.redirect('/create/done');
             callback(null);
         },
 
