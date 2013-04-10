@@ -294,6 +294,7 @@
 						<string key="NSFrame">{{966, 692}, {38, 36}}</string>
 						<reference key="NSSuperview" ref="766721923"/>
 						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<bool key="IBUIOpaque">NO</bool>
 						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
@@ -584,12 +585,13 @@
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="author">UILabel</string>
 						<string key="backButton">UIButton</string>
+						<string key="curtain">UIView</string>
 						<string key="detailContainer">UIView</string>
 						<string key="measurements">UILabel</string>
 						<string key="medium">UILabel</string>
 						<string key="name">UILabel</string>
 						<string key="pageControl">UIPageControl</string>
-						<string key="scrollView">UIScrollView</string>
+						<string key="scrollView">TrackedScrollView</string>
 						<string key="website">UILabel</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
@@ -600,6 +602,10 @@
 						<object class="IBToOneOutletInfo" key="backButton">
 							<string key="name">backButton</string>
 							<string key="candidateClassName">UIButton</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="curtain">
+							<string key="name">curtain</string>
+							<string key="candidateClassName">UIView</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="detailContainer">
 							<string key="name">detailContainer</string>
@@ -623,7 +629,7 @@
 						</object>
 						<object class="IBToOneOutletInfo" key="scrollView">
 							<string key="name">scrollView</string>
-							<string key="candidateClassName">UIScrollView</string>
+							<string key="candidateClassName">TrackedScrollView</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="website">
 							<string key="name">website</string>
