@@ -47,13 +47,13 @@ app.get('/create/done', create.done);
 app.get('/create/denied', create.denied);
 
 // Editing a submission
-
 app.get('/edit/:token', edit.get);
 app.get('/edit/done', edit.done);
+app.get('/edit/token/denied', edit.denied);
 
 
 // Degree page that lists all projects for a given degree
-app.get('/:degree', projects.getListForDegree);
+app.get('/degree/:degree', projects.getListForDegree);
 
 // JSON API Routes
 app.get('/json/:degree', projects.getProjectsForDegree);
