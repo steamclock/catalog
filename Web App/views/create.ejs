@@ -6,25 +6,26 @@
         <h1>Submit Your Project</h1>
 
         <h2>1. Your Information</h2>
+        <form method="post" enctype="multipart/form-data" action="/create/submit" id="projectSubmission">
         <label>Your Name</label>
-        <input type="text" id="input-warning" name="Your Name">
+        <input type="text" id="input-warning" name="author">
         <label>Your ECUAD.ca Email Address</label>
-        <input type="email" name="Your ECUAD.ca Email Address"><span class="help-inline"><small><em>Must be @ecuad.ca</em></small></span>
+        <input type="email" name="email"><span class="help-inline"><small><em>Must be @ecuad.ca</em></small></span>
 
         <h2>2. Information About Your Project</h2>
         <label>Title of Your Project</label>
-        <input type="text" name="Title of Your Project">
+        <input type="text" name="title">
         <label>Select Your Degree Track</label>
-        <select>
-          <option>Design</option>
-          <option>Media Arts</option>
-          <option>Visual Arts</option>
-          <option>MAA</option>
+        <select name="degree">
+          <option name="design">Design</option>
+          <option name="media-arts">Media Arts</option>
+          <option name="visual-arts">Visual Arts</option>
+          <option name="masters-of-applied-arts">MAA</option>
         </select>
         <label>Media(s)</label>
-        <input type="text" name="Media(s) Used">
+        <input type="text" name="media">
         <label>Measurements</label>
-        <input type="text" name="Measurements (w x h x d)"><span class="help-inline"><small><em>Width x Height x Depth // cm for units</em></small></span>
+        <input type="text" name="measurements"><span class="help-inline"><small><em>Width x Height x Depth // cm for units</em></small></span>
 
         <h2>3. Images</h2>
         <p>You can sumbit <em>up to 3 assets</em> of your project.</p>
@@ -41,19 +42,19 @@
 
         <div class="fileupload fileupload-new" data-provides="fileupload">
           <div class="input-append">
-            <div class="uneditable-input"><i class="icon-file fileupload-exists"></i> <span class="fileupload-preview"></span></div><span class="btn btn-file"><span class="fileupload-new">Image 1</span><span class="fileupload-exists">Change</span><input type="file" /></span><a href="#" class="btn fileupload-exists" data-dismiss="fileupload">Remove</a>
+            <div class="uneditable-input"><i class="icon-file fileupload-exists"></i> <span class="fileupload-preview"></span></div><span class="btn btn-file"><span class="fileupload-new">Image 1</span><span class="fileupload-exists">Change</span><input type="file" name="images" /></span><a href="#" class="btn fileupload-exists" data-dismiss="fileupload">Remove</a>
           </div>
         </div>
 
         <div class="fileupload fileupload-new" data-provides="fileupload">
           <div class="input-append">
-            <div class="uneditable-input"><i class="icon-file fileupload-exists"></i> <span class="fileupload-preview"></span></div><span class="btn btn-file"><span class="fileupload-new">Image 2</span><span class="fileupload-exists">Change</span><input type="file" /></span><a href="#" class="btn fileupload-exists" data-dismiss="fileupload">Remove</a>
+            <div class="uneditable-input"><i class="icon-file fileupload-exists"></i> <span class="fileupload-preview"></span></div><span class="btn btn-file"><span class="fileupload-new">Image 2</span><span class="fileupload-exists">Change</span><input type="file" name="images" /></span><a href="#" class="btn fileupload-exists" data-dismiss="fileupload">Remove</a>
           </div>
         </div>
 
         <div class="fileupload fileupload-new" data-provides="fileupload">
           <div class="input-append">
-            <div class="uneditable-input"><i class="icon-file fileupload-exists"></i> <span class="fileupload-preview"></span></div><span class="btn btn-file"><span class="fileupload-new">Image 3</span><span class="fileupload-exists">Change</span><input type="file" /></span><a href="#" class="btn fileupload-exists" data-dismiss="fileupload">Remove</a>
+            <div class="uneditable-input"><i class="icon-file fileupload-exists"></i> <span class="fileupload-preview"></span></div><span class="btn btn-file"><span class="fileupload-new">Image 3</span><span class="fileupload-exists">Change</span><input type="file" name="images"/></span><a href="#" class="btn fileupload-exists" data-dismiss="fileupload">Remove</a>
           </div>
         </div>
 
@@ -67,7 +68,7 @@
         <img src="/public/images/vimeo-ex.jpg" />
 
         <label>Vimeo URL</label>
-        <input type="text" name="Vimeo Link">
+        <input type="text" name="video">
         
         <div class="clearfix"></div>
         

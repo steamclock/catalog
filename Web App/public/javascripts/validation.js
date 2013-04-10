@@ -24,7 +24,7 @@ $(document).ready(function(){
 
     $.validator.addMethod('vimeo', function(value, element) {
         if(value != ""){
-            var provider = value.match(/http:\/\/(:?www.)?(\w*)/)[2];
+            var provider = value.match(/https?:\/\/(:?www.)?(\w*)/)[2];
             return (provider === "vimeo"); 
         } else {
             return true; // if there's just an empty string, we don't care
