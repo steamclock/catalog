@@ -30,7 +30,8 @@ exports.get = function(req, res){
         },
 
         function(project, callback){
-            var query = client.query("SELECT * FROM assets WHERE projectid = $1", project.id);
+
+            var query = client.query("SELECT * FROM assets WHERE projectid = $1", [project.id]);
 
             query.on('row', function(row, result){
                 result.addRow(row);
@@ -44,10 +45,12 @@ exports.get = function(req, res){
                 var assets = result.rows;
                 callback(null, project, assets);
             });
+        },
 
-            res.render('edit/edit', { project : project, assets : assets });
-
-            callback(null);
+        function(project, assets, callback){
+            var projectJSON = JSON.stringify(project);
+            var assetsJSON = JSON.stringify(assets);
+            res.render('edit/edit', { title: 'Edit Your Submission', project : projectJSON, assets : assetsJSON });
         }],
 
         function (err, result) {
