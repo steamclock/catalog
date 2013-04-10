@@ -7,6 +7,6 @@
 
 @interface ProjectViewController : UIViewController <UIScrollViewDelegate, UIWebViewDelegate>
 
--(id)initWithProject:(NSDictionary*)project;
+-(id)initWithProjects:(NSArray*)project startIndex:(int)index;
 
 @end
