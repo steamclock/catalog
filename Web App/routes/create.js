@@ -86,7 +86,7 @@ exports.submit = function(req, res){
                 var videoUrl;
                 // Remove https if found
                 if(req.body.video.match(/^https:\/\//i)){
-                    url = req.body.video.replace(/^https:\/\//i, 'http://');
+                    videoUrl = req.body.video.replace(/^https:\/\//i, 'http://');
                 } else {
                     videoUrl = req.body.video;
                 }
