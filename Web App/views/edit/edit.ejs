@@ -1,6 +1,7 @@
 <% include ../header %>
     <% project = JSON.parse(project) %>
     <% assets = JSON.parse(assets) %>
+
     <div class="row-fluid">
       <div class="span6 offset1 white-background-submissions">
 
@@ -22,9 +23,9 @@
           <option name="masters-of-applied-arts">MAA</option>
         </select>
         <label>Media(s)</label>
-        <input type="text" name="media" value="<%= project.media %>">
+        <input type="text" name="media" value="<% if (project.media != undefined) { %><%= project.media %><% } %>">
         <label>Measurements</label>
-        <input type="text" name="measurements" value="<%= project.measurements %>"><span class="help-inline"><small><em>Width x Height x Depth // cm for units</em></small></span>
+        <input type="text" name="measurements" value="<% if (project.measurements != undefined) { %><%= project.measurements %><% } %>"><span class="help-inline"><small><em>Width x Height x Depth // cm for units</em></small></span>
 
         <h2>3. Images</h2>
         <p>Remember, you can sumbit <em>up to 3 assets</em> of your project.</p>
@@ -44,7 +45,7 @@
 
   <div class="row-fluid">
     <% for (var i = 0; i < 3; i++) { %>
-      <% if (assets[i].type === "image") { %>
+      <% if ((assets[i] != undefined) && assets[i].type === "image") { %>
         <div class="row-fluid">
           <div class="span4">
             <label>Current File:</label><span><%= assets[i].url %></span>
@@ -53,11 +54,10 @@
               </div> <!-- End Fileupload Div -->
               <div class="fileupload fileupload-new" data-provides="fileupload">
                 <div class="input-append">
-                  <div class="uneditable-input"><i class="icon-file fileupload-exists"></i> <span class="fileupload-preview"></span></div><span class="btn btn-file"><span class="fileupload-new">Change</span><span class="fileupload-exists">Change</span><input type="file" name="images" /></span><a href="#" class="btn fileupload-exists" data-dismiss="fileupload">Remove</a>
+                  <div class="uneditable-input"><i class="icon-file fileupload-exists"></i> <span class="fileupload-preview"></span></div><span class="btn btn-file"><span class="fileupload-new">Change</span><span class="fileupload-exists">Change</span><input type="file" name="images" data-id="<%= assets[i].id %>"/></span><a href="#" class="btn fileupload-exists" data-dismiss="fileupload">Remove</a>
                   <label class="checkbox">
                   <input type="checkbox" data-id="<%= assets[i].id %>" class="delete">Delete</label>
                 </div>
-
               </div>
             </div> <!-- End Form -->
           </div> <!-- End Span4 -->
@@ -65,11 +65,16 @@
         <% } else { %>
         <div class="row-fluid">
           <div class="span4">
-            <img src="http://placehold.it/150x150" class="img-rounded">
             <div class="form-inline">
                 <div class="fileupload fileupload-new" data-provides="fileupload">
-                <span class="btn btn-file btn-mini btn-info"><span class="fileupload-new">Add Image</span><span class="fileupload-exists">Change Again</span><input type="file" name="images" data-id=""/></span>
               </div> <!-- End Fileupload Div -->
+              <div class="fileupload fileupload-new" data-provides="fileupload">
+                <div class="input-append">
+                  <div class="uneditable-input"><i class="icon-file fileupload-exists"></i> <span class="fileupload-preview"></span></div><span class="btn btn-file"><span class="fileupload-new">Add</span><span class="fileupload-exists">Change</span><input type="file" name="images" /></span><a href="#" class="btn fileupload-exists" data-dismiss="fileupload">Remove</a>
+                  <label class="checkbox">
+                  <input type="checkbox" data-id="" class="delete">Delete</label>
+                </div>
+              </div>
             </div> <!-- End Form -->
           </div> <!-- End Span4 -->
         </div> <!-- End Row -->
@@ -86,7 +91,11 @@
         <img src="/public/images/vimeo-ex.jpg" />
 
         <label>Vimeo URL</label>
-        <input type="text" name="video" value="">
+        <% for (var i = 0; i < 3; i++) { %>
+          <% if ((assets[i] != undefined) && assets[i].type === "video") { %>
+            <input type="text" name="video" value="<%= assets[i].url %>">
+          <% } %>
+        <% } %>
         
         <div class="clearfix"></div>
         <div class="well">
