@@ -27,8 +27,6 @@ exports.submit = function(req, res){
     async.waterfall([
 
         function(callback){
-            console.log("Checking if email has already been used.");
-
             var query = client.query("SELECT 1 FROM projects where email = $1 limit 1", [req.body.email]);
 
             query.on('row', function (row, result){
@@ -57,7 +55,8 @@ exports.submit = function(req, res){
                 if (file.type === "image/jpeg") {
                     imagemagick.identify(file.path, function(err, features){
                         if(err){console.log(err)};
-                        if (features.width < 1500 || features.height < 1500){
+                        var accept = ((features.width > 1500) || (features.height > 1500));
+                        if (!accept){
                             var formValues = JSON.stringify(req.body);
                             res.flash('message','One of your images did not meet the minimum dimensions. Please verify the dimensions of all of your assets.');
                             res.render('create/create', { title : "Error in submission", formData : formValues });
@@ -83,7 +82,6 @@ exports.submit = function(req, res){
 
             query.on('error', function(error){
                 console.log("ERROR:" + error);
-                res.render('done', { title: 'ERROR ON PROJECT INSERTION' });
             });
 
             query.on('end', function (result){
@@ -106,11 +104,14 @@ exports.submit = function(req, res){
                                 console.log("Error:" + err)
                             } else {
                                 console.log("File copied");
+                                fs.unlink(tmp_path, function(err){
+                                    if (err) {
+                                        console.log("Error:" + err);
+                                    }
+                                });
                             }
                           });
                     });
-
-                    fs.unlinkSync(tmp_path);
 
                     var localFileURL = "/public/images/projects/" + file.name;
 
@@ -121,7 +122,6 @@ exports.submit = function(req, res){
 
                     assetInsertion.on('error', function(error) {
                         console.log("Error: " + error)
-                        res.render('create/done', { title: 'ERROR IN ASSET INSERTION' });
                     });        
 
                     assetInsertion.on('end', function(result){
@@ -148,28 +148,26 @@ exports.submit = function(req, res){
 
                 videoInsertion.on('error', function(error) {
                     console.log("Problem inserting video into DB, cap'n. Error: " + error)
-                    res.render('create/done', { title: 'ERROR IN ASSET INSERTION' });
                 });        
 
                 videoInsertion.on('end', function(result){
                     console.log("Inserted video URL into assets table");
                 });
             };
-            res.redirect('/create/done');
             callback(null);
         },
 
        function(callback){
             var projectEditURL = "http://" + req.headers.host + "/edit/" + token;
             mail.send(req.body.email, projectEditURL);
+            res.redirect('/create/done');
             callback(null);
        }
-
     ], function (err, result) {
         if (err) {
             console.log(err);
         } else {
-            console.log("Done adding new project and all assets.")
+            console.log("Done adding new project and all assets.");
         }
     
     });
