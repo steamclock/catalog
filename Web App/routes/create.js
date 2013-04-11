@@ -27,24 +27,47 @@ exports.submit = function(req, res){
     async.waterfall([
 
         function(callback){
-            //Reject the user and pop them back to the form if they did not 
+            console.log("Checking if email has already been used.");
+
+            var query = client.query("SELECT 1 FROM projects where email = $1 limit 1", [req.body.email]);
+
+            query.on('row', function (row, result){
+                result.addRow(row);
+            });
+
+            query.on('error', function(error){
+                console.log("ERROR:" + error);
+                res.render('done', { title: 'ERROR EMAIL ALREADY IN DB' });
+            });
+
+            query.on('end', function (result){
+                if (result.rows.length > 0){
+                    res.redirect('/create/denied');
+                    callback(true); //exits waterfall
+                } else {
+                    callback(null)
+                }
+            });  
+        },
+
+        function(callback){
+            //Reject the user and pop them back to the form if they did not have the right image dimensions (size is validated on client side)
 
             req.files.images.forEach(function(file){
                 if (file.type === "image/jpeg") {
                     imagemagick.identify(file.path, function(err, features){
                         if(err){console.log(err)};
                         if (features.width < 1500 || features.height < 1500){
-                            console.log("min requirements failed");
                             var formValues = JSON.stringify(req.body);
                             res.flash('message','One of your images did not meet the minimum dimensions. Please verify the dimensions of all of your assets.');
                             res.render('create/create', { title : "Error in submission", formData : formValues });
                             callback(true); //Exits waterfall
+                        } else {
+                            callback(null);
                         }
                     });  
                 }
             });
-
-            //callback(null);
         },
 
         function(callback){
