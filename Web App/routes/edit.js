@@ -1,5 +1,6 @@
 var client = require('./../modules/postgres').client
-    , async = require('async');
+    , async = require('async')
+    , validator = ('validator');
 
 /*
  * GET edit page.

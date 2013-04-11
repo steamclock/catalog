@@ -12,7 +12,8 @@ var express = require('express')
   , path = require('path')
   , fs = require('fs')
   , migrate = require('db-migrate')
-  , favicons = require('connect-favicons');
+  , favicons = require('connect-favicons')
+  , flashify = require('flashify');
 
 var app = express();
 
@@ -27,9 +28,12 @@ app.configure(function(){
   app.use(express.logger('dev'));
   app.use(express.bodyParser({uploadDir:'./uploads'}));
   app.use(express.methodOverride());
-  app.use(app.router);
+  app.use(express.cookieParser('secret'));
+  app.use(express.session());
+  app.use(flashify);
   app.use(express.static(path.join(__dirname, 'public')));
   app.use('/public', express.static(__dirname + '/public'));
+  app.use(app.router);
 });
 
 app.configure('development', function(){

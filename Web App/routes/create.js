@@ -2,14 +2,17 @@ var fs = require('fs')
     , client = require('./../modules/postgres').client
     , mail = require('./../modules/mail')
     , crypto = require('crypto')
-    , async = require('async');
+    , async = require('async')
+    , validator = require('validator')
+    , imagemagick = require('imagemagick')
+    , flash = require('flashify');;
 
 /*
  * GET form to create new project
  */
 
 exports.get = function(req, res){
-  res.render('create/create', { title: 'Submit Your Project' });
+  res.render('create/create', { title: 'Submit Your Project', formData : null });
 };
 
 /*
@@ -22,6 +25,27 @@ exports.submit = function(req, res){
     var email = req.body.email, token = crypto.createHash('md5').update(email).digest("hex");
 
     async.waterfall([
+
+        function(callback){
+            //Reject the user and pop them back to the form if they did not 
+
+            req.files.images.forEach(function(file){
+                if (file.type === "image/jpeg") {
+                    imagemagick.identify(file.path, function(err, features){
+                        if(err){console.log(err)};
+                        if (features.width < 1500 || features.height < 1500){
+                            console.log("min requirements failed");
+                            var formValues = JSON.stringify(req.body);
+                            res.flash('message','One of your images did not meet the minimum dimensions. Please verify the dimensions of all of your assets.');
+                            res.render('create/create', { title : "Error in submission", formData : formValues });
+                            callback(true); //Exits waterfall
+                        }
+                    });  
+                }
+            });
+
+            //callback(null);
+        },
 
         function(callback){
 

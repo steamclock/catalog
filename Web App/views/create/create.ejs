@@ -5,27 +5,31 @@
 
         <h1>Submit Your Project</h1>
 
+          <% if (formData != undefined) { formData = JSON.parse(formData); %>
+            <%= formData %>
+          <% } %>
+
         <h2>1. Your Information</h2>
         <form method="post" enctype="multipart/form-data" action="/create/submit" id="projectSubmission">
         <label>Your Name</label>
-        <input type="text" id="input-warning" name="author">
+        <input type="text" id="input-warning" name="author" value="<% if ((formData != null) && formData.author != undefined) { %><%= formData.author %><% } %>">
         <label>Your ECUAD.ca Email Address</label>
-        <input type="email" name="email"><span class="help-inline"><small><em>Must be @ecuad.ca</em></small></span>
+        <input type="email" name="email" value="<% if ((formData != null) && formData.email != undefined) { %><%= formData.email %><% } %>"><span class="help-inline"><small><em>Must be @ecuad.ca</em></small></span>
 
         <h2>2. Information About Your Project</h2>
         <label>Title of Your Project</label>
-        <input type="text" name="title">
+        <input type="text" name="title" value ="<% if ((formData != null) && formData.title != undefined) { %><%= formData.title %><% } %>">
         <label>Select Your Degree Track</label>
-        <select name="degree">
+        <select name="degree" value="<% if ((formData != null) && formData.degree != undefined) { %><%= formData.degree %><% } %>">
           <option name="design">Design</option>
           <option name="media-arts">Media Arts</option>
           <option name="visual-arts">Visual Arts</option>
           <option name="masters-of-applied-arts">MAA</option>
         </select>
         <label>Media(s)</label>
-        <input type="text" name="media">
+        <input type="text" name="media" value="<% if ((formData != null) && formData.media != undefined) { %><%= formData.media %><% } %>">
         <label>Measurements</label>
-        <input type="text" name="measurements"><span class="help-inline"><small><em>Width x Height x Depth // cm for units</em></small></span>
+        <input type="text" name="measurements" value="<% if ((formData != null) && formData.measurements != undefined) { %><%= formData.measurements %><% } %>"><span class="help-inline"><small><em>Width x Height x Depth // cm for units</em></small></span>
 
         <h2>3. Images</h2>
         <p>You can sumbit <em>up to 3 assets</em> of your project.</p>
@@ -37,12 +41,15 @@
 
         <h3>Size Matters</h3>
         <p>The recommended image size is <em>1500px (w) x 1126px (h)</em> compressed to be <em>approximately 300KB</em>.</p>
-
         <img class="bottom-image" src="/public/images/size-matters.jpg" />
-
+        <div class="server-errors">
+          <% if (flash.message != undefined) { %>
+            <%= flash.message %>
+          <% } %>
+        </div>
         <div class="fileupload fileupload-new" data-provides="fileupload">
           <div class="input-append">
-            <div class="uneditable-input"><i class="icon-file fileupload-exists"></i> <span class="fileupload-preview"></span></div><span class="btn btn-file"><span class="fileupload-new">Image 1</span><span class="fileupload-exists">Change</span><input type="file" name="images" /></span><a href="#" class="btn fileupload-exists" data-dismiss="fileupload">Remove</a>
+            <div class="uneditable-input"><i class="icon-file fileupload-exists"></i> <span class="fileupload-preview"></span></div><span class="btn btn-file"><span class="fileupload-new">Image 1</span><span class="fileupload-exists">Change</span><input type="file" name="images" required/></span><a href="#" class="btn fileupload-exists" data-dismiss="fileupload">Remove</a><span>*</span>
           </div>
         </div>
 
@@ -68,7 +75,7 @@
         <img src="/public/images/vimeo-ex.jpg" />
 
         <label>Vimeo URL</label>
-        <input type="text" name="video">
+        <input type="text" name="video" value="<% if ((formData != null) && formData.video != undefined) { %><%= formData.video %><% } %>">
         
         <div class="clearfix"></div>
         

@@ -67,7 +67,7 @@ $(document).ready(function(){
 
             medium : "required",
 
-            images : { accept : "image/jpeg", filesize : "524288", required : true },
+            images : { accept : "image/jpeg", filesize : "524288" },
 
             video : { vimeo : true },
 
