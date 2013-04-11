@@ -1,19 +1,45 @@
 $(document).ready(function(){
 
+    // Mod jQuery validatation to handle array of inputs
+    $.validator.prototype.checkForm = function () {
+        this.prepareForm();
+        for (var i = 0, elements = (this.currentElements = this.elements()); elements[i]; i++) {
+            if (this.findByName(elements[i].name).length != undefined && this.findByName(elements[i].name).length > 1) {
+                for (var cnt = 0; cnt < this.findByName(elements[i].name).length; cnt++) {
+                    this.check(this.findByName(elements[i].name)[cnt]);
+                }
+            } else {
+                this.check(elements[i]);
+            }
+        }
+        return this.valid();
+    }
+
+    function getJPGDimensions(jpg){
+
+    }
+
+
     $.validator.addMethod('filesize', function(value, element, param) {
         var fileList = $(element)[0].files;
-
         if (!fileList[0]) {
             return true; // No file? No problem. TODO: validate at least one photo is attached to form
         } else {
             return (fileList[0].size <= param);
         }
     });
-    var dimensions = {};
 
 
     $.validator.addMethod('filedimensions', function(value, element, param) {
-        // TODO: Read in JPG headers, grab dimensions, reject accordingly
+        var files = document.getElementsByName("images");
+
+        for (var i = files.length - 1; i >= 0; i--) {
+
+            var fileList = files[i].files;
+            
+        };
+
+
     });
 
     $.validator.addMethod('ecuad', function(value, element) {
@@ -45,11 +71,7 @@ $(document).ready(function(){
 
             medium : "required",
 
-            image1 : { accept : "image/*", filesize : "524288", required : true },
-
-            image2 : { accept : "image/*", filesize : "524288" },
-
-            image3 : { accept : "image/*", filesize : "524288" },
+            images : { accept : "image/*", filesize : "524288", required : true },
 
             video : { vimeo : true },
 
@@ -71,11 +93,7 @@ $(document).ready(function(){
 
             medium: "Please tell us what your project is made of",
 
-            image1 : { accept : "File must be JPG.", filesize : "File must be less than 500kb" },
-
-            image2 : { accept : "File must be JPG.", filesize : "File must be less than 500kb" },
-
-            image3 : { accept : "File must be JPG.", filesize : "File must be less than 500kb" },
+            images : { accept : "File must be JPG.", filesize : "File must be less than 500kb" },
 
             video : "URL must be a valid Vimeo URL",
 
