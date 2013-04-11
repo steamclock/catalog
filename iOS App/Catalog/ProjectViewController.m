@@ -118,7 +118,7 @@ typedef enum {
     if (hasVideo) {
         static int inset = 60;
         UIWebView* webView = [[UIWebView alloc] initWithFrame:CGRectMake((1024 * page) + inset, inset, 1024 - (inset * 2), 768 - (inset * 2))];
-        webView.allowsInlineMediaPlayback = NO;
+        webView.scrollView.scrollEnabled = NO;
         [webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:self.project[@"video"]]]];
         webView.delegate = self;
         [self.scrollView addSubview:webView];
