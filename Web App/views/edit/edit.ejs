@@ -1,31 +1,40 @@
 <% include ../header %>
-
     <div class="row-fluid">
       <div class="span6 offset1 white-background-submissions">
 
         <h1>Edit Your Submission</h1>
         <p>Making changes to your submission is easy. You can <em>edit text</em>, <em>swap out images</em>, <em>delete images</em>, or <em>change the URL of your video</em>. Make sure to click “Submit Changes For Approval” at the bottom of this page for your changes to take affect.</p>
         <h2>1. Your Information</h2>
+        <div>
+        <%= assets %>
+        <%= title %>
+        <% project = JSON.parse(project) %>
+        <% assets = JSON.parse(assets) %>
+        <%= assets[0].url %>
+
+        </div>
+
+
         <form method="post" enctype="multipart/form-data" action="/edit/update" id="projectSubmission">
         <label>Your Name</label>
-        <input type="text" id="input-warning" name="author">
+        <input type="text" id="input-warning" name="author" value="<%= project.author %>">
         <label>Your ECUAD.ca Email Address</label>
-        <input type="email" name="email"><span class="help-inline"><small><em>Must be @ecuad.ca</em></small></span>
+        <input type="email" name="email" value="<%= project.email %>"><span class="help-inline"><small><em>Must be @ecuad.ca</em></small></span>
 
         <h2>2. Information About Your Project</h2>
         <label>Title of Your Project</label>
-        <input type="text" name="title">
+        <input type="text" name="title" value="<%= project.title %>">
         <label>Select Your Degree Track</label>
-        <select>
-          <option>Design</option>
-          <option>Media Arts</option>
-          <option>Visual Arts</option>
-          <option>MAA</option>
+        <select name="degree" value="<%= project.degree %>">
+          <option name="design">Design</option>
+          <option name="media-arts">Media Arts</option>
+          <option name="visual-arts">Visual Arts</option>
+          <option name="masters-of-applied-arts">MAA</option>
         </select>
         <label>Media(s)</label>
-        <input type="text" name="media">
+        <input type="text" name="media" value="<%= project.media %>">
         <label>Measurements</label>
-        <input type="text" name="measurements"><span class="help-inline"><small><em>Width x Height x Depth // cm for units</em></small></span>
+        <input type="text" name="measurements" value="<%= project.measurements %>"><span class="help-inline"><small><em>Width x Height x Depth // cm for units</em></small></span>
 
         <h2>3. Images</h2>
         <p>Remember, you can sumbit <em>up to 3 assets</em> of your project.</p>
@@ -44,40 +53,21 @@
     <p>Below are the images you’ve previously submitted to the Catalog. To swap a current image for an new one, click the “Change Image” button under the thumbnail. To completely remove an image from your sumbission, click the “Delete” radio button.</p>
 
   <div class="row-fluid">
+    <% for (var i = 0; i < 2; i++) { %>
+      <% if (assets[i].type === "image") { %>
+        <div class="span4">
+          <img src="<%= assets[i].url %>" class="img-rounded">
+          <div class="form-inline">
+              <div class="fileupload fileupload-new" data-provides="fileupload">
+              <span class="btn btn-file btn-mini btn-info"><span class="fileupload-new">Change Image</span><span class="fileupload-exists">Change Again</span><input type="file" name="images" data-id="<%= assets[i].id %>"/></span>
+              <label class="checkbox">
+                <input type="checkbox" data-id="<%= assets[i].id %>" class="delete">Delete</label>
+            </div> <!-- End Fileupload Div -->
+          </div> <!-- End Form -->
+        </div> <!-- End Span4 -->
 
-      <div class="span4">
-        <img src="http://placehold.it/150x150" class="img-rounded">
-        <div class="form-inline">
-            <div class="fileupload fileupload-new" data-provides="fileupload">
-            <span class="btn btn-file btn-mini btn-info"><span class="fileupload-new">Change Image</span><span class="fileupload-exists">Change Again</span><input type="file" name="images" data-id="0"/></span>
-            <label class="checkbox">
-              <input type="checkbox" data-id="0">Delete</label>
-          </div> <!-- End Fileupload Div -->
-        </div> <!-- End Form -->
-      </div> <!-- End Span4 -->
-
-      <div class="span4">
-        <img src="http://placehold.it/150x150" class="img-rounded">
-        <div class="form-inline">
-            <div class="fileupload fileupload-new" data-provides="fileupload">
-            <span class="btn btn-file btn-mini btn-info"><span class="fileupload-new">Change Image</span><span class="fileupload-exists">Change Change</span><input type="file" name="images" data-id="0"/></span>
-            <label class="checkbox">
-              <input type="checkbox" data-id="0">Delete</label>
-          </div> <!-- End Fileupload Div -->
-        </div> <!-- End Form -->
-      </div> <!-- End Span4 -->
-
-      <div class="span4">
-        <img src="http://placehold.it/150x150" class="img-rounded">
-        <div class="form-inline">
-            <div class="fileupload fileupload-new" data-provides="fileupload">
-            <span class="btn btn-file btn-mini btn-info"><span class="fileupload-new">Change Image</span><span class="fileupload-exists">Change Again</span><input type="file" name="images" data-id="0"/></span>
-            <label class="checkbox">
-              <input type="checkbox" data-id="0">Delete</label>
-          </div> <!-- End Fileupload Div -->
-        </div> <!-- End Form -->
-      </div> <!-- End Span4 -->
-
+      <% } %>
+    <% } %>
     </div> <!-- End Row -->
 
         <h2>4. Video</h2>
@@ -90,7 +80,7 @@
         <img src="/public/images/vimeo-ex.jpg" />
 
         <label>Vimeo URL</label>
-        <input type="text" name="video">
+        <input type="text" name="video" value="">
         
         <div class="clearfix"></div>
         <div class="well">

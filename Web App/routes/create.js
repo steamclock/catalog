@@ -54,9 +54,13 @@ exports.submit = function(req, res){
                     var target_path = './public/images/projects/' + file.name;
                     // move the file from the temporary location to the intended location
                     fs.readFile(file.path, function (err, data) {
-                      fs.writeFile(target_path, data, function (err) {
-                        console.log("File copied");
-                      });
+                          fs.writeFile(target_path, data, function (err) {
+                            if (err) {
+                                console.log("Error:" + err)
+                            } else {
+                                console.log("File copied");
+                            }
+                          });
                     });
 
                     fs.unlinkSync(tmp_path);

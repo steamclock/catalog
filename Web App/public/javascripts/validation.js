@@ -15,10 +15,6 @@ $(document).ready(function(){
         return this.valid();
     }
 
-    function getJPGDimensions(jpg){
-
-    }
-
 
     $.validator.addMethod('filesize', function(value, element, param) {
         var fileList = $(element)[0].files;
@@ -71,7 +67,7 @@ $(document).ready(function(){
 
             medium : "required",
 
-            images : { accept : "image/*", filesize : "524288", required : true },
+            images : { accept : "image/jpeg", filesize : "524288", required : true },
 
             video : { vimeo : true },
 

@@ -21,7 +21,7 @@ exports.get = function(req, res){
             query.on('end', function(result){
                 if (result.rowCount < 1) {
                     res.redirect('/edit/token/denied');
-                    callback.final(); //exits the waterfall
+                    callback(true); //exits the waterfall
                 } else {
                     var project = result.rows[0];
                     callback(null, project);
@@ -50,7 +50,7 @@ exports.get = function(req, res){
         function(project, assets, callback){
             var projectJSON = JSON.stringify(project);
             var assetsJSON = JSON.stringify(assets);
-            res.render('edit/edit', { title: 'Edit Your Submission', project : projectJSON, assets : assetsJSON });
+            res.render('edit/edit', { title: 'Edit Your Submission', project : projectJSON, assets : assetsJSON, baseURL : "http://theshow2013.ecuad.ca" });
         }],
 
         function (err, result) {
@@ -61,11 +61,12 @@ exports.get = function(req, res){
         }
     
     });
-
-
-
-    
 };
+
+
+exports.update = function(req, res){
+    console.log(req);
+}
 
 /*
  * GET completed update page.
