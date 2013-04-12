@@ -2229,7 +2229,7 @@ input.search-query {
 .form-search .checkbox,
 .form-inline .radio,
 .form-inline .checkbox {
-  padding-left: 0;
+  padding-left: 10px;
   margin-bottom: 0;
   vertical-align: middle;
 }
@@ -2310,6 +2310,10 @@ legend + .control-group {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
+}
+
+.error {
+  color: rgb(196, 0, 0);
 }
 
 .label,
