@@ -3,9 +3,9 @@ var fs = require('fs')
     , mail = require('./../modules/mail')
     , crypto = require('crypto')
     , async = require('async')
-    , validator = require('validator')
+    , validator = require('validator') // TODO: Remove?
     , imagemagick = require('imagemagick')
-    , flash = require('flashify');;
+    , flash = require('flashify');
 
 /*
  * GET form to create new project
@@ -27,6 +27,9 @@ exports.submit = function(req, res){
     async.waterfall([
 
         function(callback){
+
+            // Check if email already exists in DB
+
             var query = client.query("SELECT 1 FROM projects where email = $1 limit 1", [req.body.email]);
 
             query.on('row', function (row, result){
@@ -70,6 +73,7 @@ exports.submit = function(req, res){
         },
 
         function(callback){
+            // Insert into the projects table
 
             var query = client.query(
                 "INSERT INTO projects(title, author, email, website, degree, medium, measurements, token) values($1, $2, $3, $4, $5, $6, $7, $8) RETURNING id",
