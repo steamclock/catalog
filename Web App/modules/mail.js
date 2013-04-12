@@ -18,15 +18,9 @@ exports.send = function (email, editURL){
         from: "Emily Carr Grad Catalog <gradcatalog@ecuad.com>", // sender address
         to: email, // list of receivers
         subject: "Confirmation of Emily Carr Grad Catalog Submission", // Subject line
-        text: "Hello " + email + ",\r\nThis is an email to confirm that you have successfully submitted your portfolio materials for approval.
-        Once approved you they will be accesible through the main site.\r\nIf you would like to edit your submission, you can do so by visiting the following link:
-        " + editURL + "\r\n\r\n
-        Please note that if you re-submit your portfolio after it has been approved, it will be removed from the site until re-approved again.\r\n\r\n-- The Grad Catalog Team", // plaintext body
+        text: "Hello " + email + "\r\nThis is an email to confirm that you have successfully submitted your portfolio materials for approval.\r\nOnce approved you they will be accesible through the main site.\r\nIf you would like to edit your submission, you can do so by visiting the following link:" + editURL + "\r\n\r\nPlease note that if you re-submit your portfolio after it has been approved, it will be removed from the site until re-approved again.\r\n\r\n-- The Grad Catalog Team", // plaintext body
         
-        html: "Hello " + email + "!\nThis is an email to confirm that you have successfully submitted your portfolio materials for approval. Once approved you they will be accesible through the main site.\n\n
-        If you would like to edit your submission, you can do so by visiting the following link:
-        \n" + editURL + "\n
-        Please note that if you re-submit your portfolio after it has been approved, it will be removed from the site until re-approved again.\n\n-- The Grad Catalog Team"// html body
+        html: "Hello " + email + "!\r\nThis is an email to confirm that you have successfully submitted your portfolio materials for approval. Once approved you they will be accesible through the main site.\r\n\r\nIf you would like to edit your submission, you can do so by visiting the following link:\r\n" + editURL + "\r\nPlease note that if you re-submit your portfolio after it has been approved, it will be removed from the site until re-approved again.\r\n\r\n-- The Grad Catalog Team"// html body
     };
 
     smtpTransport.sendMail(mailOptions, function(error, response){
