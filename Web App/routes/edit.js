@@ -68,8 +68,7 @@ exports.get = function(req, res){
 
 
 exports.update = function(req, res){
-    console.log(req.files);
-    console.log("-------------------");
+    // TODO: When refactoring this should be a series rather than a waterfall
     async.waterfall([
         function(callback){
             var token = req.headers.referer.substring(req.headers.referer.lastIndexOf('/') + 1);
@@ -266,7 +265,35 @@ exports.update = function(req, res){
                     }
                 }             
             }// End for .. in req.files
-            res.render('edit/done', { title: 'YAY YOU RESUBMIT' });
+            callback(null);
+        },
+
+        function(callback){
+            if (req.body.delete != undefined) {
+                if (req.body.delete instanceof Array) {
+                    req.body.delete.forEach(function(id) {
+                        var query = client.query("DELETE FROM assets WHERE id = $1", [id]);
+
+                        query.on('error', function(error){
+                            console.log("Error: " + error);
+                        });
+
+                        query.on('end', function(result){
+                            console.log("Deleted asset with id: " + id);
+                        });
+                    });
+                } else {
+                    var query = client.query("DELETE FROM assets WHERE id = $1", [req.body.delete]);
+
+                    query.on('error', function(error){
+                        console.log("Error: " + error);
+                    });
+
+                    query.on('end', function(result){
+                        console.log("Deleted asset with id: " + id);
+                    });
+                }
+            }
             callback(null);
         }],
 
@@ -274,6 +301,7 @@ exports.update = function(req, res){
             if (err) {
                 console.log(err);
             } else {
+                res.render('edit/done', { title: 'YAY YOU RESUBMIT' });
                 console.log("Done updating project & assets.");
             }
         });
