@@ -9,6 +9,7 @@
         <p>Making changes to your submission is easy. You can <em>edit text</em>, <em>swap out images</em>, <em>delete images</em>, or <em>change the URL of your video</em>. Make sure to click “Submit Changes For Approval” at the bottom of this page for your changes to take affect.</p>
         <h2>1. Your Information</h2>
         <form method="post" enctype="multipart/form-data" action="/edit/update" id="projectSubmission">
+        <input type="hidden" name="project" value="<%= project.id %>">
         <label>Your Name</label>
         <input type="text" id="input-warning" name="author" value="<%= project.author %>">
         <div><label>Your Email</label><span><%= project.email %></span></div>
@@ -56,9 +57,9 @@
               </div> <!-- End Fileupload Div -->
               <div class="fileupload fileupload-new" data-provides="fileupload">
                 <div class="input-append">
-                  <div class="uneditable-input"><i class="icon-file fileupload-exists"></i> <span class="fileupload-preview"></span></div><span class="btn btn-file"><span class="fileupload-new">Change</span><span class="fileupload-exists">Change</span><input type="file" name="images" data-id="<%= assets[i].id %>"/></span><a href="#" class="btn fileupload-exists" data-dismiss="fileupload">Remove</a>
+                  <div class="uneditable-input"><i class="icon-file fileupload-exists"></i> <span class="fileupload-preview"></span></div><span class="btn btn-file"><span class="fileupload-new">Change</span><span class="fileupload-exists">Change</span><input type="file" name="<%= assets[i].id %>"/></span><a href="#" class="btn fileupload-exists" data-dismiss="fileupload">Remove</a>
                   <label class="checkbox">
-                  <input type="checkbox" data-id="<%= assets[i].id %>" class="delete">Delete</label>
+                  <input type="checkbox" name="d-<%= assets[i].id %>" class="delete">Delete</label>
                 </div>
               </div>
             </div> <!-- End Form -->
@@ -72,9 +73,7 @@
               </div> <!-- End Fileupload Div -->
               <div class="fileupload fileupload-new" data-provides="fileupload">
                 <div class="input-append">
-                  <div class="uneditable-input"><i class="icon-file fileupload-exists"></i> <span class="fileupload-preview"></span></div><span class="btn btn-file"><span class="fileupload-new">Add</span><span class="fileupload-exists">Change</span><input type="file" name="images" /></span><a href="#" class="btn fileupload-exists" data-dismiss="fileupload">Remove</a>
-                  <label class="checkbox">
-                  <input type="checkbox" data-id="" class="delete">Delete</label>
+                  <div class="uneditable-input"><i class="icon-file fileupload-exists"></i> <span class="fileupload-preview"></span></div><span class="btn btn-file"><span class="fileupload-new">Add</span><span class="fileupload-exists">Change</span><input type="file" name="new" /></span><a href="#" class="btn fileupload-exists" data-dismiss="fileupload">Remove</a>
                 </div>
               </div>
             </div> <!-- End Form -->
