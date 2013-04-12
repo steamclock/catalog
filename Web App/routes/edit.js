@@ -69,6 +69,7 @@ exports.get = function(req, res){
 
 exports.update = function(req, res){
     console.log(req.body);
+    console.log("-------------------");
     async.waterfall([
         function(callback){
             var token = req.headers.referer.substring(req.headers.referer.lastIndexOf('/') + 1);
