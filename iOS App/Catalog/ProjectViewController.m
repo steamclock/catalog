@@ -18,7 +18,7 @@ typedef enum {
 
 @property (strong, nonatomic) IBOutlet UIScrollView* scrollView;
 @property (strong, nonatomic) IBOutlet UIButton* backButton;
-@property (strong, nonatomic) IBOutlet UIPageControl* pageControl;
+@property (strong, nonatomic) IBOutlet UIImageView* pageControl;
 @property (strong, nonatomic) IBOutlet UIView* detailContainer;
 
 @property (strong, nonatomic) IBOutlet UIView* curtain;
@@ -27,6 +27,9 @@ typedef enum {
 @property (strong, nonatomic) NSArray* projects;
 @property (strong, nonatomic) NSDictionary* project;
 @property (nonatomic) int currentIndex;
+
+@property (nonatomic) int numPages;
+@property (nonatomic) int currentPage;
 
 @property (nonatomic) BOOL showingDetails;
 @property (nonatomic) CGRect showDetailsFrame;
@@ -92,10 +95,13 @@ typedef enum {
 
 -(void)setupCurrentProject {
     BOOL hasVideo = self.project[@"video"] && [self.project[@"video"] length];
-    int numPages = [self.project[@"images"] count] + (hasVideo ? 1 : 0);
+    self.numPages = [self.project[@"images"] count] + (hasVideo ? 1 : 0);
+    self.currentPage = 0;
     
-    self.scrollView.contentSize = CGSizeMake(1024 * numPages, 748);
-    self.pageControl.numberOfPages = numPages;
+    // Don't show page control if no pages
+    self.pageControl.hidden = (self.numPages == 1);
+    
+    self.scrollView.contentSize = CGSizeMake(1024 * self.numPages, 748);
     
     int page = 0;
     
@@ -140,8 +146,12 @@ typedef enum {
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView {
     // Check if current page has changed, to update page control, and hide details view if needed
     int newPage = floor((float)(scrollView.contentOffset.x + 512) / 1024.0f);
-    if (newPage != self.pageControl.currentPage) {
-        self.pageControl.currentPage = newPage;
+    if (newPage != self.currentPage) {
+        self.currentPage = newPage;
+        
+        NSString* filename = [NSString stringWithFormat:@"page%d%d.png",self.currentPage+1, self.numPages];
+        self.pageControl.image = [UIImage imageNamed:filename];
+        
         if(self.showingDetails) {
             [self detailButtonPressed:nil];
         }
