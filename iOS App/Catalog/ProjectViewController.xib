@@ -47,9 +47,9 @@
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="108934451"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
-						<object class="NSColor" key="IBUIBackgroundColor">
+						<object class="NSColor" key="IBUIBackgroundColor" id="177011535">
 							<int key="NSColorSpace">3</int>
-							<bytes key="NSWhite">MC42NjY2NjY2NjY3AA</bytes>
+							<bytes key="NSWhite">MQA</bytes>
 						</object>
 						<bool key="IBUIClipsSubviews">YES</bool>
 						<bool key="IBUIMultipleTouchEnabled">YES</bool>
@@ -74,10 +74,7 @@
 								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 								<int key="IBUIContentHorizontalAlignment">0</int>
 								<int key="IBUIContentVerticalAlignment">0</int>
-								<object class="NSColor" key="IBUIHighlightedTitleColor" id="177011535">
-									<int key="NSColorSpace">3</int>
-									<bytes key="NSWhite">MQA</bytes>
-								</object>
+								<reference key="IBUIHighlightedTitleColor" ref="177011535"/>
 								<object class="NSColor" key="IBUINormalTitleColor">
 									<int key="NSColorSpace">1</int>
 									<bytes key="NSRGB">MC4xOTYwNzg0MzQ2IDAuMzA5ODAzOTMyOSAwLjUyMTU2ODY1NgA</bytes>
@@ -247,7 +244,7 @@
 						<string key="NSFrame">{{20, 120}, {60, 44}}</string>
 						<reference key="NSSuperview" ref="766721923"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="707562737"/>
+						<reference key="NSNextKeyView" ref="198807958"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<bool key="IBUIOpaque">NO</bool>
 						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
@@ -270,7 +267,7 @@
 						<string key="NSFrame">{{20, 688}, {52, 44}}</string>
 						<reference key="NSSuperview" ref="766721923"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView"/>
+						<reference key="NSNextKeyView" ref="930513694"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<bool key="IBUIOpaque">NO</bool>
 						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
@@ -287,13 +284,12 @@
 						<reference key="IBUIFontDescription" ref="760036586"/>
 						<reference key="IBUIFont" ref="643980487"/>
 					</object>
-					<object class="IBUIImageView" id="707562737">
+					<object class="IBUIImageView" id="930513694">
 						<reference key="NSNextResponder" ref="766721923"/>
 						<int key="NSvFlags">274</int>
 						<string key="NSFrame">{{900, 650}, {80, 40}}</string>
 						<reference key="NSSuperview" ref="766721923"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="198807958"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<bool key="IBUIUserInteractionEnabled">NO</bool>
 						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
@@ -403,7 +399,7 @@
 					<object class="IBCocoaTouchOutletConnection" key="connection">
 						<string key="label">pageControl</string>
 						<reference key="source" ref="841351856"/>
-						<reference key="destination" ref="707562737"/>
+						<reference key="destination" ref="930513694"/>
 					</object>
 					<int key="connectionID">171</int>
 				</object>
@@ -462,7 +458,7 @@
 							<reference ref="108934451"/>
 							<reference ref="137856301"/>
 							<reference ref="553051678"/>
-							<reference ref="707562737"/>
+							<reference ref="930513694"/>
 						</array>
 						<reference key="parent" ref="0"/>
 					</object>
@@ -527,7 +523,7 @@
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">170</int>
-						<reference key="object" ref="707562737"/>
+						<reference key="object" ref="930513694"/>
 						<reference key="parent" ref="766721923"/>
 					</object>
 				</array>
@@ -583,7 +579,7 @@
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="author">UILabel</string>
 						<string key="backButton">UIButton</string>
-						<string key="curtain">UIView</string>
+						<string key="curtain">UIImageView</string>
 						<string key="detailContainer">UIView</string>
 						<string key="measurements">UILabel</string>
 						<string key="medium">UILabel</string>
@@ -603,7 +599,7 @@
 						</object>
 						<object class="IBToOneOutletInfo" key="curtain">
 							<string key="name">curtain</string>
-							<string key="candidateClassName">UIView</string>
+							<string key="candidateClassName">UIImageView</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="detailContainer">
 							<string key="name">detailContainer</string>

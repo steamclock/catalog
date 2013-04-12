@@ -22,6 +22,10 @@
 }
 
 -(void)loadImage:(NSURL*)url onLoad:(void (^)(UIImage*))callback {
+    if(url == nil) {
+        return;
+    }
+    
     UIImage* image = self.cached[url];
     if(image) {
         // have cached image, callback immediatly
@@ -61,8 +65,16 @@
 }
 
 -(void)precacheImage:(NSURL*)url {
+    if(url == nil) {
+        return;
+    }
+    
     // Just start a load with an empty callback block to precache
     [self loadImage:url onLoad:^(UIImage* image) { /* empty */ }];
+}
+
+-(UIImage*)cachedImageForURL:(NSURL*)url {
+    return self.cached[url];
 }
 
 -(void)flush {
