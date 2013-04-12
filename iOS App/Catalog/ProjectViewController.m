@@ -4,6 +4,7 @@
 //
 
 #import "ProjectViewController.h"
+#import "CachedImageLoader.h"
 
 typedef enum {
     TransitionStateNone,
@@ -43,6 +44,8 @@ typedef enum {
 @property (strong, nonatomic) IBOutlet UILabel* measurements;
 @property (strong, nonatomic) IBOutlet UILabel* website;
 
+@property (strong, nonatomic) CachedImageLoader* imageLoader;
+
 @end
 
 @implementation ProjectViewController
@@ -53,6 +56,7 @@ typedef enum {
         self.projects = projects;
         self.currentIndex = index;
         self.project = projects[index];
+        self.imageLoader = [CachedImageLoader new];
     }
     return self;
     
@@ -91,6 +95,7 @@ typedef enum {
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
+    [self.imageLoader flush];
 }
 
 -(void)setupCurrentProject {
@@ -109,15 +114,12 @@ typedef enum {
         UIImageView* imageView = [[UIImageView alloc] initWithFrame:CGRectMake(1024 * page, 0, 1024, 748)];
         imageView.contentMode = UIViewContentModeScaleAspectFit;
         
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            UIImage* image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:imageURL]]];
-            
-            dispatch_async(dispatch_get_main_queue(), ^{
-                imageView.image = image;
-            });
-        });
+        [self.imageLoader loadImage:[NSURL URLWithString:imageURL] onLoad:^(UIImage* image) {
+            imageView.image = image;
+        }];
         
         [self.scrollView addSubview:imageView];
+        
         page++;
     }
     

@@ -30,6 +30,7 @@
 		A6EB5AB11718A6C60009F406 /* page22.png in Resources */ = {isa = PBXBuildFile; fileRef = A6EB5AAC1718A6C60009F406 /* page22.png */; };
 		A6EB5AB21718A6C60009F406 /* page23.png in Resources */ = {isa = PBXBuildFile; fileRef = A6EB5AAD1718A6C60009F406 /* page23.png */; };
 		A6EB5AB31718A6C60009F406 /* page33.png in Resources */ = {isa = PBXBuildFile; fileRef = A6EB5AAE1718A6C60009F406 /* page33.png */; };
+		A6EB5AB61718B5530009F406 /* CachedImageLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = A6EB5AB51718B5530009F406 /* CachedImageLoader.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -62,6 +63,8 @@
 		A6EB5AAC1718A6C60009F406 /* page22.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = page22.png; sourceTree = "<group>"; };
 		A6EB5AAD1718A6C60009F406 /* page23.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = page23.png; sourceTree = "<group>"; };
 		A6EB5AAE1718A6C60009F406 /* page33.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = page33.png; sourceTree = "<group>"; };
+		A6EB5AB41718B5530009F406 /* CachedImageLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CachedImageLoader.h; sourceTree = "<group>"; };
+		A6EB5AB51718B5530009F406 /* CachedImageLoader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CachedImageLoader.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -121,6 +124,8 @@
 				A6702585170E331600840867 /* ProjectViewController.h */,
 				A6702586170E331600840867 /* ProjectViewController.m */,
 				A6702587170E331600840867 /* ProjectViewController.xib */,
+				A6EB5AB41718B5530009F406 /* CachedImageLoader.h */,
+				A6EB5AB51718B5530009F406 /* CachedImageLoader.m */,
 			);
 			path = Catalog;
 			sourceTree = "<group>";
@@ -234,6 +239,7 @@
 				A6702571170E0C0A00840867 /* AppDelegate.m in Sources */,
 				A670257A170E0C0A00840867 /* ProjectListViewController.m in Sources */,
 				A6702588170E331600840867 /* ProjectViewController.m in Sources */,
+				A6EB5AB61718B5530009F406 /* CachedImageLoader.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

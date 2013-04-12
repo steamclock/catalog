@@ -5,6 +5,7 @@
 
 #import "ProjectListViewController.h"
 #import "ProjectViewController.h"
+#import "CachedImageLoader.h"
 
 #define REUSE_IDENTIFIER @"ThumbnailCell"
 
@@ -36,7 +37,6 @@ static NSUInteger random_below(NSUInteger n) {
 
 @property (strong, nonatomic) UIWebView* aboutWebView;
 
-@property (strong, nonatomic) NSMutableDictionary* cachedImages;
 @property (strong, nonatomic) NSArray* currentProjects;
 
 @property (strong, nonatomic) NSArray* allProjectsSorted;
@@ -47,6 +47,7 @@ static NSUInteger random_below(NSUInteger n) {
 @property (strong, nonatomic) NSArray* mediaArtsProjects;
 @property (strong, nonatomic) NSArray* maaProjects;
 
+@property (strong, nonatomic) CachedImageLoader* thumbnailLoader;
 @end
 
 @implementation ProjectListViewController
@@ -56,6 +57,7 @@ static NSUInteger random_below(NSUInteger n) {
 -(id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     if((self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil])) {
         [self loadProjectLists];
+        self.thumbnailLoader = [CachedImageLoader new];
     }
     
     return self;
@@ -73,9 +75,7 @@ static NSUInteger random_below(NSUInteger n) {
     [self showHome:nil];
     
     self.home.selected = YES;
-    
-    self.cachedImages = [NSMutableDictionary new];
-    
+        
     self.aboutWebView = [[UIWebView alloc] initWithFrame:self.collectionView.frame];
     self.aboutWebView.hidden = YES;
     NSString *filePath = [[NSBundle mainBundle] pathForResource:@"about" ofType:@"html"];
@@ -86,7 +86,7 @@ static NSUInteger random_below(NSUInteger n) {
 
 -(void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    [self.cachedImages removeAllObjects];
+    [self.thumbnailLoader flush];
 }
 
 #pragma mark Loading and Setup
@@ -161,29 +161,16 @@ static NSUInteger random_below(NSUInteger n) {
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     UICollectionViewCell* cell = [collectionView dequeueReusableCellWithReuseIdentifier:REUSE_IDENTIFIER forIndexPath:indexPath];
     
-    NSString* imageURL = self.currentProjects[indexPath.row][@"thumbnail"];
-    UIImage* cachedimage = self.cachedImages[imageURL];
+    NSURL* imageURL = [NSURL URLWithString:self.currentProjects[indexPath.row][@"thumbnail"]];
     
-    if(cachedimage) {
-        UIImageView* background = (UIImageView*)[cell viewWithTag:100];
-        background.image = cachedimage;
-    }
-    else {
-        __weak UICollectionView* weakCollectionView = collectionView;
-        __weak ProjectListViewController* weakSelf = self;
-        
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            UIImage* image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:imageURL]]];
-            
-            dispatch_async(dispatch_get_main_queue(), ^{
-                if([[weakCollectionView indexPathsForVisibleItems] containsObject:indexPath]) {
-                    UIImageView* background = (UIImageView*)[cell viewWithTag:100];
-                    background.image = image;
-                    weakSelf.cachedImages[imageURL] = image;
-                }
-            });
-        });
-    }
+    __weak UICollectionView* weakCollectionView = collectionView;
+    
+    [self.thumbnailLoader loadImage:imageURL onLoad:^(UIImage* image) {
+        if([[weakCollectionView indexPathsForVisibleItems] containsObject:indexPath]) {
+            UIImageView* background = (UIImageView*)[cell viewWithTag:100];
+            background.image = image;
+        }
+    }];
     
     UILabel* title = (UILabel*)[cell viewWithTag:101];
     title.text = self.currentProjects[indexPath.row][@"title"];
