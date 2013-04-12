@@ -58,7 +58,7 @@ exports.submit = function(req, res){
                 if (file.type === "image/jpeg") {
                     imagemagick.identify(file.path, function(err, features){
                         if(err){console.log(err)};
-                        var accept = ((features.width > 1500) || (features.height > 1500));
+                        var accept = ((features.width >= 1500) || (features.height >= 1500));
                         if (!accept){
                             var formValues = JSON.stringify(req.body);
                             res.flash('message','One of your images did not meet the minimum dimensions. Please verify the dimensions of all of your assets.');
