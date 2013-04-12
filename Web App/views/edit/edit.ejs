@@ -92,12 +92,8 @@
         <img src="/public/images/vimeo-ex.jpg" />
 
         <label>Vimeo URL</label>
-        <% for (var i = 0; i < 3; i++) { %>
-          <% if ((assets[i] != undefined) && assets[i].type === "video") { %>
-            <input type="text" name="video" value="<%= assets[i].url %>">
-          <% } %>
-        <% } %>
-        
+        <% var vidURL; for (var i = 0; i < assets.length; i++) { if ((assets[i] != undefined) && assets[i].type === "video") { vidURL = assets[i].url; } } %>
+        <input type="text" name="video" value="<% if (vidURL != undefined) { %><%= vidURL %><% } %>">
         <div class="clearfix"></div>
         <div class="well">
         <p><span class="label label-warning">Heads up!</span> Resubmitting means <em>your work will not be available</em> on the website or in the app until is has been approved by the Curatorial Team.</p>
