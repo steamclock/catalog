@@ -14,6 +14,7 @@ var smtpTransport = mailer.createTransport("SMTP",{
 });
 
 console.log("Mail transport initilized..");
+console.log(smtpTransport);
 
 exports.send = function (email, editURL){
 
@@ -28,6 +29,7 @@ exports.send = function (email, editURL){
         html: "Hello " + email + "!\nThis is an email to confirm that you have successfully submitted your portfolio materials for approval. Once approved you they will be accesible through the main site.\n\nIf you would like to edit your submission, you can do so by visiting the following link:\n" + editURL + "\nPlease note that if you re-submit your portfolio after it has been approved, it will be removed from the site until re-approved again.\n\n-- The Grad Catalog Team"// html body
     };
     console.log("Ready to send mail.");
+
     smtpTransport.sendMail(mailOptions, function(error, response){
         console.log("Attempting to send mail");
         if(error){
