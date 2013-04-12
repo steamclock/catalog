@@ -14,7 +14,22 @@ var smtpTransport = mailer.createTransport("SMTP",{
 });
 
 console.log("Mail transport initilized..");
-console.log(smtpTransport);
+
+var mailOptions = {
+    from: "Emily Carr Grad Catalog <gradcatalog@ecuad.com>", // sender address
+    to: "angeline@steamclock.com", // list of receivers
+    subject: "TEST MAIL", // Subject line
+    text: "TEST"
+};
+
+smtpTransport.sendMail(mailOptions, function(error, response){
+    console.log("Attempting to send test mail");
+    if(error){
+        console.log("Message send failure: " + error);
+    } else {
+        console.log("Message sent: " + response.message);
+    }
+});
 
 exports.send = function (email, editURL){
 
