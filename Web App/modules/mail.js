@@ -13,28 +13,7 @@ var smtpTransport = mailer.createTransport("SMTP",{
     }
 });
 
-console.log("Mail transport initilized..");
-
-var mailOptions = {
-    from: "Emily Carr Grad Catalog <gradcatalog@ecuad.com>", // sender address
-    to: "angeline@steamclock.com", // list of receivers
-    subject: "TEST MAIL", // Subject line
-    text: "TEST"
-};
-
-smtpTransport.sendMail(mailOptions, function(error, response){
-    console.log("Attempting to send test mail");
-    if(error){
-        console.log("Message send failure: " + error);
-    } else {
-        console.log("Message sent: " + response.message);
-    }
-});
-
 exports.send = function (email, editURL){
-
-    console.log("Setting up mail options inside mail send function.");
-
     var mailOptions = {
         from: "Emily Carr Grad Catalog <gradcatalog@ecuad.com>", // sender address
         to: email, // list of receivers
@@ -43,7 +22,6 @@ exports.send = function (email, editURL){
         
         html: "Hello " + email + "!\nThis is an email to confirm that you have successfully submitted your portfolio materials for approval. Once approved you they will be accesible through the main site.\n\nIf you would like to edit your submission, you can do so by visiting the following link:\n" + editURL + "\nPlease note that if you re-submit your portfolio after it has been approved, it will be removed from the site until re-approved again.\n\n-- The Grad Catalog Team"// html body
     };
-    console.log("Ready to send mail.");
 
     smtpTransport.sendMail(mailOptions, function(error, response){
         console.log("Attempting to send mail");
