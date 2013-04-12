@@ -30,10 +30,6 @@
 		A6EB5AB11718A6C60009F406 /* page22.png in Resources */ = {isa = PBXBuildFile; fileRef = A6EB5AAC1718A6C60009F406 /* page22.png */; };
 		A6EB5AB21718A6C60009F406 /* page23.png in Resources */ = {isa = PBXBuildFile; fileRef = A6EB5AAD1718A6C60009F406 /* page23.png */; };
 		A6EB5AB31718A6C60009F406 /* page33.png in Resources */ = {isa = PBXBuildFile; fileRef = A6EB5AAE1718A6C60009F406 /* page33.png */; };
-		A6EE326F17161726002D7913 /* sample2.json in Resources */ = {isa = PBXBuildFile; fileRef = A6EE326B17161726002D7913 /* sample2.json */; };
-		A6EE327017161726002D7913 /* sample3.json in Resources */ = {isa = PBXBuildFile; fileRef = A6EE326C17161726002D7913 /* sample3.json */; };
-		A6EE327117161726002D7913 /* sample4.json in Resources */ = {isa = PBXBuildFile; fileRef = A6EE326D17161726002D7913 /* sample4.json */; };
-		A6EE327217161726002D7913 /* sample5.json in Resources */ = {isa = PBXBuildFile; fileRef = A6EE326E17161726002D7913 /* sample5.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -66,10 +62,6 @@
 		A6EB5AAC1718A6C60009F406 /* page22.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = page22.png; sourceTree = "<group>"; };
 		A6EB5AAD1718A6C60009F406 /* page23.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = page23.png; sourceTree = "<group>"; };
 		A6EB5AAE1718A6C60009F406 /* page33.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = page33.png; sourceTree = "<group>"; };
-		A6EE326B17161726002D7913 /* sample2.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = sample2.json; sourceTree = "<group>"; };
-		A6EE326C17161726002D7913 /* sample3.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = sample3.json; sourceTree = "<group>"; };
-		A6EE326D17161726002D7913 /* sample4.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = sample4.json; sourceTree = "<group>"; };
-		A6EE326E17161726002D7913 /* sample5.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = sample5.json; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -90,10 +82,6 @@
 			isa = PBXGroup;
 			children = (
 				A6702590170F45E400840867 /* sample.json */,
-				A6EE326B17161726002D7913 /* sample2.json */,
-				A6EE326C17161726002D7913 /* sample3.json */,
-				A6EE326D17161726002D7913 /* sample4.json */,
-				A6EE326E17161726002D7913 /* sample5.json */,
 				A6EB5A9F17161B9E0009F406 /* about.html */,
 				A6EB5AA51716243D0009F406 /* Images */,
 				A6702566170E0C0A00840867 /* Catalog */,
@@ -224,10 +212,6 @@
 				A6702584170E212C00840867 /* ProjectCell.xib in Resources */,
 				A6702589170E331600840867 /* ProjectViewController.xib in Resources */,
 				A6702591170F45E400840867 /* sample.json in Resources */,
-				A6EE326F17161726002D7913 /* sample2.json in Resources */,
-				A6EE327017161726002D7913 /* sample3.json in Resources */,
-				A6EE327117161726002D7913 /* sample4.json in Resources */,
-				A6EE327217161726002D7913 /* sample5.json in Resources */,
 				A6EB5AA017161B9E0009F406 /* about.html in Resources */,
 				A6EB5AA81716243D0009F406 /* test.png in Resources */,
 				A6EB5AA91716243D0009F406 /* test@2x.png in Resources */,
