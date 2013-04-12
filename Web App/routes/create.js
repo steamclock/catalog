@@ -64,17 +64,18 @@ exports.submit = function(req, res){
                             res.flash('message','One of your images did not meet the minimum dimensions. Please verify the dimensions of all of your assets.');
                             res.render('create/create', { title : "Error in submission", formData : formValues });
                             callback(true); //Exits waterfall
-                        } else {
-                            callback(null);
                         }
-                    });  
+                    });
+
                 }
             });
+
+            callback(null);
         },
 
         function(callback){
             // Insert into the projects table
-
+            console.log("Getting called to insert project");
             var query = client.query(
                 "INSERT INTO projects(title, author, email, website, degree, medium, measurements, token) values($1, $2, $3, $4, $5, $6, $7, $8) RETURNING id",
                 [req.body.title, req.body.author, req.body.email, req.body.website, req.body.degree, req.body.medium, req.body.measurements, token]

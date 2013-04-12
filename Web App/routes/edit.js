@@ -290,7 +290,7 @@ exports.update = function(req, res){
                     });
 
                     query.on('end', function(result){
-                        console.log("Deleted asset with id: " + id);
+                        console.log("Deleted asset with id: " + req.body.delete);
                     });
                 }
             }
