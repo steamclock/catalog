@@ -164,7 +164,7 @@ exports.submit = function(req, res){
        function(callback){
             var projectEditURL = "http://" + req.headers.host + "/edit/" + token;
             mail.send(req.body.email, projectEditURL);
-            res.render('create/done' { title : "Submission complete."});
+            res.render('create/done', { title : "Submission complete."});
             callback(null);
        }
     ], function (err, result) {
