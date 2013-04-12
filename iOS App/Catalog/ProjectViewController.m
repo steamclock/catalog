@@ -125,8 +125,14 @@ typedef enum {
     for(NSString* imageURL in self.project[@"images"]) {
         UIImageView* imageView = [[UIImageView alloc] initWithFrame:CGRectMake(1024 * page, 0, 1024, 748)];
         imageView.contentMode = UIViewContentModeScaleAspectFit;
+        UIActivityIndicatorView* spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+        [imageView addSubview:spinner];
+        spinner.center = CGPointMake(1024 / 2, 748 / 2);
+        [spinner startAnimating];
+        
         
         [self.imageLoader loadImage:[NSURL URLWithString:imageURL] onLoad:^(UIImage* image) {
+            [spinner removeFromSuperview];
             imageView.image = image;
         }];
         
