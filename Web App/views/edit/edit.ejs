@@ -12,6 +12,8 @@
         <label>Your Name</label>
         <input type="text" id="input-warning" name="author" value="<%= project.author %>">
         <div><label>Your Email</label><span><%= project.email %></span></div>
+        <label>Your Website</label>
+        <input type="url" name="website" value="<% if (project.website != undefined) { %><%= project.website %><% } %>">
         <h2>2. Information About Your Project</h2>
         <label>Title of Your Project</label>
         <input type="text" name="title" value="<%= project.title %>">
@@ -23,7 +25,7 @@
           <option name="masters-of-applied-arts">MAA</option>
         </select>
         <label>Media(s)</label>
-        <input type="text" name="media" value="<% if (project.media != undefined) { %><%= project.media %><% } %>">
+        <input type="text" name="medium" value="<% if (project.medium != undefined) { %><%= project.medium %><% } %>">
         <label>Measurements</label>
         <input type="text" name="measurements" value="<% if (project.measurements != undefined) { %><%= project.measurements %><% } %>"><span class="help-inline"><small><em>Width x Height x Depth // cm for units</em></small></span>
 

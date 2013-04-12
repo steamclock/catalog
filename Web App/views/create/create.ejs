@@ -13,6 +13,8 @@
         <input type="text" id="input-warning" name="author" value="<% if ((formData != null) && formData.author != undefined) { %><%= formData.author %><% } %>">
         <label>Your ECUAD.ca Email Address</label>
         <input type="email" name="email" value="<% if ((formData != null) && formData.email != undefined) { %><%= formData.email %><% } %>"><span class="help-inline"><small><em>Must be @ecuad.ca</em></small></span>
+        <label>Your Website</label>
+        <input type="url" name="website" value="<% if ((formData != null) && formData.website != undefined) { %><%= formData.website %><% } %>">
 
         <h2>2. Information About Your Project</h2>
         <label>Title of Your Project</label>
@@ -25,7 +27,7 @@
           <option name="masters-of-applied-arts">MAA</option>
         </select>
         <label>Media(s)</label>
-        <input type="text" name="media" value="<% if ((formData != null) && formData.media != undefined) { %><%= formData.media %><% } %>">
+        <input type="text" name="medium" value="<% if ((formData != null) && formData.medium != undefined) { %><%= formData.medium %><% } %>">
         <label>Measurements</label>
         <input type="text" name="measurements" value="<% if ((formData != null) && formData.measurements != undefined) { %><%= formData.measurements %><% } %>"><span class="help-inline"><small><em>Width x Height x Depth // cm for units</em></small></span>
 

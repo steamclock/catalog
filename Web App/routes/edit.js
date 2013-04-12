@@ -66,7 +66,57 @@ exports.get = function(req, res){
 
 
 exports.update = function(req, res){
-    console.log(req);
+    //console.log(req.headers.referer);
+    // console.log(req.files);
+    // console.log(req.headers.referrer)
+
+    async.waterfall([
+        function(callback){
+            var token = req.headers.referer.substring(req.headers.referer.lastIndexOf('/') + 1);
+            var query = client.query(
+                "UPDATE projects SET title = $2, author = $3, website = $4, degree = $5, medium = $6, measurements = $7 WHERE token = $1", 
+                [token, req.body.title, req.body.author, req.body.website, req.body.degree, req.body.medium, req.body.measurements]);
+
+            query.on('error', function(error){
+                console.log("Error: " + error);
+            });
+
+            query.on('end', function(result){
+                console.log("Submission updated.");
+            });
+            //callback(null);
+        },
+
+        function(callback){
+            // req.files.images.forEach(function(file){
+            //     if (file.type === "image/jpeg") {
+            //         imagemagick.identify(file.path, function(err, features){
+            //             if(err){console.log(err)};
+            //             var accept = ((features.width > 1500) || (features.height > 1500));
+            //             if (!accept){
+            //                 var formValues = JSON.stringify(req.body);
+            //                 res.flash('message','One of your images did not meet the minimum dimensions. Please verify the dimensions of all of your assets.');
+            //                 res.render('edit/edit', { title : "Error in submission", formData : formValues });
+            //                 callback(true); //Exits waterfall
+            //             } else {
+            //                 callback(null);
+            //             }
+            //         });  
+            //     }
+            // });
+            callback(null);
+        },
+        function(callback){
+
+        }],
+
+        function (err, result) {
+            if (err) {
+                console.log(err);
+            } else {
+                console.log("Done loading edit page stuffs.")
+            }
+        });
 }
 
 /*
