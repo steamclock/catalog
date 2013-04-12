@@ -1,6 +1,7 @@
 <% include ../header %>
     <% project = JSON.parse(project) %>
     <% assets = JSON.parse(assets) %>
+
     <div class="row-fluid">
       <div class="span6 offset1 white-background-submissions">
 
@@ -8,9 +9,12 @@
         <p>Making changes to your submission is easy. You can <em>edit text</em>, <em>swap out images</em>, <em>delete images</em>, or <em>change the URL of your video</em>. Make sure to click “Submit Changes For Approval” at the bottom of this page for your changes to take affect.</p>
         <h2>1. Your Information</h2>
         <form method="post" enctype="multipart/form-data" action="/edit/update" id="projectSubmission">
+        <input type="hidden" name="project" value="<%= project.id %>">
         <label>Your Name</label>
         <input type="text" id="input-warning" name="author" value="<%= project.author %>">
         <div><label>Your Email</label><span><%= project.email %></span></div>
+        <label>Your Website</label>
+        <input type="url" name="website" value="<% if (project.website != undefined) { %><%= project.website %><% } %>">
         <h2>2. Information About Your Project</h2>
         <label>Title of Your Project</label>
         <input type="text" name="title" value="<%= project.title %>">
@@ -22,9 +26,9 @@
           <option name="masters-of-applied-arts">MAA</option>
         </select>
         <label>Media(s)</label>
-        <input type="text" name="media" value="<%= project.media %>">
+        <input type="text" name="medium" value="<% if (project.medium != undefined) { %><%= project.medium %><% } %>">
         <label>Measurements</label>
-        <input type="text" name="measurements" value="<%= project.measurements %>"><span class="help-inline"><small><em>Width x Height x Depth // cm for units</em></small></span>
+        <input type="text" name="measurements" value="<% if (project.measurements != undefined) { %><%= project.measurements %><% } %>"><span class="help-inline"><small><em>Width x Height x Depth // cm for units</em></small></span>
 
         <h2>3. Images</h2>
         <p>Remember, you can sumbit <em>up to 3 assets</em> of your project.</p>
@@ -44,20 +48,19 @@
 
   <div class="row-fluid">
     <% for (var i = 0; i < 3; i++) { %>
-      <% if (assets[i].type === "image") { %>
+      <% if ((assets[i] != undefined) && assets[i].type === "image") { ;%>
         <div class="row-fluid">
           <div class="span4">
-            <label>Current File:</label><span><%= assets[i].url %></span>
+            <label>Current File:</label><span><%= assets[i].url.substring(assets[i].url.lastIndexOf('/') + 1) %></span>
             <div class="form-inline">
                 <div class="fileupload fileupload-new" data-provides="fileupload">
               </div> <!-- End Fileupload Div -->
               <div class="fileupload fileupload-new" data-provides="fileupload">
                 <div class="input-append">
-                  <div class="uneditable-input"><i class="icon-file fileupload-exists"></i> <span class="fileupload-preview"></span></div><span class="btn btn-file"><span class="fileupload-new">Change</span><span class="fileupload-exists">Change</span><input type="file" name="images" /></span><a href="#" class="btn fileupload-exists" data-dismiss="fileupload">Remove</a>
+                  <div class="uneditable-input"><i class="icon-file fileupload-exists"></i> <span class="fileupload-preview"></span></div><span class="btn btn-file"><span class="fileupload-new">Change</span><span class="fileupload-exists">Change</span><input type="file" name="<%= assets[i].id %>"/></span><a href="#" class="btn fileupload-exists" data-dismiss="fileupload">Remove</a>
                   <label class="checkbox">
-                  <input type="checkbox" data-id="<%= assets[i].id %>" class="delete">Delete</label>
+                  <input type="checkbox" name="delete" class="delete" value="<%= assets[i].id %>">Delete</label>
                 </div>
-
               </div>
             </div> <!-- End Form -->
           </div> <!-- End Span4 -->
@@ -65,11 +68,14 @@
         <% } else { %>
         <div class="row-fluid">
           <div class="span4">
-            <img src="http://placehold.it/150x150" class="img-rounded">
             <div class="form-inline">
                 <div class="fileupload fileupload-new" data-provides="fileupload">
-                <span class="btn btn-file btn-mini btn-info"><span class="fileupload-new">Add Image</span><span class="fileupload-exists">Change Again</span><input type="file" name="images" data-id=""/></span>
               </div> <!-- End Fileupload Div -->
+              <div class="fileupload fileupload-new" data-provides="fileupload">
+                <div class="input-append">
+                  <div class="uneditable-input"><i class="icon-file fileupload-exists"></i> <span class="fileupload-preview"></span></div><span class="btn btn-file"><span class="fileupload-new">Add</span><span class="fileupload-exists">Change</span><input type="file" name="new" /></span><a href="#" class="btn fileupload-exists" data-dismiss="fileupload">Remove</a>
+                </div>
+              </div>
             </div> <!-- End Form -->
           </div> <!-- End Span4 -->
         </div> <!-- End Row -->
@@ -86,8 +92,8 @@
         <img src="/public/images/vimeo-ex.jpg" />
 
         <label>Vimeo URL</label>
-        <input type="text" name="video" value="">
-        
+        <% var vidURL; for (var i = 0; i < assets.length; i++) { if ((assets[i] != undefined) && assets[i].type === "video") { vidURL = assets[i].url; } } %>
+        <input type="text" name="video" value="<% if (vidURL != undefined) { %><%= vidURL %><% } %>">
         <div class="clearfix"></div>
         <div class="well">
         <p><span class="label label-warning">Heads up!</span> Resubmitting means <em>your work will not be available</em> on the website or in the app until is has been approved by the Curatorial Team.</p>

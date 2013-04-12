@@ -34,6 +34,14 @@ app.configure(function(){
   app.use(express.static(path.join(__dirname, 'public')));
   app.use('/public', express.static(__dirname + '/public'));
   app.use(app.router);
+  app.use(function(err, req, res, next){
+    console.error(err.stack);
+    res.send(500, 'Oops. something broke. Please go back and try again.');
+  });
+  app.use(function(req, res, next){
+    res.status(404);
+    res.render('error', {title : "404: Not Found."});
+  });
 });
 
 app.configure('development', function(){
@@ -53,7 +61,7 @@ app.get('/create/denied', create.denied);
 // Editing a submission
 app.get('/edit/:token', edit.get);
 app.post('/edit/update', edit.update);
-app.get('/edit/done', edit.done);
+app.get('/resubmitted', edit.done);
 app.get('/edit/token/denied', edit.denied);
 
 

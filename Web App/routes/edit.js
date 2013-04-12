@@ -1,6 +1,8 @@
 var client = require('./../modules/postgres').client
     , async = require('async')
-    , validator = ('validator');
+    , fs = require('fs')
+    , imagemagick = require('imagemagick')
+    , flash = require('flashify');
 
 /*
  * GET edit page.
@@ -66,16 +68,251 @@ exports.get = function(req, res){
 
 
 exports.update = function(req, res){
-    console.log(req);
+    // TODO: When refactoring this should be a series rather than a waterfall
+    async.waterfall([
+        function(callback){
+            var token = req.headers.referer.substring(req.headers.referer.lastIndexOf('/') + 1);
+            var query = client.query(
+                "UPDATE projects SET title = $2, author = $3, website = $4, degree = $5, medium = $6, measurements = $7, published = false WHERE token = $1", 
+                [token, req.body.title, req.body.author, req.body.website, req.body.degree, req.body.medium, req.body.measurements]);
+
+            query.on('error', function(error){
+                console.log("Error: " + error);
+            });
+
+            query.on('end', function(result){
+                console.log("Projects table updated.");
+            });
+            callback(null);
+        },
+
+        function(callback){
+            // Validate image dimensions
+           for (var key in req.files) {
+                if (req.files.hasOwnProperty(key)) {
+                    if (key === "new") {
+                        if (req.files.new instanceof Array) {
+                            req.files.new.forEach(function(file){
+                                if (file.type === "image/jpeg") {
+                                    imagemagick.identify(file.path, function(err, features){
+                                        if(err){console.log(err)};
+                                        var accept = ((features.width >= 1500) || (features.height >=1500));
+                                        if (!accept){
+                                            var formValues = JSON.stringify(req.body);
+                                            res.flash('message','One of your images did not meet the minimum dimensions. Please verify the dimensions of all of your assets.');
+                                            res.render('edit/edit', { title : "Error in submission", formData : formValues });
+                                            callback(true); //Exits waterfall
+                                        } else {
+                                            callback(null);
+                                        }
+                                    });  
+                                }
+                            });
+                        } else {
+                            var file = req.files.new;
+                            if (file.type === "image/jpeg") {
+                                imagemagick.identify(file.path, function(err, features){
+                                    if(err){console.log(err)};
+                                    var accept = ((features.width >= 1500) || (features.height >=1500));
+                                    if (!accept){
+                                        var formValues = JSON.stringify(req.body);
+                                        res.flash('message','One of your images did not meet the minimum dimensions. Please verify the dimensions of all of your assets.');
+                                        res.render('edit/edit', { title : "Error in submission", formData : formValues });
+                                        callback(true); //Exits waterfall
+                                    } else {
+                                        callback(null);
+                                    }
+                                });  
+                            }
+                        }
+                    } else {
+                        var file = req.files[key];
+                        if (file.type === "image/jpeg") {
+                            imagemagick.identify(file.path, function(err, features){
+                                if(err){console.log(err)};
+                                var accept = ((features.width > 1500) || (features.height > 1500));
+                                if (!accept){
+                                    var formValues = JSON.stringify(req.body);
+                                    res.flash('message','One of your images did not meet the minimum dimensions. Please verify the dimensions of all of your assets.');
+                                    res.render('edit/edit', { title : "Error in submission", formData : formValues });
+                                    callback(true); //Exits waterfall
+                                } else {
+                                    callback(null);
+                                }
+                            });  
+                        }
+                    }
+                }
+            }
+            callback(null);
+        },
+        function(callback){
+            for (var key in req.files) {
+                if (req.files.hasOwnProperty(key)) {
+                    if (key === "new") {
+                            if (req.files.new instanceof Array) {
+                                req.files.new.forEach(function(file) {
+                                    if (file.name) { 
+                                        // get the temporary location of the file
+                                        var tmp_path = file.path;
+                                        // set where the file should actually exists - in this case it is in the "images" directory
+                                        var target_path = './public/images/projects/' + file.name;
+                                        // move the file from the temporary location to the intended location
+                                        fs.readFile(file.path, function (err, data) {
+                                              fs.writeFile(target_path, data, function (err) {
+                                                if (err) {
+                                                    console.log("Error:" + err)
+                                                } else {
+                                                    console.log("File copied");
+                                                    fs.unlink(tmp_path, function(err){
+                                                        if (err) {
+                                                            console.log("Error:" + err);
+                                                        }
+                                                    });
+                                                }
+                                              });
+                                        }); // End fs read/write 
+                                        var localFileURL = "/public/images/projects/" + file.name;
+
+                                        var assetInsertion = client.query(
+                                            "INSERT into assets(projectid, type, url) values($1, $2, $3)",
+                                            [req.body.project, "image", localFileURL]
+                                        );
+
+                                        assetInsertion.on('error', function(error) {
+                                            console.log("Error: " + error)
+                                        });        
+
+                                        assetInsertion.on('end', function(result){
+                                            console.log("Inserted image into assets table");
+                                        });
+                                    }
+                                }); //End forEach  
+                            } else {
+                                if (file.name) { 
+                                    // get the temporary location of the file
+                                    var tmp_path = file.path;
+                                    // set where the file should actually exists - in this case it is in the "images" directory
+                                    var target_path = './public/images/projects/' + file.name;
+                                    // move the file from the temporary location to the intended location
+                                    fs.readFile(file.path, function (err, data) {
+                                          fs.writeFile(target_path, data, function (err) {
+                                            if (err) {
+                                                console.log("Error:" + err)
+                                            } else {
+                                                console.log("File copied");
+                                                fs.unlink(tmp_path, function(err){
+                                                    if (err) {
+                                                        console.log("Error:" + err);
+                                                    }
+                                                });
+                                            }
+                                          });
+                                    }); // End fs read/write 
+                                    var localFileURL = "/public/images/projects/" + file.name;
+
+                                    var assetInsertion = client.query(
+                                        "INSERT into assets(projectid, type, url) values($1, $2, $3)",
+                                        [req.body.project, "image", localFileURL]
+                                    );
+
+                                    assetInsertion.on('error', function(error) {
+                                        console.log("Error: " + error)
+                                    });        
+
+                                    assetInsertion.on('end', function(result){
+                                        console.log("Inserted image into assets table");
+                                    });
+                                } 
+                            }
+                    } else {
+                        var file = req.files[key];
+                        if (file.name) { 
+                            // get the temporary location of the file
+                            var tmp_path = file.path;
+                            // set where the file should actually exists - in this case it is in the "images" directory
+                            var target_path = './public/images/projects/' + file.name;
+                            // move the file from the temporary location to the intended location
+                            fs.readFile(file.path, function (err, data) {
+                                  fs.writeFile(target_path, data, function (err) {
+                                    if (err) {
+                                        console.log("Error:" + err)
+                                    } else {
+                                        console.log("File copied");
+                                        fs.unlink(tmp_path, function(err){
+                                            if (err) {
+                                                console.log("Error:" + err);
+                                            }
+                                        });
+                                    }
+                                  });
+                            }); // End fs read/write 
+                                var localFileURL = "/public/images/projects/" + file.name;
+
+                                var assetInsertion = client.query(
+                                    "UPDATE assets SET projectid = $1, type = $2, url = $3 WHERE id = $4",
+                                    [req.body.project, "image", localFileURL, key]
+                                );
+
+                                assetInsertion.on('error', function(error) {
+                                    console.log("Error: " + error)
+                                });        
+
+                                assetInsertion.on('end', function(result){
+                                    console.log("Updated image in assets table");
+                                });
+                        }
+                    }
+                }             
+            }// End for .. in req.files
+            callback(null);
+        },
+
+        function(callback){
+            if (req.body.delete != undefined) {
+                if (req.body.delete instanceof Array) {
+                    req.body.delete.forEach(function(id) {
+                        var query = client.query("DELETE FROM assets WHERE id = $1", [id]);
+
+                        query.on('error', function(error){
+                            console.log("Error: " + error);
+                        });
+
+                        query.on('end', function(result){
+                            console.log("Deleted asset with id: " + id);
+                        });
+                    });
+                } else {
+                    var query = client.query("DELETE FROM assets WHERE id = $1", [req.body.delete]);
+
+                    query.on('error', function(error){
+                        console.log("Error: " + error);
+                    });
+
+                    query.on('end', function(result){
+                        console.log("Deleted asset with id: " + req.body.delete);
+                    });
+                }
+            }
+            callback(null);
+        }],
+
+        function (err, result) {
+            if (err) {
+                console.log(err);
+            } else {
+                res.render('edit/done', { title: 'YAY YOU RESUBMIT' });
+                console.log("Done updating project & assets.");
+            }
+        });
 }
 
 /*
- * GET completed update page.
+ * GET resubmitted page.
  */
 
 exports.done = function(req, res){
-
-    res.render('edit/done', { title: 'Edit Your Submission' });
+    res.render('edit/done', { title: 'YAY YOU RESUBMIT' });
 };
 
 /*
