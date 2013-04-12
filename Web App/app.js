@@ -38,7 +38,7 @@ app.configure('development', function(){
 });
 
 app.configure(function(){
-  app.set('port', process.env.PORT || 3000);
+  app.set('port', process.env.PORT || 80);
   app.set('views', __dirname + '/views');
   app.use(favicons(__dirname + '/public/images/icons'));
   app.set('view engine', 'ejs');
