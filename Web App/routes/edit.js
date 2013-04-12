@@ -68,6 +68,7 @@ exports.get = function(req, res){
 
 
 exports.update = function(req, res){
+    console.log(req.body);
     async.waterfall([
         function(callback){
             var token = req.headers.referer.substring(req.headers.referer.lastIndexOf('/') + 1);
@@ -125,7 +126,6 @@ exports.update = function(req, res){
                     }
                 }
             }
-            console.log("Exiting dimensions check");
             callback(null);
         },
         function(callback){
@@ -170,7 +170,6 @@ exports.update = function(req, res){
                             }
                         }); //End forEach
                     } else {
-                        console.log("Updating file asset");
                         var file = req.files[key];
                         if (file.name) { 
                             // get the temporary location of the file
@@ -210,6 +209,7 @@ exports.update = function(req, res){
                     }
                 }             
             }// End for .. in req.files
+            res.render('edit/done', { title: 'YAY YOU RESUBMIT' });
             callback(null);
         }],
 
@@ -217,19 +217,17 @@ exports.update = function(req, res){
             if (err) {
                 console.log(err);
             } else {
-                console.log("Done loading edit page stuffs.");
-                res.redirect('/edit/done');
+                console.log("Done updating project & assets.");
             }
         });
 }
 
 /*
- * GET completed update page.
+ * GET resubmitted page.
  */
 
 exports.done = function(req, res){
-
-    res.render('edit/done', { title: 'Edit Your Submission' });
+    res.render('edit/done', { title: 'YAY YOU RESUBMIT' });
 };
 
 /*

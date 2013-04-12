@@ -53,7 +53,7 @@ app.get('/create/denied', create.denied);
 // Editing a submission
 app.get('/edit/:token', edit.get);
 app.post('/edit/update', edit.update);
-app.get('/edit/done', edit.done);
+app.get('/resubmitted', edit.done);
 app.get('/edit/token/denied', edit.denied);
 
 
