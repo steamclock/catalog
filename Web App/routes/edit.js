@@ -147,7 +147,6 @@ exports.update = function(req, res){
             var count = 0;
 
             for (var key in req.files) {
-                console.log("KEY:" + key);
                 if (req.files.hasOwnProperty(key)) {
                     if (key === "new") {
                             if (req.files.new instanceof Array) {
@@ -318,7 +317,7 @@ exports.update = function(req, res){
                 });        
 
                 videoUpdate.on('end', function(result){
-                    console.log("Inserted video URL into assets table");
+                    console.log("Updated video URL in assets table");
                 });
             } else {
                 if (req.body.video) {
