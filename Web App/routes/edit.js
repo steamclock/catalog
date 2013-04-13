@@ -89,6 +89,7 @@ exports.update = function(req, res){
         function(callback){
             // Validate image dimensions
            for (var key in req.files) {
+                console
                 if (req.files.hasOwnProperty(key)) {
                     if (key === "new") {
                         if (req.files.new instanceof Array) {
@@ -102,8 +103,6 @@ exports.update = function(req, res){
                                             res.flash('message','One of your images did not meet the minimum dimensions. Please verify the dimensions of all of your assets.');
                                             res.render('edit/edit', { title : "Error in submission", formData : formValues });
                                             callback(true); //Exits waterfall
-                                        } else {
-                                            callback(null);
                                         }
                                     });  
                                 }
@@ -119,8 +118,6 @@ exports.update = function(req, res){
                                         res.flash('message','One of your images did not meet the minimum dimensions. Please verify the dimensions of all of your assets.');
                                         res.render('edit/edit', { title : "Error in submission", formData : formValues });
                                         callback(true); //Exits waterfall
-                                    } else {
-                                        callback(null);
                                     }
                                 });  
                             }
@@ -136,8 +133,6 @@ exports.update = function(req, res){
                                     res.flash('message','One of your images did not meet the minimum dimensions. Please verify the dimensions of all of your assets.');
                                     res.render('edit/edit', { title : "Error in submission", formData : formValues });
                                     callback(true); //Exits waterfall
-                                } else {
-                                    callback(null);
                                 }
                             });  
                         }
@@ -146,12 +141,18 @@ exports.update = function(req, res){
             }
             callback(null);
         },
+
         function(callback){
+
+            var count = 0;
+
             for (var key in req.files) {
                 if (req.files.hasOwnProperty(key)) {
                     if (key === "new") {
                             if (req.files.new instanceof Array) {
                                 req.files.new.forEach(function(file) {
+                                    count++;
+                                    console.log("Count is: " + count);
                                     if (file.name) { 
                                         // get the temporary location of the file
                                         var tmp_path = file.path;
@@ -180,11 +181,11 @@ exports.update = function(req, res){
                                         );
 
                                         assetInsertion.on('error', function(error) {
-                                            console.log("Error: " + error)
+                                           // console.log("Error: " + error)
                                         });        
 
                                         assetInsertion.on('end', function(result){
-                                            console.log("Inserted image into assets table");
+                                           //console.log("Inserted image into assets table");
                                         });
                                     }
                                 }); //End forEach  
@@ -226,6 +227,7 @@ exports.update = function(req, res){
                                 } 
                             }
                     } else {
+                        // Update 
                         var file = req.files[key];
                         if (file.name) { 
                             // get the temporary location of the file
@@ -249,16 +251,16 @@ exports.update = function(req, res){
                             }); // End fs read/write 
                                 var localFileURL = "/public/images/projects/" + file.name;
 
-                                var assetInsertion = client.query(
-                                    "UPDATE assets SET projectid = $1, type = $2, url = $3 WHERE id = $4",
+                                var assetUpdate = client.query(
+                                    "UPDATE assets SET projectid = $1, type = $2, url = $3 WHERE assets.id = $4",
                                     [req.body.project, "image", localFileURL, key]
                                 );
 
-                                assetInsertion.on('error', function(error) {
+                                assetUpdate.on('error', function(error) {
                                     console.log("Error: " + error)
                                 });        
 
-                                assetInsertion.on('end', function(result){
+                                assetUpdate.on('end', function(result){
                                     console.log("Updated image in assets table");
                                 });
                         }
@@ -295,6 +297,53 @@ exports.update = function(req, res){
                 }
             }
             callback(null);
+        },
+        function(callback){
+            if (req.body.vid) {
+                var videoUrl;
+                // Remove https if found
+                if(req.body.video.match(/^https:\/\//i)){
+                    videoUrl = req.body.video.replace(/^https:\/\//i, 'http://');
+                } else {
+                    videoUrl = req.body.video;
+                }
+                var videoUpdate = client.query(
+                    "UPDATE assets SET projectid = $1, type = $2, url = $3 WHERE assets.id = $4",
+                    [req.body.project, "video", videoUrl, req.body.vid]
+                );
+
+                videoUpdate.on('error', function(error) {
+                    console.log("Problem inserting video into DB, cap'n. Error: " + error)
+                });        
+
+                videoUpdate.on('end', function(result){
+                    console.log("Updated video URL in assets table");
+                });
+            } else {
+                if (req.body.video) {
+                    var videoUrl;
+                    // Remove https if found
+                    if(req.body.video.match(/^https:\/\//i)){
+                        videoUrl = req.body.video.replace(/^https:\/\//i, 'http://');
+                    } else {
+                        videoUrl = req.body.video;
+                    }
+                    var videoInsertion = client.query(
+                        "INSERT into assets(projectid, type, url) values($1, $2, $3)",
+                        [req.body.project, "video", videoUrl]
+                    );
+
+                    videoInsertion.on('error', function(error) {
+                        console.log("Problem inserting video into DB, cap'n. Error: " + error)
+                    });        
+
+                    videoInsertion.on('end', function(result){
+                        console.log("Inserted video URL into assets table");
+                    });
+                };
+            }
+
+            callback(null);            
         }],
 
         function (err, result) {
