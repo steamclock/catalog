@@ -14,7 +14,7 @@
         <input type="text" id="input-warning" name="author" value="<%= project.author %>">
         <div><label>Your Email</label><span><%= project.email %></span></div>
         <label>Your Website</label>
-        <input type="url" name="website" value="<% if (project.website != undefined) { %><%= project.website %><% } %>">
+        <input type="url" name="website" value="<% if (project.website != undefined) { %><%= project.website %><% } %>"><span class="help-inline"><small><em>ex. http://www.yourdomain.com</em></small></span>
         <h2>2. Information About Your Project</h2>
         <label>Title of Your Project</label>
         <input type="text" name="title" value="<%= project.title %>">
