@@ -4,6 +4,7 @@
 //
 
 #import "ProjectViewController.h"
+#import "CachedImageLoader.h"
 
 typedef enum {
     TransitionStateNone,
@@ -18,15 +19,18 @@ typedef enum {
 
 @property (strong, nonatomic) IBOutlet UIScrollView* scrollView;
 @property (strong, nonatomic) IBOutlet UIButton* backButton;
-@property (strong, nonatomic) IBOutlet UIPageControl* pageControl;
+@property (strong, nonatomic) IBOutlet UIImageView* pageControl;
 @property (strong, nonatomic) IBOutlet UIView* detailContainer;
 
-@property (strong, nonatomic) IBOutlet UIView* curtain;
+@property (strong, nonatomic) IBOutlet UIImageView* curtain;
 @property (nonatomic) TransitionState transitionState;
 
 @property (strong, nonatomic) NSArray* projects;
 @property (strong, nonatomic) NSDictionary* project;
 @property (nonatomic) int currentIndex;
+
+@property (nonatomic) int numPages;
+@property (nonatomic) int currentPage;
 
 @property (nonatomic) BOOL showingDetails;
 @property (nonatomic) CGRect showDetailsFrame;
@@ -40,6 +44,8 @@ typedef enum {
 @property (strong, nonatomic) IBOutlet UILabel* measurements;
 @property (strong, nonatomic) IBOutlet UILabel* website;
 
+@property (strong, nonatomic) CachedImageLoader* imageLoader;
+
 @end
 
 @implementation ProjectViewController
@@ -50,6 +56,7 @@ typedef enum {
         self.projects = projects;
         self.currentIndex = index;
         self.project = projects[index];
+        self.imageLoader = [CachedImageLoader new];
     }
     return self;
     
@@ -72,7 +79,7 @@ typedef enum {
     hide.origin.y = hide.origin.y - self.showDetailsFrame.size.height;
     self.hideDetailsBackFrame = hide;
     
-    self.showingDetails = NO;
+    self.showingDetails = YES;
 
     [self setupCurrentProject];
 }
@@ -81,37 +88,56 @@ typedef enum {
     [super viewDidLayoutSubviews];
     
     // reset to the hidden position after laying out view
+    /*
     self.detailContainer.alpha = 0.0f;
     self.detailContainer.frame = self.hideDetailsFrame;
     self.backButton.frame = self.hideDetailsBackFrame;
+     */
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
+    [self.imageLoader flush];
+}
+
+-(NSURL*)keyImageForIndex:(int)index {
+    if((index < 0) || (index >= self.projects.count)) {
+        return nil;
+    }
+    
+    NSDictionary* project = self.projects[index];
+    NSArray* images = project[@"images"];
+    return [NSURL URLWithString:images[0]];
 }
 
 -(void)setupCurrentProject {
     BOOL hasVideo = self.project[@"video"] && [self.project[@"video"] length];
-    int numPages = [self.project[@"images"] count] + (hasVideo ? 1 : 0);
+    self.numPages = [self.project[@"images"] count] + (hasVideo ? 1 : 0);
+    self.currentPage = 0;
     
-    self.scrollView.contentSize = CGSizeMake(1024 * numPages, 748);
-    self.pageControl.numberOfPages = numPages;
+    // Don't show page control if no pages
+    self.pageControl.hidden = (self.numPages == 1);
+    
+    self.scrollView.contentSize = CGSizeMake(1024 * self.numPages, 748);
     
     int page = 0;
     
     for(NSString* imageURL in self.project[@"images"]) {
         UIImageView* imageView = [[UIImageView alloc] initWithFrame:CGRectMake(1024 * page, 0, 1024, 748)];
         imageView.contentMode = UIViewContentModeScaleAspectFit;
+        UIActivityIndicatorView* spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+        [imageView addSubview:spinner];
+        spinner.center = CGPointMake(1024 / 2, 748 / 2);
+        [spinner startAnimating];
         
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            UIImage* image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:imageURL]]];
-            
-            dispatch_async(dispatch_get_main_queue(), ^{
-                imageView.image = image;
-            });
-        });
+        
+        [self.imageLoader loadImage:[NSURL URLWithString:imageURL] onLoad:^(UIImage* image) {
+            [spinner removeFromSuperview];
+            imageView.image = image;
+        }];
         
         [self.scrollView addSubview:imageView];
+        
         page++;
     }
     
@@ -131,6 +157,14 @@ typedef enum {
     self.website.text = self.project[@"website"];
     
     self.transitionState = TransitionStateNone;
+    
+    [self.scrollView setContentOffset:CGPointMake(0.0f, 0.0f) animated:NO];
+
+    // cache next and previous key images, so that they will be ready if we need them for the curtain
+    [self.imageLoader precacheImage:[self keyImageForIndex:self.currentIndex + 1]];
+    [self.imageLoader precacheImage:[self keyImageForIndex:self.currentIndex - 1]];
+    
+    [self showDetails:YES];
 }
 
 -(IBAction)dismiss:(id)sender {
@@ -140,11 +174,13 @@ typedef enum {
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView {
     // Check if current page has changed, to update page control, and hide details view if needed
     int newPage = floor((float)(scrollView.contentOffset.x + 512) / 1024.0f);
-    if (newPage != self.pageControl.currentPage) {
-        self.pageControl.currentPage = newPage;
-        if(self.showingDetails) {
-            [self detailButtonPressed:nil];
-        }
+    if (newPage != self.currentPage) {
+        self.currentPage = newPage;
+        
+        NSString* filename = [NSString stringWithFormat:@"page%d%d.png",self.currentPage+1, self.numPages];
+        self.pageControl.image = [UIImage imageNamed:filename];
+        
+        [self showDetails:NO];
     }
     
     if((self.transitionState != TransitionStateDoingNext) && (self.transitionState != TransitionStateDoingPrev) && (self.transitionState != TransitionStateResetting)) {
@@ -153,8 +189,9 @@ typedef enum {
         if(!self.curtain) {
             CGRect curtainFrame = self.scrollView.frame;
             curtainFrame.origin.x = 1024;
-            self.curtain = [[UIView alloc] initWithFrame:curtainFrame];
-            self.curtain.backgroundColor = [UIColor blueColor];
+            self.curtain = [[UIImageView alloc] initWithFrame:curtainFrame];
+            self.curtain.backgroundColor = [UIColor whiteColor];
+            self.curtain.contentMode = UIViewContentModeScaleAspectFit;
             [self.view addSubview:self.curtain];
         }
         
@@ -167,8 +204,12 @@ typedef enum {
             CGRect frame = self.curtain.frame;
             frame.origin.x = 1024.0f - (t  * 1024.0f);
             
+            if(self.curtain.image == nil) {
+                self.curtain.image = [self.imageLoader cachedImageForURL:[self keyImageForIndex:self.currentIndex + 1]];
+            }
             self.curtain.frame = frame;
             self.transitionState = TransitionStatePrepNext;
+            
         }
         else if((scrollView.contentOffset.x < 0) && (self.currentIndex > 0)) {
             float t = ((-scrollView.contentOffset.x - TRANSITION_PULL_START)) / (TRANSITION_PULL_DIST);
@@ -176,8 +217,14 @@ typedef enum {
             CGRect frame = self.curtain.frame;
             frame.origin.x = -1024.0f + (t * 1024.0f);
             
+            if(self.curtain.image == nil) {
+                self.curtain.image = [self.imageLoader cachedImageForURL:[self keyImageForIndex:self.currentIndex - 1]];
+            }
             self.curtain.frame = frame;
             self.transitionState = TransitionStatePrepPrev;
+        }
+        else {
+            self.curtain.image = nil;
         }
     }
 
@@ -228,7 +275,6 @@ typedef enum {
                 self.scrollView.contentOffset = CGPointMake(0.0f, 0.0f);
 
                 [self setupCurrentProject];
-                [self detailButtonPressed:nil];
                 
                 self.curtain.frame = CGRectMake(1024, 0, 1024, 748);
             }
