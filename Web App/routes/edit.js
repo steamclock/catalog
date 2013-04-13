@@ -89,6 +89,7 @@ exports.update = function(req, res){
         function(callback){
             // Validate image dimensions
            for (var key in req.files) {
+                console
                 if (req.files.hasOwnProperty(key)) {
                     if (key === "new") {
                         if (req.files.new instanceof Array) {
@@ -136,8 +137,6 @@ exports.update = function(req, res){
                                     res.flash('message','One of your images did not meet the minimum dimensions. Please verify the dimensions of all of your assets.');
                                     res.render('edit/edit', { title : "Error in submission", formData : formValues });
                                     callback(true); //Exits waterfall
-                                } else {
-                                    callback(null);
                                 }
                             });  
                         }
@@ -146,11 +145,13 @@ exports.update = function(req, res){
             }
             callback(null);
         },
+
         function(callback){
             for (var key in req.files) {
                 if (req.files.hasOwnProperty(key)) {
                     if (key === "new") {
                             if (req.files.new instanceof Array) {
+                                console.log("ARRAY NEW:" + req.files.new);
                                 req.files.new.forEach(function(file) {
                                     if (file.name) { 
                                         // get the temporary location of the file
@@ -226,6 +227,7 @@ exports.update = function(req, res){
                                 } 
                             }
                     } else {
+                        // Update 
                         var file = req.files[key];
                         if (file.name) { 
                             // get the temporary location of the file
@@ -249,16 +251,16 @@ exports.update = function(req, res){
                             }); // End fs read/write 
                                 var localFileURL = "/public/images/projects/" + file.name;
 
-                                var assetInsertion = client.query(
-                                    "UPDATE assets SET projectid = $1, type = $2, url = $3 WHERE id = $4",
+                                var assetUpdate = client.query(
+                                    "UPDATE assets SET projectid = $1, type = $2, url = $3 WHERE assets.id = $4",
                                     [req.body.project, "image", localFileURL, key]
                                 );
 
-                                assetInsertion.on('error', function(error) {
+                                assetUpdate.on('error', function(error) {
                                     console.log("Error: " + error)
                                 });        
 
-                                assetInsertion.on('end', function(result){
+                                assetUpdate.on('end', function(result){
                                     console.log("Updated image in assets table");
                                 });
                         }
