@@ -103,8 +103,6 @@ exports.update = function(req, res){
                                             res.flash('message','One of your images did not meet the minimum dimensions. Please verify the dimensions of all of your assets.');
                                             res.render('edit/edit', { title : "Error in submission", formData : formValues });
                                             callback(true); //Exits waterfall
-                                        } else {
-                                            callback(null);
                                         }
                                     });  
                                 }
@@ -120,8 +118,6 @@ exports.update = function(req, res){
                                         res.flash('message','One of your images did not meet the minimum dimensions. Please verify the dimensions of all of your assets.');
                                         res.render('edit/edit', { title : "Error in submission", formData : formValues });
                                         callback(true); //Exits waterfall
-                                    } else {
-                                        callback(null);
                                     }
                                 });  
                             }
@@ -147,12 +143,17 @@ exports.update = function(req, res){
         },
 
         function(callback){
+
+            var count = 0;
+
             for (var key in req.files) {
+                console.log("KEY:" + key);
                 if (req.files.hasOwnProperty(key)) {
                     if (key === "new") {
                             if (req.files.new instanceof Array) {
-                                console.log("ARRAY NEW:" + req.files.new);
                                 req.files.new.forEach(function(file) {
+                                    count++;
+                                    console.log("Count is: " + count);
                                     if (file.name) { 
                                         // get the temporary location of the file
                                         var tmp_path = file.path;
@@ -181,11 +182,11 @@ exports.update = function(req, res){
                                         );
 
                                         assetInsertion.on('error', function(error) {
-                                            console.log("Error: " + error)
+                                           // console.log("Error: " + error)
                                         });        
 
                                         assetInsertion.on('end', function(result){
-                                            console.log("Inserted image into assets table");
+                                           //console.log("Inserted image into assets table");
                                         });
                                     }
                                 }); //End forEach  
