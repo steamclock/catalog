@@ -298,6 +298,53 @@ exports.update = function(req, res){
                 }
             }
             callback(null);
+        },
+        function(callback){
+            if (req.body.vid) {
+                var videoUrl;
+                // Remove https if found
+                if(req.body.video.match(/^https:\/\//i)){
+                    videoUrl = req.body.video.replace(/^https:\/\//i, 'http://');
+                } else {
+                    videoUrl = req.body.video;
+                }
+                var videoUpdate = client.query(
+                    "UPDATE assets SET projectid = $1, type = $2, url = $3 WHERE assets.id = $4",
+                    [req.body.project, "video", videoUrl, req.body.vid]
+                );
+
+                videoUpdate.on('error', function(error) {
+                    console.log("Problem inserting video into DB, cap'n. Error: " + error)
+                });        
+
+                videoUpdate.on('end', function(result){
+                    console.log("Inserted video URL into assets table");
+                });
+            } else {
+                if (req.body.video) {
+                    var videoUrl;
+                    // Remove https if found
+                    if(req.body.video.match(/^https:\/\//i)){
+                        videoUrl = req.body.video.replace(/^https:\/\//i, 'http://');
+                    } else {
+                        videoUrl = req.body.video;
+                    }
+                    var videoInsertion = client.query(
+                        "INSERT into assets(projectid, type, url) values($1, $2, $3)",
+                        [req.body.project, "video", videoUrl]
+                    );
+
+                    videoInsertion.on('error', function(error) {
+                        console.log("Problem inserting video into DB, cap'n. Error: " + error)
+                    });        
+
+                    videoInsertion.on('end', function(result){
+                        console.log("Inserted video URL into assets table");
+                    });
+                };
+            }
+
+            callback(null);            
         }],
 
         function (err, result) {
