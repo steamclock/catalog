@@ -69,7 +69,7 @@ app.get('/edit/token/denied', edit.denied);
 app.get('/degree/:degree', projects.getListForDegree);
 
 // JSON API Routes
-app.get('/json/:degree', projects.getProjectsForDegree);
+app.get('/json', projects.getProjects);
 
 // Servin' it up
 http.createServer(app).listen(app.get('port'), function(){
