@@ -114,6 +114,38 @@ img {
   margin: 0 0 60px 0;
 }
 
+/* Styles for the Admin Panel */
+ul.student-submissions {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+ul.student-submissions > li {
+    padding: 0 0 30px 0;
+    margin: 0 0 30px 0;
+    border-bottom: 1px solid rgba(88,88,90,0.3);
+}
+ul.student-submissions > li:last-child {
+    padding: 0;
+    margin: 0;
+    border-bottom: 0px;
+}
+ul.student-info {
+    margin: 0 0 10px 0;
+    padding: 0;
+    list-style: none;
+}
+ul.student-info > li {
+    line-height: 1.6;
+    margin: 0;
+}
+ul.student-submissions > li:last-child {
+    padding: 0;
+    margin: 0;
+    border-bottom: 0px;
+}
+/* End the Styles for the Admin Panel */
+
 .bottom-image {
   margin: 0 0 20px 0;
 }
@@ -3842,8 +3874,8 @@ a.thumbnail:focus {
   }
 
   .navbar .brand {
-    padding-left: 3px;
-    padding-right: 10px;
+    padding-left: 0px;
+    padding-right: 0px;
     margin: 0 0 0 -5px;
   }
 

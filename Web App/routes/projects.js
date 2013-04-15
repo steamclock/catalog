@@ -35,4 +35,3 @@ exports.getProjectsForDegree = function(req, res){
         }
     });
 };
-

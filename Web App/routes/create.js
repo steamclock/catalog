@@ -22,6 +22,7 @@ exports.get = function(req, res){
 exports.submit = function(req, res){
     // Generate a unique hash for edit link using submitter's email address
     // TODO: use a config var somewhere to salt this properly
+    
     var email = req.body.email, token = crypto.createHash('md5').update(email).digest("hex");
 
     async.waterfall([
@@ -29,7 +30,7 @@ exports.submit = function(req, res){
         function(callback){
 
             // Check if email already exists in DB
-
+            console.log("Here!");
             var query = client.query("SELECT 1 FROM projects where email = $1 limit 1", [req.body.email]);
 
             query.on('row', function (row, result){
