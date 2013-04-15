@@ -21,7 +21,7 @@
     return self;
 }
 
--(void)loadImage:(NSURL*)url onLoad:(void (^)(UIImage*))callback {
+-(void)loadImage:(NSURL*)url onLoad:(void (^)(UIImage*, BOOL))callback {
     if(url == nil) {
         return;
     }
@@ -29,7 +29,7 @@
     UIImage* image = self.cached[url];
     if(image) {
         // have cached image, callback immediatly
-        callback(image);
+        callback(image, YES);
     }
     else {
         // Check if we already have a load for this URL
@@ -52,8 +52,8 @@
                 dispatch_async(dispatch_get_main_queue(), ^{
                     weakSelf.cached[url] = image;
 
-                    [weakSelf.loading[url] enumerateObjectsUsingBlock:^(void (^callback)(UIImage*), NSUInteger idx, BOOL *stop) {
-                        callback(image);
+                    [weakSelf.loading[url] enumerateObjectsUsingBlock:^(void (^callback)(UIImage*, BOOL), NSUInteger idx, BOOL *stop) {
+                        callback(image, NO);
                     }];
                     
                     // Clean up the load handlers
@@ -70,7 +70,7 @@
     }
     
     // Just start a load with an empty callback block to precache
-    [self loadImage:url onLoad:^(UIImage* image) { /* empty */ }];
+    [self loadImage:url onLoad:^(UIImage* image, BOOL cached) { /* empty */ }];
 }
 
 -(UIImage*)cachedImageForURL:(NSURL*)url {

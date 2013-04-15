@@ -131,7 +131,7 @@ typedef enum {
         [spinner startAnimating];
         
         
-        [self.imageLoader loadImage:[NSURL URLWithString:imageURL] onLoad:^(UIImage* image) {
+        [self.imageLoader loadImage:[NSURL URLWithString:imageURL] onLoad:^(UIImage* image, BOOL wasCached) {
             [spinner removeFromSuperview];
             imageView.image = image;
         }];

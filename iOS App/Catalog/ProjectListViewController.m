@@ -34,6 +34,7 @@ static NSUInteger random_below(NSUInteger n) {
 @property (strong, nonatomic) IBOutlet UIButton* MAA;
 @property (strong, nonatomic) IBOutlet UIButton* search;
 @property (strong, nonatomic) IBOutlet UIButton* about;
+@property (strong, nonatomic) IBOutlet UISearchBar* searchBar;
 
 @property (strong, nonatomic) UIWebView* aboutWebView;
 
@@ -82,6 +83,8 @@ static NSUInteger random_below(NSUInteger n) {
     NSData *htmlData = [NSData dataWithContentsOfFile:filePath];
     [self.aboutWebView loadData:htmlData MIMEType:@"text/html" textEncodingName:@"UTF-8" baseURL:nil];
     [self.view addSubview:self.aboutWebView];
+    
+    self.searchBar.delegate = self;
 }
 
 -(void)didReceiveMemoryWarning {
@@ -91,19 +94,29 @@ static NSUInteger random_below(NSUInteger n) {
 
 #pragma mark Loading and Setup
 
--(NSMutableArray*)sanitizeProjects:(NSArray*)projects {
-    // Strip NSNulls out of the project list
+// Strip NSNulls out of the project list, and add an index field with a pre-built search representation
+-(NSMutableArray*)sanitizeAndIndexProjects:(NSArray*)projects {
     NSMutableArray* newArray = [NSMutableArray new];
     
     [projects enumerateObjectsUsingBlock:^(NSDictionary* obj, NSUInteger idx, BOOL *stop) {
         NSMutableDictionary* newProject = [NSMutableDictionary new];
+        
         [obj enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
             if(![obj isKindOfClass:[NSNull class]]) {
                 newProject[key] = obj;
             }
         }];
         
+        // Add a conactenation of title and author, with known case, to the object to ease searching
+        NSString* title = newProject[@"title"];
+        NSString* author = newProject[@"author"];
+        
+        NSString* index = [NSString stringWithFormat:@"%@ %@", title ? [title lowercaseString] : @"", author ? [author lowercaseString] : @""];
+        newProject[@"searchIndex"] = index;
+        
         [newArray addObject:newProject];
+        
+        
     }];
     
     return newArray;
@@ -121,7 +134,7 @@ static NSUInteger random_below(NSUInteger n) {
 }
 
 -(void)loadProjectLists {
-    NSMutableArray* orig = [self sanitizeProjects:[NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"sample" ofType:@"json"]] options:0 error:nil]];
+    NSMutableArray* orig = [self sanitizeAndIndexProjects:[NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"sample" ofType:@"json"]] options:0 error:nil]];
     
     srandom((int)[NSDate timeIntervalSinceReferenceDate]);
     
@@ -163,11 +176,26 @@ static NSUInteger random_below(NSUInteger n) {
     
     NSURL* imageURL = [NSURL URLWithString:self.currentProjects[indexPath.row][@"thumbnail"]];
     
+    UIImageView* background = (UIImageView*)[cell viewWithTag:100];
+    background.image = nil;
+    
     __weak UICollectionView* weakCollectionView = collectionView;
     
-    [self.thumbnailLoader loadImage:imageURL onLoad:^(UIImage* image) {
-        if([[weakCollectionView indexPathsForVisibleItems] containsObject:indexPath]) {
-            UIImageView* background = (UIImageView*)[cell viewWithTag:100];
+    [self.thumbnailLoader loadImage:imageURL onLoad:^(UIImage* image, BOOL wasCached) {
+        // Check urls and index path match, could be a stale load
+        UICollectionViewCell* loadCell = nil;
+        
+        if(wasCached) {
+            loadCell = cell;
+        }
+        else {
+            if([[weakCollectionView indexPathsForVisibleItems] containsObject:indexPath] && [imageURL isEqual:[NSURL URLWithString:self.currentProjects[indexPath.row][@"thumbnail"]]]) {
+                loadCell = [collectionView cellForItemAtIndexPath:indexPath];
+            }
+        }
+        
+        if(loadCell) {
+            UIImageView* background = (UIImageView*)[loadCell viewWithTag:100];
             background.image = image;
         }
     }];
@@ -188,6 +216,44 @@ static NSUInteger random_below(NSUInteger n) {
     }];
 }
 
+#pragma mark Search delegate
+
+-(NSArray*)filteredProjectsForSearch:(NSString*)string {
+    
+    if (string.length == 0) {
+        return self.allProjectsSorted;
+    }
+    
+    string = [string lowercaseString];
+    
+    NSMutableArray* filtered = [NSMutableArray new];
+    
+    [self.allProjectsSorted enumerateObjectsUsingBlock:^(NSDictionary* obj, NSUInteger idx, BOOL *stop) {
+        NSRange found = [((NSString*)(obj[@"searchIndex"])) rangeOfString:string];
+        
+        if( found.location != NSNotFound ) {
+            [filtered addObject:obj];
+        }
+    }];
+    
+    return filtered;
+}
+
+-(void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
+    self.currentProjects = [self filteredProjectsForSearch:searchText];
+    [self.collectionView reloadData];
+}
+
+-(void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
+    [searchBar resignFirstResponder];
+}
+
+-(void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
+    searchBar.text = @"";
+    [self searchBar:searchBar textDidChange:@""];
+    [searchBar resignFirstResponder];
+}
+
 #pragma mark Navigation bar implimentation
 
 -(void)unselectAll {
@@ -199,6 +265,7 @@ static NSUInteger random_below(NSUInteger n) {
     self.search.selected = NO;
     self.about.selected = NO;
     self.aboutWebView.hidden = YES;
+    self.searchBar.hidden = YES;
 }
 
 -(void)showProjectList:(NSArray*)projects forButton:(UIButton*)button {
@@ -236,6 +303,8 @@ static NSUInteger random_below(NSUInteger n) {
 
 -(IBAction)showSearch:(id)sender {
     [self showProjectList:self.allProjectsSorted forButton:self.search];
+    self.searchBar.hidden = NO;
+    [self.searchBar becomeFirstResponder];
 }
 
 -(IBAction)showAbout:(id)sender {
