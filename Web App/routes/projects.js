@@ -53,6 +53,7 @@ exports.getProjects = function(req, res){
 
         function(projects, assets, callback){
             // Pack up object into into a sane format to send via JSON
+            // TODO: This isn't going to scale well with more than a few projects
             for (var i = projects.length - 1; i >= 0; i--) {
                 var project = projects[i];
                 for (var j = assets.length - 1; j >= 0; j--) {
