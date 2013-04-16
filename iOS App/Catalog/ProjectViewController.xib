@@ -50,6 +50,7 @@
 							<int key="NSColorSpace">3</int>
 							<bytes key="NSWhite">MQA</bytes>
 						</object>
+						<int key="IBUIContentMode">1</int>
 						<bool key="IBUIUserInteractionEnabled">NO</bool>
 						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 						<object class="NSCustomResource" key="IBUIImage">
@@ -573,29 +574,12 @@
 				<object class="IBPartialClassDescription">
 					<string key="className">ProjectViewController</string>
 					<string key="superclassName">UIViewController</string>
-					<dictionary class="NSMutableDictionary" key="actions">
-						<string key="detailButtonPressed:">id</string>
-						<string key="dismiss:">id</string>
-						<string key="websiteClicked:">id</string>
-					</dictionary>
-					<dictionary class="NSMutableDictionary" key="actionInfosByName">
-						<object class="IBActionInfo" key="detailButtonPressed:">
-							<string key="name">detailButtonPressed:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="dismiss:">
-							<string key="name">dismiss:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="websiteClicked:">
-							<string key="name">websiteClicked:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-					</dictionary>
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="author">UILabel</string>
 						<string key="backButton">UIButton</string>
-						<string key="curtain">UIImageView</string>
+						<string key="curtain">UIView</string>
+						<string key="curtainBackground">UIImageView</string>
+						<string key="curtainImage">UIImageView</string>
 						<string key="detailContainer">UIView</string>
 						<string key="measurements">UILabel</string>
 						<string key="medium">UILabel</string>
@@ -615,6 +599,14 @@
 						</object>
 						<object class="IBToOneOutletInfo" key="curtain">
 							<string key="name">curtain</string>
+							<string key="candidateClassName">UIView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="curtainBackground">
+							<string key="name">curtainBackground</string>
+							<string key="candidateClassName">UIImageView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="curtainImage">
+							<string key="name">curtainImage</string>
 							<string key="candidateClassName">UIImageView</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="detailContainer">
