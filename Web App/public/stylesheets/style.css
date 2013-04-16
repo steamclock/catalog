@@ -4034,6 +4034,43 @@ a.thumbnail:focus {
     overflow: visible !important;
   }
 }
+
+/**
+ * Grid container
+ */
+#tiles {
+  list-style-type: none;
+  position: relative;
+  /** Needed to ensure items are laid out relative to this container **/
+  margin: 0 0 20px 0;
+  padding: 0;
+}
+/**
+ * Grid items
+ */
+#tiles li {
+  width: 210px;
+  background-color: #ffffff;
+  display: none;
+  /** Hide items initially to avoid a flicker effect **/
+  cursor: pointer;
+  padding: 1%;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+#tiles li p {
+border-bottom: 1px solid gray;
+padding: 0 0 10px 0;
+margin: 10px 0;
+}
+
+#tiles li img {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin: 0 0 10px 0;
+}
 @media (min-width: 530px) {
   .navbar .nav.pull-right {
     float: right !important;
