@@ -55,8 +55,8 @@ exports.getProjects = function(req, res){
             // Pack up object into into a sane format to send via JSON
             for (var i = projects.length - 1; i >= 0; i--) {
                 var project = projects[i];
-                for (var i = assets.length - 1; i >= 0; i--) {
-                    var asset = assets[i];
+                for (var j = assets.length - 1; j >= 0; j--) {
+                    var asset = assets[j];
 
                     if (project.id === asset.projectid) {
                         project.assets.push(asset);
