@@ -106,13 +106,18 @@ typedef enum {
     }
     
     NSDictionary* project = self.projects[index];
-    NSArray* images = project[@"images"];
-    return [NSURL URLWithString:images[0]];
+    NSArray* assets = project[@"assets"];
+    for(NSDictionary* asset in assets) {
+        if([asset[@"type"] isEqualToString:@"image"]) {
+            return [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", SERVER_ADDRESS, asset[@"url"]]];
+        }
+    }
+    
+    return nil;
 }
 
 -(void)setupCurrentProject {
-    BOOL hasVideo = self.project[@"video"] && [self.project[@"video"] length];
-    self.numPages = [self.project[@"images"] count] + (hasVideo ? 1 : 0);
+    self.numPages = [self.project[@"assets"] count];
     self.currentPage = 0;
     
     // Don't show page control if no pages
@@ -122,30 +127,41 @@ typedef enum {
     
     int page = 0;
     
-    for(NSString* imageURL in self.project[@"images"]) {
-        UIImageView* imageView = [[UIImageView alloc] initWithFrame:CGRectMake(1024 * page, 0, 1024, 748)];
-        imageView.contentMode = UIViewContentModeScaleAspectFit;
-        UIActivityIndicatorView* spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-        [imageView addSubview:spinner];
-        spinner.center = CGPointMake(1024 / 2, 748 / 2);
-        [spinner startAnimating];
-        
-        
-        [self.imageLoader loadImage:[NSURL URLWithString:imageURL] onLoad:^(UIImage* image, BOOL wasCached) {
-            [spinner removeFromSuperview];
-            imageView.image = image;
-        }];
-        
-        [self.scrollView addSubview:imageView];
-        
-        page++;
+    NSDictionary* video;
+    
+    for(NSDictionary* asset in self.project[@"assets"]) {
+        if([asset[@"type"] isEqualToString:@"image"]) {
+            NSString* imageURL = [NSString stringWithFormat:@"%@%@", SERVER_ADDRESS, asset[@"url"]];
+            
+            UIImageView* imageView = [[UIImageView alloc] initWithFrame:CGRectMake(1024 * page, 0, 1024, 748)];
+            imageView.contentMode = UIViewContentModeScaleAspectFit;
+            UIActivityIndicatorView* spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+            [imageView addSubview:spinner];
+            spinner.center = CGPointMake(1024 / 2, 748 / 2);
+            [spinner startAnimating];
+            
+            
+            [self.imageLoader loadImage:[NSURL URLWithString:imageURL] onLoad:^(UIImage* image, BOOL wasCached) {
+                [spinner removeFromSuperview];
+                imageView.image = image;
+            }];
+            
+            [self.scrollView addSubview:imageView];
+            
+            page++;
+        }
+        else {
+            video = asset;
+        }
     }
     
-    if (hasVideo) {
+    if (video) {
         static int inset = 60;
         UIWebView* webView = [[UIWebView alloc] initWithFrame:CGRectMake((1024 * page) + inset, inset, 1024 - (inset * 2), 768 - (inset * 2))];
         webView.scrollView.scrollEnabled = NO;
-        [webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:self.project[@"video"]]]];
+        
+        NSString* videoId = [[((NSString*)video[@"url"]) componentsSeparatedByString:@"/"] lastObject];
+        [webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://player.vimeo.com/video/%@", videoId]]]];
         webView.delegate = self;
         [self.scrollView addSubview:webView];
     }

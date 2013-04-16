@@ -134,7 +134,8 @@ static NSUInteger random_below(NSUInteger n) {
 }
 
 -(void)loadProjectLists {
-    NSMutableArray* orig = [self sanitizeAndIndexProjects:[NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"sample" ofType:@"json"]] options:0 error:nil]];
+    NSData* data = [NSData dataWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/json", SERVER_ADDRESS]]];
+    NSMutableArray* orig = [self sanitizeAndIndexProjects:[NSJSONSerialization JSONObjectWithData:data options:0 error:nil]];
     
     srandom((int)[NSDate timeIntervalSinceReferenceDate]);
     
@@ -163,6 +164,19 @@ static NSUInteger random_below(NSUInteger n) {
 
 #pragma mark UICollectionViewDelegate
 
+-(NSURL*)thumbnailForProject:(NSDictionary*)project {
+//    return nil;
+//    return [NSString stringWithFormat:@"%@%@", SERVER_ADDRESS, project[@"thumbnail"]];
+    for(NSDictionary* asset in project[@"assets"]) {
+        if([asset[@"type"] isEqualToString:@"image"]) {
+            NSString* imageURL = [NSString stringWithFormat:@"%@%@", SERVER_ADDRESS, asset[@"url"]];
+            return [NSURL URLWithString:imageURL];
+        }
+    }
+    
+    return nil;
+}
+
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
     return 1;
 }
@@ -174,7 +188,7 @@ static NSUInteger random_below(NSUInteger n) {
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     UICollectionViewCell* cell = [collectionView dequeueReusableCellWithReuseIdentifier:REUSE_IDENTIFIER forIndexPath:indexPath];
     
-    NSURL* imageURL = [NSURL URLWithString:self.currentProjects[indexPath.row][@"thumbnail"]];
+    NSURL* imageURL = [self thumbnailForProject:self.currentProjects[indexPath.row]];
     
     UIImageView* background = (UIImageView*)[cell viewWithTag:100];
     background.image = nil;
@@ -189,7 +203,7 @@ static NSUInteger random_below(NSUInteger n) {
             loadCell = cell;
         }
         else {
-            if([[weakCollectionView indexPathsForVisibleItems] containsObject:indexPath] && [imageURL isEqual:[NSURL URLWithString:self.currentProjects[indexPath.row][@"thumbnail"]]]) {
+            if([[weakCollectionView indexPathsForVisibleItems] containsObject:indexPath] && [imageURL isEqual:[self thumbnailForProject:self.currentProjects[indexPath.row]]]) {
                 loadCell = [collectionView cellForItemAtIndexPath:indexPath];
             }
         }

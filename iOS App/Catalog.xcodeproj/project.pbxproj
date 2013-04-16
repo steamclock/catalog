@@ -63,7 +63,6 @@
 		A6702584170E212C00840867 /* ProjectCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A6702583170E212C00840867 /* ProjectCell.xib */; };
 		A6702588170E331600840867 /* ProjectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A6702586170E331600840867 /* ProjectViewController.m */; };
 		A6702589170E331600840867 /* ProjectViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A6702587170E331600840867 /* ProjectViewController.xib */; };
-		A6702591170F45E400840867 /* sample.json in Resources */ = {isa = PBXBuildFile; fileRef = A6702590170F45E400840867 /* sample.json */; };
 		A6EB5AA017161B9E0009F406 /* about.html in Resources */ = {isa = PBXBuildFile; fileRef = A6EB5A9F17161B9E0009F406 /* about.html */; };
 		A6EB5AA81716243D0009F406 /* test.png in Resources */ = {isa = PBXBuildFile; fileRef = A6EB5AA61716243D0009F406 /* test.png */; };
 		A6EB5AA91716243D0009F406 /* test@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A6EB5AA71716243D0009F406 /* test@2x.png */; };
@@ -138,7 +137,6 @@
 		A6702585170E331600840867 /* ProjectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProjectViewController.h; sourceTree = "<group>"; };
 		A6702586170E331600840867 /* ProjectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProjectViewController.m; sourceTree = "<group>"; };
 		A6702587170E331600840867 /* ProjectViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProjectViewController.xib; sourceTree = "<group>"; };
-		A6702590170F45E400840867 /* sample.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = sample.json; sourceTree = "<group>"; };
 		A6EB5A9F17161B9E0009F406 /* about.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = about.html; sourceTree = "<group>"; };
 		A6EB5AA61716243D0009F406 /* test.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test.png; sourceTree = "<group>"; };
 		A6EB5AA71716243D0009F406 /* test@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "test@2x.png"; sourceTree = "<group>"; };
@@ -168,7 +166,6 @@
 		A6702554170E0C0A00840867 = {
 			isa = PBXGroup;
 			children = (
-				A6702590170F45E400840867 /* sample.json */,
 				A6EB5A9F17161B9E0009F406 /* about.html */,
 				A6EB5AA51716243D0009F406 /* Images */,
 				A6702566170E0C0A00840867 /* Catalog */,
@@ -342,7 +339,6 @@
 				A670257D170E0C0A00840867 /* ProjectListViewController.xib in Resources */,
 				A6702584170E212C00840867 /* ProjectCell.xib in Resources */,
 				A6702589170E331600840867 /* ProjectViewController.xib in Resources */,
-				A6702591170F45E400840867 /* sample.json in Resources */,
 				A6EB5AA017161B9E0009F406 /* about.html in Resources */,
 				A6EB5AA81716243D0009F406 /* test.png in Resources */,
 				A6EB5AA91716243D0009F406 /* test@2x.png in Resources */,
