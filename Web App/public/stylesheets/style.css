@@ -108,6 +108,26 @@ body {
 
 img {
   max-width: 100%;
+  width: auto;
+  height: auto!important;
+}
+
+img.portos {
+  display: block;
+  max-width: 94%;
+  width: auto;
+  padding: 3%;
+  background-color: #fff;
+  max-height: 610px;
+  margin: 0 auto 20px auto;
+}
+
+img.thumbs {
+  display: block;
+  max-width: 100%;
+  width: auto;
+  padding: 0;
+  margin: 0 auto;
 }
 
 .you-are-here-home {
