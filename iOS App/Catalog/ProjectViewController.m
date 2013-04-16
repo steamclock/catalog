@@ -46,6 +46,9 @@ typedef enum {
 
 @property (strong, nonatomic) CachedImageLoader* imageLoader;
 
+@property (strong, nonatomic) UIPanGestureRecognizer* panRecognizer;
+@property (nonatomic) float panStartPosition;
+
 @end
 
 @implementation ProjectViewController
@@ -82,6 +85,19 @@ typedef enum {
     self.showingDetails = YES;
 
     [self setupCurrentProject];
+
+    CGRect curtainFrame = self.scrollView.frame;
+    curtainFrame.origin.x = 1024;
+    self.curtain = [[UIImageView alloc] initWithFrame:curtainFrame];
+    self.curtain.backgroundColor = [UIColor whiteColor];
+    self.curtain.contentMode = UIViewContentModeScaleAspectFit;
+    [self.view addSubview:self.curtain];
+
+    self.panRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handleHorizontalDrag:)];
+    self.panRecognizer.cancelsTouchesInView = NO;
+    self.panRecognizer.delegate = self;
+    
+    [self.scrollView addGestureRecognizer:self.panRecognizer];
 }
 
 -(void)viewDidLayoutSubviews {
@@ -202,15 +218,6 @@ typedef enum {
     if((self.transitionState != TransitionStateDoingNext) && (self.transitionState != TransitionStateDoingPrev) && (self.transitionState != TransitionStateResetting)) {
         self.transitionState = TransitionStateNone;
         
-        if(!self.curtain) {
-            CGRect curtainFrame = self.scrollView.frame;
-            curtainFrame.origin.x = 1024;
-            self.curtain = [[UIImageView alloc] initWithFrame:curtainFrame];
-            self.curtain.backgroundColor = [UIColor whiteColor];
-            self.curtain.contentMode = UIViewContentModeScaleAspectFit;
-            [self.view addSubview:self.curtain];
-        }
-        
         static const int TRANSITION_PULL_START = 150.0f;
         static const int TRANSITION_PULL_DIST = 150.0f;
         
@@ -246,7 +253,7 @@ typedef enum {
 
 }
 
-- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
+- (void)doTransition {
     if((self.transitionState == TransitionStatePrepNext) || (self.transitionState == TransitionStatePrepPrev)) {
         CGRect frame = self.curtain.frame;
 
@@ -297,6 +304,56 @@ typedef enum {
             
             self.transitionState = TransitionStateNone;
         }];
+    }
+}
+
+-(BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
+    return YES;
+}
+
+- (void)handleHorizontalDrag:(UIGestureRecognizer*)gesture {
+    float position = [gesture locationInView:self.scrollView].x;
+
+    if(gesture.state == UIGestureRecognizerStateEnded) {
+        [self doTransition];
+    }
+    else {
+        if(gesture.state == UIGestureRecognizerStateBegan) {
+            self.panStartPosition = position;
+            
+        }
+        
+        if((self.transitionState != TransitionStateDoingNext) && (self.transitionState != TransitionStateDoingPrev) && (self.transitionState != TransitionStateResetting)) {
+            self.transitionState = TransitionStateNone;
+            
+            if(((self.scrollView.contentOffset.x + self.scrollView.frame.size.width) >= self.scrollView.contentSize.width) && (self.currentIndex < (self.projects.count - 1))) {
+                float offset = MAX(self.panStartPosition - position, 0.0f);
+                CGRect frame = self.curtain.frame;
+                frame.origin.x = 1024.0f - offset;
+                
+                if(self.curtain.image == nil) {
+                    self.curtain.image = [self.imageLoader cachedImageForURL:[self keyImageForIndex:self.currentIndex + 1]];
+                }
+                self.curtain.frame = frame;
+                self.transitionState = TransitionStatePrepNext;
+                
+            }
+            else if((self.scrollView.contentOffset.x <= 0) && (self.currentIndex > 0)) {
+                float offset = MAX(position - self.panStartPosition, 0.0f);
+                CGRect frame = self.curtain.frame;
+                frame.origin.x = 1024.0f - offset;
+                frame.origin.x = -1024.0f + offset;
+                
+                if(self.curtain.image == nil) {
+                    self.curtain.image = [self.imageLoader cachedImageForURL:[self keyImageForIndex:self.currentIndex - 1]];
+                }
+                self.curtain.frame = frame;
+                self.transitionState = TransitionStatePrepPrev;
+            }
+            else {
+                self.curtain.image = nil;
+            }
+        }
     }
 }
 
