@@ -106,7 +106,7 @@ typedef enum {
     self.curtainBackground.contentMode = UIViewContentModeScaleAspectFit;
     self.curtainBackground.opaque = NO;
     
-    self.curtainImage = [[UIImageView alloc] initWithFrame:self.scrollView.frame];
+    self.curtainImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 1024, 768)];
     self.curtainImage.backgroundColor = [UIColor clearColor];
     self.curtainImage.contentMode = UIViewContentModeScaleAspectFit;
     self.curtainImage.opaque = NO;
@@ -171,7 +171,7 @@ typedef enum {
     // Don't show page control if no pages
     self.pageControl.hidden = (self.numPages == 1);
     
-    self.scrollView.contentSize = CGSizeMake(1024 * self.numPages, 768);
+    self.scrollView.contentSize = CGSizeMake(1024 * self.numPages, 748);
     
     int page = 0;
     
@@ -181,7 +181,7 @@ typedef enum {
         if([asset[@"type"] isEqualToString:@"image"]) {
             NSString* imageURL = [NSString stringWithFormat:@"%@%@", SERVER_ADDRESS, asset[@"url"]];
             
-            UIImageView* imageView = [[UIImageView alloc] initWithFrame:CGRectMake(1024 * page, -20, 1024, 768)];
+            UIImageView* imageView = [[UIImageView alloc] initWithFrame:CGRectMake(1024 * page, 0, 1024, 768)];
             imageView.contentMode = UIViewContentModeScaleAspectFit;
             UIActivityIndicatorView* spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
             [imageView addSubview:spinner];
