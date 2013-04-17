@@ -123,6 +123,7 @@ typedef enum {
     // Pan recognizer to catch the getures at the edge of the scroll view to the the curtain pull
     self.panRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handleHorizontalDrag:)];
     self.panRecognizer.cancelsTouchesInView = NO;
+    self.panRecognizer.delaysTouchesBegan = YES;
     self.panRecognizer.delegate = self;
     
     [self.scrollView addGestureRecognizer:self.panRecognizer];
@@ -245,6 +246,14 @@ typedef enum {
         
         [self showDetails:NO];
     }
+
+    if((self.scrollView.contentOffset.x < 0) && (self.currentIndex > 0)) {
+        [self.scrollView setContentOffset:CGPointMake(0.0f, 0.0f) animated:NO];
+    }
+
+    if((self.scrollView.contentOffset.x > (self.scrollView.contentSize.width - self.scrollView.frame.size.width)) && (self.currentIndex < (self.projects.count - 1))) {
+        [self.scrollView setContentOffset:CGPointMake(self.scrollView.contentSize.width - self.scrollView.frame.size.width,0.0f) animated:NO];
+    }
 }
 
 - (void)doTransition {
@@ -274,7 +283,7 @@ typedef enum {
         }
     
         // Run the animation to slide on the curtain the rest of the way
-        [UIView animateWithDuration:0.3 delay:0.0 options:UIViewAnimationCurveEaseOut animations:^{
+        [UIView animateWithDuration:0.3 delay:0.0 options:UIViewAnimationOptionCurveEaseOut animations:^{
             self.curtain.frame = frame;
         } completion:^(BOOL finished) {
             if(self.transitionState != TransitionStateResetting) {
@@ -327,7 +336,7 @@ typedef enum {
     if(gesture.state == UIGestureRecognizerStateEnded) {
         [self doTransition];
     }
-    else {
+    else if ((gesture.state == UIGestureRecognizerStateBegan) || (gesture.state == UIGestureRecognizerStateChanged)){
         if(gesture.state == UIGestureRecognizerStateBegan) {
             self.panStartPosition = position;
         }
@@ -349,9 +358,6 @@ typedef enum {
                 self.curtain.frame = frame;
                 self.transitionState = TransitionStatePrepNext;
                 
-                self.scrollView.bounces = NO;
-                [self.scrollView setContentOffset:CGPointMake(self.scrollView.contentSize.width - self.scrollView.frame.size.width, 0) animated:NO];
-
                 pulling = YES;
             }
             
@@ -365,9 +371,6 @@ typedef enum {
                 self.curtain.frame = frame;
                 self.transitionState = TransitionStatePrepPrev;
                 
-                self.scrollView.bounces = NO;
-                [self.scrollView setContentOffset:CGPointMake(0.0f, 0.0f) animated:NO];
-
                 pulling = YES;
             }
             
