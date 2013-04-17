@@ -341,9 +341,9 @@ typedef enum {
 }
 
 - (void)handleHorizontalDrag:(UIGestureRecognizer*)gesture {
-    float position = [gesture locationInView:self.scrollView].x;
+    float position = [gesture locationInView:self.scrollView.superview].x;
 
-    if(gesture.state == UIGestureRecognizerStateEnded) {
+    if((gesture.state == UIGestureRecognizerStateEnded) || (gesture.state == UIGestureRecognizerStateCancelled)) {
         [self doTransition];
     }
     else if ((gesture.state == UIGestureRecognizerStateBegan) || (gesture.state == UIGestureRecognizerStateChanged)){
@@ -352,13 +352,11 @@ typedef enum {
         }
         
         if((self.transitionState != TransitionStateDoingNext) && (self.transitionState != TransitionStateDoingPrev) && (self.transitionState != TransitionStateResetting)) {
-            self.transitionState = TransitionStateNone;
-            
             BOOL pulling = NO;
             
             float offset = self.panStartPosition - position;
             
-            if((offset > 0) && ((self.scrollView.contentOffset.x + self.scrollView.frame.size.width) >= self.scrollView.contentSize.width) && (self.currentIndex < (self.projects.count - 1))) {
+            if((offset > 0) && ((self.transitionState == TransitionStatePrepNext) || (((self.scrollView.contentOffset.x + self.scrollView.frame.size.width) >= self.scrollView.contentSize.width) && (self.currentIndex < (self.projects.count - 1))))) {
                 CGRect frame = self.curtain.frame;
                 frame.origin.x = 1024.0f - offset;
                 
@@ -371,7 +369,7 @@ typedef enum {
                 pulling = YES;
             }
             
-            if((offset < 0) && (self.scrollView.contentOffset.x <= 0) && (self.currentIndex > 0)) {
+            if((offset < 0) && ((self.transitionState == TransitionStatePrepPrev) || ((self.scrollView.contentOffset.x <= 0) && (self.currentIndex > 0)) )) {
                 CGRect frame = self.curtain.frame;
                 frame.origin.x = -1024.0f - offset;
                 
@@ -385,6 +383,9 @@ typedef enum {
             }
             
             if (!pulling) {
+                if(offset == 0) {
+                    self.transitionState = TransitionStateNone;
+                }
                 self.curtainImage.image = nil;
             }
         }
