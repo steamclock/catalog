@@ -126,6 +126,9 @@ typedef enum {
     self.panRecognizer.delegate = self;
     
     [self.scrollView addGestureRecognizer:self.panRecognizer];
+    
+    self.scrollView.bounces = YES;
+    self.scrollView.alwaysBounceHorizontal = YES;
 }
 
 -(void)viewDidLayoutSubviews {
@@ -289,7 +292,7 @@ typedef enum {
                     [view removeFromSuperview];
                 }
                 
-                self.scrollView.contentOffset = CGPointMake(0.0f, 0.0f);
+                [self.scrollView setContentOffset:CGPointMake(0.0f, 0.0f) animated:NO];
 
                 [self setupCurrentProject];
                 
@@ -327,7 +330,6 @@ typedef enum {
     else {
         if(gesture.state == UIGestureRecognizerStateBegan) {
             self.panStartPosition = position;
-            
         }
         
         if((self.transitionState != TransitionStateDoingNext) && (self.transitionState != TransitionStateDoingPrev) && (self.transitionState != TransitionStateResetting)) {
@@ -346,6 +348,10 @@ typedef enum {
                 }
                 self.curtain.frame = frame;
                 self.transitionState = TransitionStatePrepNext;
+                
+                self.scrollView.bounces = NO;
+                [self.scrollView setContentOffset:CGPointMake(self.scrollView.contentSize.width - self.scrollView.frame.size.width, 0) animated:NO];
+
                 pulling = YES;
             }
             
@@ -358,6 +364,10 @@ typedef enum {
                 }
                 self.curtain.frame = frame;
                 self.transitionState = TransitionStatePrepPrev;
+                
+                self.scrollView.bounces = NO;
+                [self.scrollView setContentOffset:CGPointMake(0.0f, 0.0f) animated:NO];
+
                 pulling = YES;
             }
             
