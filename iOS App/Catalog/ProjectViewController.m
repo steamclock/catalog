@@ -81,19 +81,7 @@ typedef enum {
     [super viewDidLoad];
     
     self.scrollView.delegate = self;
-    
-    // Figure out the two possible frames for the detail view and the back button (for animated show/hide of the details)
-    self.showDetailsFrame = self.detailContainer.frame;
-    self.showDetailsBackFrame = self.backButton.frame;
-    
-    CGRect hide = self.showDetailsFrame;
-    hide.origin.y = -self.showDetailsFrame.size.height;
-    self.hideDetailsFrame = hide;
-    
-    hide = self.showDetailsBackFrame;
-    hide.origin.y = hide.origin.y - self.showDetailsFrame.size.height;
-    self.hideDetailsBackFrame = hide;
-    
+        
     self.showingDetails = YES;
 
     // Load in the images for the initially selected project
@@ -134,12 +122,25 @@ typedef enum {
 
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationFade];
+    
+    // Figure out the two possible frames for the detail view and the back button (for animated show/hide of the details)
+    self.showDetailsFrame = self.detailContainer.frame;
+    self.showDetailsBackFrame = self.backButton.frame;
+    
+    CGRect hide = self.showDetailsFrame;
+    hide.origin.y = -self.showDetailsFrame.size.height;
+    self.hideDetailsFrame = hide;
+    
+    hide = self.showDetailsBackFrame;
+    hide.origin.y = hide.origin.y - self.showDetailsFrame.size.height + 20;
+    self.hideDetailsBackFrame = hide;
+
+//    [[UIApplication sharedApplication]  setStatusBarHidden:YES withAnimation:UIStatusBarAnimationFade];
 }
 
 -(void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
-    [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
+//    [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
 }
 
 -(void)viewDidLayoutSubviews {
