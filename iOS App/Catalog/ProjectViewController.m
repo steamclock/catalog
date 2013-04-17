@@ -101,7 +101,7 @@ typedef enum {
 
     // Build up view for curtain (the thing that gets pulled over when tranitioning to the next project, with the key image
     // for the project to transition to on it)
-    self.curtainBackground = [[UIImageView alloc] initWithFrame:self.scrollView.frame];
+    self.curtainBackground = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 1024, 768)];
     self.curtainBackground.image = [UIImage imageNamed:@"Background.png"];
     self.curtainBackground.contentMode = UIViewContentModeScaleAspectFit;
     self.curtainBackground.opaque = NO;
@@ -130,6 +130,16 @@ typedef enum {
     
     self.scrollView.bounces = YES;
     self.scrollView.alwaysBounceHorizontal = YES;
+}
+
+-(void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationFade];
+}
+
+-(void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
 }
 
 -(void)viewDidLayoutSubviews {
@@ -405,7 +415,7 @@ typedef enum {
     float destAlpha = show ? 1.0f : 0.0f;
     
     self.showingDetails = show;
-    
+        
     // Run show/hide animation
     [UIView animateWithDuration:0.5 animations:^{
         self.backButton.frame = destBack;
