@@ -156,10 +156,10 @@ static NSUInteger random_below(NSUInteger n) {
     
     self.allProjectsSorted = sorted;
     
-    self.designProjects = [self filteredProjectsForDegree:@"design"];
-    self.visualArtsProjects = [self filteredProjectsForDegree:@"visual-arts"];
-    self.mediaArtsProjects = [self filteredProjectsForDegree:@"media-arts"];
-    self.maaProjects = [self filteredProjectsForDegree:@"masters-of-applied-arts"];
+    self.designProjects = [self filteredProjectsForDegree:@"Design"];
+    self.visualArtsProjects = [self filteredProjectsForDegree:@"Visual Arts"];
+    self.mediaArtsProjects = [self filteredProjectsForDegree:@"Media Arts"];
+    self.maaProjects = [self filteredProjectsForDegree:@"MAA"];
 }
 
 #pragma mark UICollectionViewDelegate
