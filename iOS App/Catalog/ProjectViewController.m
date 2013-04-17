@@ -5,6 +5,7 @@
 
 #import "ProjectViewController.h"
 #import "CachedImageLoader.h"
+#import <QuartzCore/QuartzCore.h>
 
 typedef enum {
     TransitionStateNone,
@@ -56,6 +57,14 @@ typedef enum {
 
 @implementation ProjectViewController
 
++ (UIImage*)imageWithView:(UIView *)view {
+	UIGraphicsBeginImageContext(view.frame.size);
+	[view.layer renderInContext:UIGraphicsGetCurrentContext()];
+	UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+	UIGraphicsEndImageContext();
+	return image;
+}
+
 -(id)initWithProjects:(NSArray*)projects startIndex:(int)index {
     self = [super init];
     if (self) {
@@ -95,14 +104,17 @@ typedef enum {
     self.curtainBackground = [[UIImageView alloc] initWithFrame:self.scrollView.frame];
     self.curtainBackground.image = [UIImage imageNamed:@"Background.png"];
     self.curtainBackground.contentMode = UIViewContentModeScaleAspectFit;
+    self.curtainBackground.opaque = NO;
     
     self.curtainImage = [[UIImageView alloc] initWithFrame:self.scrollView.frame];
     self.curtainImage.backgroundColor = [UIColor clearColor];
     self.curtainImage.contentMode = UIViewContentModeScaleAspectFit;
+    self.curtainImage.opaque = NO;
     
     CGRect curtainFrame = self.scrollView.frame;
     curtainFrame.origin.x = 1024;
     self.curtain = [[UIView alloc] initWithFrame:curtainFrame];
+    self.curtain.opaque = NO;
     [self.curtain addSubview:self.curtainBackground];
     [self.curtain addSubview:self.curtainImage];
 
@@ -236,6 +248,7 @@ typedef enum {
     if((self.transitionState == TransitionStatePrepNext) || (self.transitionState == TransitionStatePrepPrev)) {
         CGRect frame = self.curtain.frame;
 
+        // Figure out whihc transition to do, or if we need to reset if we haven't pulled far enough
         if(self.transitionState == TransitionStatePrepNext) {
             if(frame.origin.x < 512) {
                 self.transitionState = TransitionStateDoingNext;
@@ -257,10 +270,12 @@ typedef enum {
             }
         }
     
-        [UIView animateWithDuration:0.3 animations:^{
+        // Run the animation to slide on the curtain the rest of the way
+        [UIView animateWithDuration:0.3 delay:0.0 options:UIViewAnimationCurveEaseOut animations:^{
             self.curtain.frame = frame;
         } completion:^(BOOL finished) {
             if(self.transitionState != TransitionStateResetting) {
+                // Load the next project into the scroll view
                 if (self.transitionState == TransitionStateDoingNext) {
                     self.currentIndex++;
                 }
@@ -277,18 +292,21 @@ typedef enum {
                 self.scrollView.contentOffset = CGPointMake(0.0f, 0.0f);
 
                 [self setupCurrentProject];
-                /*
+                
+                // Run the fade, need to render down the view, or we will fade both background image and
+                // key image, adn it'll look funny
+                UIImageView* fade = [[UIImageView alloc] initWithImage:[ProjectViewController imageWithView:self.curtain]];
+
+                self.curtain.frame = CGRectMake(1024, 0, 1024, 748);
+                self.curtainImage.image = nil;
+                
+                [self.view addSubview:fade];
+
                 [UIView animateWithDuration:0.3 animations:^{
-                    self.curtain.alpha = 0.0f;
-                    self.curtainBackground.alpha = 0.0f;
-                    self.curtainImage.alpha = 0.0f;
-                } completion:^(BOOL finished) {*/
-                    self.curtain.alpha = 1.0f;
-                    self.curtainBackground.alpha = 1.0f;
-                    self.curtainImage.alpha = 1.0f;
-                    self.curtain.frame = CGRectMake(1024, 0, 1024, 748);
-                    self.curtainImage.image = nil;
-                //}];
+                    fade.alpha = 0.0f;
+                } completion:^(BOOL finished) {
+                    [fade removeFromSuperview];
+                }];
             }
             
             self.transitionState = TransitionStateNone;
