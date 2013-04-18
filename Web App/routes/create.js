@@ -100,9 +100,13 @@ exports.submit = function(req, res){
             req.files.images.forEach(function(file) {
                 if (file.name) {
                     // get the temporary location of the file
-                    var tmp_path = file.path;
-                    // set where the file should actually exists - in this case it is in the "images" directory
-                    var target_path = './public/images/projects/' + file.name;
+                    // generate unique id to append in case of duplicate file names, take a substring of the MD5 so it's not super long
+                    // then set target path for file upload
+                    var tmp_path = file.path
+                    , salty = crypto.randomBytes(256)
+                    , uniqueness = crypto.createHash('md5').update(salty).digest("hex")
+                    , target_path = './public/images/projects/' + file.name + uniqueness.substring(0, 5);
+                    
                     // move the file from the temporary location to the intended location
                     fs.readFile(file.path, function (err, data) {
                           fs.writeFile(target_path, data, function (err) {
