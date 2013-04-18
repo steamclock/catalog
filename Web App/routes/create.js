@@ -23,8 +23,8 @@ exports.submit = function(req, res){
     // Generate a unique hash for edit link using submitter's email address
     // TODO: use a config var somewhere to salt this properly
     
-    var email = req.body.email, token = crypto.createHash('md5').update(email).digest("hex");
-
+    var email = req.body.email, salty = crypto.randomBytes(256); token = crypto.createHash('md5').update(salty).digest("hex");
+    console.log("SALTY HASH: " + token);
     async.waterfall([
 
         function(callback){
