@@ -135,6 +135,12 @@ static NSUInteger random_below(NSUInteger n) {
 
 -(void)loadProjectLists {
     NSData* data = [NSData dataWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/json", SERVER_ADDRESS]]];
+    
+    if(!data) {
+        // TODO: show an error, allow refresh
+        return;
+    }
+    
     NSMutableArray* orig = [self sanitizeAndIndexProjects:[NSJSONSerialization JSONObjectWithData:data options:0 error:nil]];
     
     srandom((int)[NSDate timeIntervalSinceReferenceDate]);
@@ -236,14 +242,14 @@ static NSUInteger random_below(NSUInteger n) {
 -(NSArray*)filteredProjectsForSearch:(NSString*)string {
     
     if (string.length == 0) {
-        return self.allProjectsSorted;
+        return self.allProjectsRandomized;
     }
     
     string = [string lowercaseString];
     
     NSMutableArray* filtered = [NSMutableArray new];
     
-    [self.allProjectsSorted enumerateObjectsUsingBlock:^(NSDictionary* obj, NSUInteger idx, BOOL *stop) {
+    [self.allProjectsRandomized enumerateObjectsUsingBlock:^(NSDictionary* obj, NSUInteger idx, BOOL *stop) {
         NSRange found = [((NSString*)(obj[@"searchIndex"])) rangeOfString:string];
         
         if( found.location != NSNotFound ) {
@@ -264,9 +270,8 @@ static NSUInteger random_below(NSUInteger n) {
 }
 
 -(void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
-    searchBar.text = @"";
-    [self searchBar:searchBar textDidChange:@""];
     [searchBar resignFirstResponder];
+    [self showHome:nil];
 }
 
 #pragma mark Navigation bar implimentation
@@ -280,7 +285,15 @@ static NSUInteger random_below(NSUInteger n) {
     self.search.selected = NO;
     self.about.selected = NO;
     self.aboutWebView.hidden = YES;
-    self.searchBar.hidden = YES;
+
+    if(!self.searchBar.hidden) {
+        [UIView animateWithDuration:0.3 animations:^{
+            self.searchBar.alpha = 0.0;
+        } completion:^(BOOL finished) {
+            self.searchBar.hidden = YES;
+            self.searchBar.text = @"";
+        }];
+    }
 }
 
 -(void)showProjectList:(NSArray*)projects forButton:(UIButton*)button {
@@ -317,8 +330,16 @@ static NSUInteger random_below(NSUInteger n) {
 }
 
 -(IBAction)showSearch:(id)sender {
-    [self showProjectList:self.allProjectsSorted forButton:self.search];
-    self.searchBar.hidden = NO;
+    [self showProjectList:self.allProjectsRandomized forButton:self.search];
+    
+    if(self.searchBar.hidden) {
+        self.searchBar.hidden = NO;
+        self.searchBar.alpha = 0.0;
+        [UIView animateWithDuration:0.3 animations:^{
+            self.searchBar.alpha = 1.0;
+        }];
+    }
+    
     [self.searchBar becomeFirstResponder];
 }
 
