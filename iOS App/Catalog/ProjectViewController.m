@@ -36,6 +36,7 @@ typedef enum {
 @property (nonatomic) int numPages;
 @property (nonatomic) int currentPage;
 
+@property (nonatomic) BOOL haveShowHidePositions;
 @property (nonatomic) BOOL showingDetails;
 @property (nonatomic) CGRect showDetailsFrame;
 @property (nonatomic) CGRect hideDetailsFrame;
@@ -123,35 +124,21 @@ typedef enum {
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
-    // Figure out the two possible frames for the detail view and the back button (for animated show/hide of the details)
-    self.showDetailsFrame = self.detailContainer.frame;
-    self.showDetailsBackFrame = self.backButton.frame;
-    
-    CGRect hide = self.showDetailsFrame;
-    hide.origin.y = -self.showDetailsFrame.size.height;
-    self.hideDetailsFrame = hide;
-    
-    hide = self.showDetailsBackFrame;
-    hide.origin.y = hide.origin.y - self.showDetailsFrame.size.height + 20;
-    self.hideDetailsBackFrame = hide;
-
-//    [[UIApplication sharedApplication]  setStatusBarHidden:YES withAnimation:UIStatusBarAnimationFade];
-}
-
--(void)viewWillDisappear:(BOOL)animated {
-    [super viewWillDisappear:animated];
-//    [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
-}
-
--(void)viewDidLayoutSubviews {
-    [super viewDidLayoutSubviews];
-    
-    // reset to the hidden position after laying out view
-    /*
-    self.detailContainer.alpha = 0.0f;
-    self.detailContainer.frame = self.hideDetailsFrame;
-    self.backButton.frame = self.hideDetailsBackFrame;
-     */
+    if(!self.haveShowHidePositions) {
+        self.haveShowHidePositions = YES;
+        
+        // Figure out the two possible frames for the detail view and the back button (for animated show/hide of the details)
+        self.showDetailsFrame = self.detailContainer.frame;
+        self.showDetailsBackFrame = self.backButton.frame;
+        
+        CGRect hide = self.showDetailsFrame;
+        hide.origin.y = -self.showDetailsFrame.size.height;
+        self.hideDetailsFrame = hide;
+        
+        hide = self.showDetailsBackFrame;
+        hide.origin.y = hide.origin.y - self.showDetailsFrame.size.height + 20;
+        self.hideDetailsBackFrame = hide;
+    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -179,9 +166,8 @@ typedef enum {
     self.numPages = [self.project[@"assets"] count];
     self.currentPage = 0;
     
-    // Don't show page control if no pages
-    self.pageControl.hidden = (self.numPages == 1);
-    
+    [self setPage:self.currentPage];
+
     self.scrollView.contentSize = CGSizeMake(1024 * self.numPages, 748);
     
     int page = 0;
@@ -246,15 +232,20 @@ typedef enum {
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
+-(void)setPage:(int)newPage {
+    self.pageControl.hidden = (self.numPages == 1);
+
+    self.currentPage = newPage;
+    
+    NSString* filename = [NSString stringWithFormat:@"page%d%d.png",self.currentPage+1, self.numPages];
+    self.pageControl.image = [UIImage imageNamed:filename];
+}
+
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView {
     // Check if current page has changed, to update page control, and hide details view if needed
     int newPage = floor((float)(scrollView.contentOffset.x + 512) / 1024.0f);
     if (newPage != self.currentPage) {
-        self.currentPage = newPage;
-        
-        NSString* filename = [NSString stringWithFormat:@"page%d%d.png",self.currentPage+1, self.numPages];
-        self.pageControl.image = [UIImage imageNamed:filename];
-        
+        [self setPage:newPage];
         [self showDetails:NO];
     }
 
