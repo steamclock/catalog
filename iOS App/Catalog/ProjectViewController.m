@@ -215,7 +215,7 @@ typedef enum {
     }
     
     if (video) {
-        static int inset = 60;
+        static int inset =0 ;
         UIWebView* webView = [[UIWebView alloc] initWithFrame:CGRectMake((1024 * page) + inset, inset, 1024 - (inset * 2), 768 - (inset * 2))];
         webView.scrollView.scrollEnabled = NO;
         
