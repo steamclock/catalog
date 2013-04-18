@@ -105,7 +105,7 @@ exports.submit = function(req, res){
                     var tmp_path = file.path
                     , salty = crypto.randomBytes(256)
                     , uniqueness = crypto.createHash('md5').update(salty).digest("hex")
-                    , target_path = './public/images/projects/' + file.name + uniqueness.substring(0, 5);
+                    , target_path = "./public/images/projects/" + uniqueness + ".jpg";
                     
                     // move the file from the temporary location to the intended location
                     fs.readFile(file.path, function (err, data) {
