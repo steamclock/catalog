@@ -81,19 +81,7 @@ typedef enum {
     [super viewDidLoad];
     
     self.scrollView.delegate = self;
-    
-    // Figure out the two possible frames for the detail view and the back button (for animated show/hide of the details)
-    self.showDetailsFrame = self.detailContainer.frame;
-    self.showDetailsBackFrame = self.backButton.frame;
-    
-    CGRect hide = self.showDetailsFrame;
-    hide.origin.y = -self.showDetailsFrame.size.height;
-    self.hideDetailsFrame = hide;
-    
-    hide = self.showDetailsBackFrame;
-    hide.origin.y = hide.origin.y - self.showDetailsFrame.size.height;
-    self.hideDetailsBackFrame = hide;
-    
+        
     self.showingDetails = YES;
 
     // Load in the images for the initially selected project
@@ -101,12 +89,12 @@ typedef enum {
 
     // Build up view for curtain (the thing that gets pulled over when tranitioning to the next project, with the key image
     // for the project to transition to on it)
-    self.curtainBackground = [[UIImageView alloc] initWithFrame:self.scrollView.frame];
+    self.curtainBackground = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 1024, 768)];
     self.curtainBackground.image = [UIImage imageNamed:@"Background.png"];
     self.curtainBackground.contentMode = UIViewContentModeScaleAspectFit;
     self.curtainBackground.opaque = NO;
     
-    self.curtainImage = [[UIImageView alloc] initWithFrame:self.scrollView.frame];
+    self.curtainImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 1024, 768)];
     self.curtainImage.backgroundColor = [UIColor clearColor];
     self.curtainImage.contentMode = UIViewContentModeScaleAspectFit;
     self.curtainImage.opaque = NO;
@@ -130,6 +118,29 @@ typedef enum {
     
     self.scrollView.bounces = YES;
     self.scrollView.alwaysBounceHorizontal = YES;
+}
+
+-(void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    // Figure out the two possible frames for the detail view and the back button (for animated show/hide of the details)
+    self.showDetailsFrame = self.detailContainer.frame;
+    self.showDetailsBackFrame = self.backButton.frame;
+    
+    CGRect hide = self.showDetailsFrame;
+    hide.origin.y = -self.showDetailsFrame.size.height;
+    self.hideDetailsFrame = hide;
+    
+    hide = self.showDetailsBackFrame;
+    hide.origin.y = hide.origin.y - self.showDetailsFrame.size.height + 20;
+    self.hideDetailsBackFrame = hide;
+
+//    [[UIApplication sharedApplication]  setStatusBarHidden:YES withAnimation:UIStatusBarAnimationFade];
+}
+
+-(void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+//    [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
 }
 
 -(void)viewDidLayoutSubviews {
@@ -171,7 +182,7 @@ typedef enum {
     // Don't show page control if no pages
     self.pageControl.hidden = (self.numPages == 1);
     
-    self.scrollView.contentSize = CGSizeMake(1024 * self.numPages, 768);
+    self.scrollView.contentSize = CGSizeMake(1024 * self.numPages, 748);
     
     int page = 0;
     
@@ -181,7 +192,7 @@ typedef enum {
         if([asset[@"type"] isEqualToString:@"image"]) {
             NSString* imageURL = [NSString stringWithFormat:@"%@%@", SERVER_ADDRESS, asset[@"url"]];
             
-            UIImageView* imageView = [[UIImageView alloc] initWithFrame:CGRectMake(1024 * page, -20, 1024, 768)];
+            UIImageView* imageView = [[UIImageView alloc] initWithFrame:CGRectMake(1024 * page, 0, 1024, 768)];
             imageView.contentMode = UIViewContentModeScaleAspectFit;
             UIActivityIndicatorView* spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
             [imageView addSubview:spinner];
@@ -331,9 +342,9 @@ typedef enum {
 }
 
 - (void)handleHorizontalDrag:(UIGestureRecognizer*)gesture {
-    float position = [gesture locationInView:self.scrollView].x;
+    float position = [gesture locationInView:self.scrollView.superview].x;
 
-    if(gesture.state == UIGestureRecognizerStateEnded) {
+    if((gesture.state == UIGestureRecognizerStateEnded) || (gesture.state == UIGestureRecognizerStateCancelled)) {
         [self doTransition];
     }
     else if ((gesture.state == UIGestureRecognizerStateBegan) || (gesture.state == UIGestureRecognizerStateChanged)){
@@ -342,13 +353,11 @@ typedef enum {
         }
         
         if((self.transitionState != TransitionStateDoingNext) && (self.transitionState != TransitionStateDoingPrev) && (self.transitionState != TransitionStateResetting)) {
-            self.transitionState = TransitionStateNone;
-            
             BOOL pulling = NO;
             
             float offset = self.panStartPosition - position;
             
-            if((offset > 0) && ((self.scrollView.contentOffset.x + self.scrollView.frame.size.width) >= self.scrollView.contentSize.width) && (self.currentIndex < (self.projects.count - 1))) {
+            if((offset > 0) && ((self.transitionState == TransitionStatePrepNext) || (((self.scrollView.contentOffset.x + self.scrollView.frame.size.width) >= self.scrollView.contentSize.width) && (self.currentIndex < (self.projects.count - 1))))) {
                 CGRect frame = self.curtain.frame;
                 frame.origin.x = 1024.0f - offset;
                 
@@ -361,7 +370,7 @@ typedef enum {
                 pulling = YES;
             }
             
-            if((offset < 0) && (self.scrollView.contentOffset.x <= 0) && (self.currentIndex > 0)) {
+            if((offset < 0) && ((self.transitionState == TransitionStatePrepPrev) || ((self.scrollView.contentOffset.x <= 0) && (self.currentIndex > 0)) )) {
                 CGRect frame = self.curtain.frame;
                 frame.origin.x = -1024.0f - offset;
                 
@@ -375,6 +384,9 @@ typedef enum {
             }
             
             if (!pulling) {
+                if(offset == 0) {
+                    self.transitionState = TransitionStateNone;
+                }
                 self.curtainImage.image = nil;
             }
         }
@@ -405,7 +417,7 @@ typedef enum {
     float destAlpha = show ? 1.0f : 0.0f;
     
     self.showingDetails = show;
-    
+        
     // Run show/hide animation
     [UIView animateWithDuration:0.5 animations:^{
         self.backButton.frame = destBack;

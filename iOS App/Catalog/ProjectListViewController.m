@@ -225,6 +225,7 @@ static NSUInteger random_below(NSUInteger n) {
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     ProjectViewController* project = [[ProjectViewController alloc] initWithProjects:self.currentProjects startIndex:indexPath.row];
+    project.wantsFullScreenLayout = YES;
     [self presentViewController:project animated:YES completion:^{
         
     }];
