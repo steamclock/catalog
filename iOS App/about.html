@@ -4,36 +4,51 @@
     body {
         color: #6f6f6f;
         font-family: 'Avenir Next', sans-serif;
-        font-size: 16px;
+        font-size: 15px;
         line-height: 22px;
         margin: 0;
     }
-    .lines {
-        background: url ('http://theshow2013.ecuad.ca/public/images/background.jpg');
-        width: 100%;
-        height: auto;
-        margin: 0;
-        padding: 0;
-    }
     .wrapper {
         width: 50%;
-        padding: 40px;
-        margin: 0 auto;
+        margin:8% auto 8% auto;
     }
     a:link, a:visited {
-        color: #999999;
+        color: #40c8f4;
+        text-decoration: none;
+        font-weight: 600;
     }
     h1 {
+        display: inline-block;
+        vertical-align: middle;
         font-size: 25px;
-        margin-bottom: 0;
+        line-height: 1.2;
+        margin: 17px 0 0 15px;
     }
-    
+    h2 {
+        display: inline-block;
+        vertical-align: middle;
+        font-size: 20px;
+        margin: 15px 0 0 0;
+    }
+    .light {
+        font-weight: 500;
+        font-style: italic;
+        font-size: 16px;
+    }
+    .logo {
+        float: left;
+        display: inline-block;
+        clear: both;
+    }
+    .clearfix {
+        clear: both;
+        zoom: 1;
+    }
     ul {
         margin: 0 0 0 0;
         padding: 0 0 0 20px;
 
     }
-    
     ul li{
         padding: 0;
         margin: 0 0 3px 0;
@@ -41,11 +56,25 @@
 </style>
 </head>
 <body>
-  <div class="lines">
+  <div class="container">
     <div class="wrapper">
-        <img src="Images/youarehere.png" />
-    <h1 style="display: inline; margin: -30px 0 0 0;">Emily Carr Grad Catalog 2013</h1>
-    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum magna mauris, ornare id cursus ut, iaculis eu nisl. Praesent erat ipsum, facilisis quis tempus in, dapibus ut eros. Aliquam a felis ut nibh bibendum condimentum sit amet non odio. Nullam ut nisi leo, vitae tincidunt eros. Vivamus eu suscipit dolor. Curabitur mi tellus, dignissim nec sollicitudin elementum, tempor eget mi. Fusce id orci nisl, vel vestibulum risus.</p>
+        <img class="logo" alt="The logo for The Show 2013 - You are here" src="http://theshow2013.ecuad.ca/public/images/logo@2x.png" width="80" />
+        <h1>The Show at Emily Carr University<br/>
+        <span class="light">New Adventures in Design, Visual Art &amp; Media</span></h1>
+        <div class="clearfix"></div>
+        <p>This app is a catalogue and archive for you to browse the more than 300 pieces of work from our 2013 Design, Media and Visual Arts graduates being featured at <em>The Show at Emily Carr University</em>. <em>The Show</em> is one of Vancouver's most anticipated events and is a celebration of an end and a new beginning for our Master of Applied Arts, Bachelor of Design, Bachelor of Media Arts and Bachelor of Fine Arts graduates. It is a space of opportunity where potential meets reality, theory meets practice, and thought meets dialogue.</p>
+        <p>May 5 - 19 | 10am - 6pm Daily<br/>
+        1399 &amp; 1400 Johnston Street<br/>
+        Granville Island</p>
+        
+        <p>Guided tours available.<br/>
+        Details at <a href="http://www.ecuad.ca">ecuad.ca</a></p>
+        
+        <h2>About Emily Carr University of Art + Design</h2>
+        <p>Emily Carr University of Art + Design, established in 1925, is a world leader in education and research. Encouraging experimentation at the intersection of art, design, media and technology, our learning community merges research, critical theory and studio practice in an interdisciplinary environment. Alumni and faculty are internationally recognized as award-winning creators and thought leaders who have enormous impact on both the cultural sector and economy. We engage students, industry, and society to continuously explore and think differently about creativity and how it shapes our world. Emily Carr is building a state-of-the art campus for 21st century learning at Great Northern Way. The University will be at the centre of a new social, cultural, educational, and economic engine for British Columbia.
+        <p>Find out more at <a href="http://www.ecuad.ca">ecuad.ca</a>.</p>
+        <img alt="A landscape treatment of the ECUAD logo" src="http://theshow2013.ecuad.ca/public/images/ecuad-logo@2x.png" width="155" />
+        <p><small>Copyright 2013. ECUAD</small></p>
     </div>
   </div>
 </body>
