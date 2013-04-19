@@ -327,13 +327,14 @@ typedef enum {
     }];
 }
 
-- (void)doTransition {
+- (void)doTransitionWithVelocity:(float)velocity {
     if((self.transitionState == TransitionStatePrepNext) || (self.transitionState == TransitionStatePrepPrev)) {
         CGRect frame = self.curtain.frame;
+        float end = frame.origin.x + velocity / 3;
 
         // Figure out whihc transition to do, or if we need to reset if we haven't pulled far enough
         if(self.transitionState == TransitionStatePrepNext) {
-            if(frame.origin.x < 512) {
+            if(end < 512) {
                 self.transitionState = TransitionStateDoingNext;
                 frame.origin.x = 0;
             }
@@ -343,7 +344,7 @@ typedef enum {
             }
         }
         if(self.transitionState == TransitionStatePrepPrev) {
-            if(frame.origin.x > -512) {
+            if(end > -512) {
                 self.transitionState = TransitionStateDoingPrev;
                 frame.origin.x = 0;
             }
@@ -354,7 +355,7 @@ typedef enum {
         }
     
         // Run the animation to slide on the curtain the rest of the way
-        [UIView animateWithDuration:0.3 delay:0.0 options:UIViewAnimationOptionCurveEaseOut animations:^{
+        [UIView animateWithDuration:0.5 delay:0.0 options:UIViewAnimationOptionCurveEaseOut animations:^{
             self.curtain.frame = frame;
         } completion:^(BOOL finished) {
             if(self.transitionState != TransitionStateResetting) {
@@ -414,7 +415,7 @@ typedef enum {
     float position = [gesture locationInView:self.scrollView.superview].x;
 
     if((gesture.state == UIGestureRecognizerStateEnded) || (gesture.state == UIGestureRecognizerStateCancelled)) {
-        [self doTransition];
+        [self doTransitionWithVelocity:[(UIPanGestureRecognizer*)gesture velocityInView:self.view].x];
     }
     else if ((gesture.state == UIGestureRecognizerStateBegan) || (gesture.state == UIGestureRecognizerStateChanged)){
         if(gesture.state == UIGestureRecognizerStateBegan) {
