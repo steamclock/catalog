@@ -4,6 +4,7 @@
 //
 
 #import "CachedImageLoader.h"
+#import "UIApplication+NetworkActivityIndicator.h"
 
 @interface CachedImageLoader ()
 @property (strong, nonatomic) NSMutableDictionary* cached; // map URLs -> UIImage
@@ -46,10 +47,14 @@
             __weak CachedImageLoader* weakSelf = self;
             
             // Now do the actual load
+            [[UIApplication sharedApplication] showNetworkActivityIndicator];
+            
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
                 UIImage* image = [UIImage imageWithData:[NSData dataWithContentsOfURL:url]];
                 
                 dispatch_async(dispatch_get_main_queue(), ^{
+                    [[UIApplication sharedApplication] hideNetworkActivityIndicator];
+
                     weakSelf.cached[url] = image;
 
                     [weakSelf.loading[url] enumerateObjectsUsingBlock:^(void (^callback)(UIImage*, BOOL), NSUInteger idx, BOOL *stop) {

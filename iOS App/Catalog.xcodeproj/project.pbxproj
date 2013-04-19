@@ -118,6 +118,7 @@
 		A6EB5AB81720C5C40009F406 /* video-curtain.png in Resources */ = {isa = PBXBuildFile; fileRef = A6EB5AB71720C5C40009F406 /* video-curtain.png */; };
 		A6EB5ABA1720D2E60009F406 /* video-curtain@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A6EB5AB91720D2E60009F406 /* video-curtain@2x.png */; };
 		A6EB5ABC1721B9B90009F406 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A6EB5ABB1721B9B80009F406 /* AVFoundation.framework */; };
+		A6EB5ABF1721BC990009F406 /* UIApplication+NetworkActivityIndicator.m in Sources */ = {isa = PBXBuildFile; fileRef = A6EB5ABE1721BC990009F406 /* UIApplication+NetworkActivityIndicator.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -239,6 +240,8 @@
 		A6EB5AB71720C5C40009F406 /* video-curtain.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "video-curtain.png"; sourceTree = "<group>"; };
 		A6EB5AB91720D2E60009F406 /* video-curtain@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "video-curtain@2x.png"; sourceTree = "<group>"; };
 		A6EB5ABB1721B9B80009F406 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		A6EB5ABD1721BC980009F406 /* UIApplication+NetworkActivityIndicator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIApplication+NetworkActivityIndicator.h"; sourceTree = "<group>"; };
+		A6EB5ABE1721BC990009F406 /* UIApplication+NetworkActivityIndicator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIApplication+NetworkActivityIndicator.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -304,6 +307,8 @@
 				A6702567170E0C0A00840867 /* Supporting Files */,
 				A670256F170E0C0A00840867 /* AppDelegate.h */,
 				A6702570170E0C0A00840867 /* AppDelegate.m */,
+				A6EB5ABD1721BC980009F406 /* UIApplication+NetworkActivityIndicator.h */,
+				A6EB5ABE1721BC990009F406 /* UIApplication+NetworkActivityIndicator.m */,
 				A6702578170E0C0A00840867 /* ProjectListViewController.h */,
 				A6702579170E0C0A00840867 /* ProjectListViewController.m */,
 				A670257B170E0C0A00840867 /* ProjectListViewController.xib */,
@@ -588,6 +593,7 @@
 				A670257A170E0C0A00840867 /* ProjectListViewController.m in Sources */,
 				A6702588170E331600840867 /* ProjectViewController.m in Sources */,
 				A6EB5AB61718B5530009F406 /* CachedImageLoader.m in Sources */,
+				A6EB5ABF1721BC990009F406 /* UIApplication+NetworkActivityIndicator.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
