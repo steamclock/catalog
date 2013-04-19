@@ -26,6 +26,9 @@ typedef enum {
 @property (strong, nonatomic) IBOutlet UIImageView* curtainImage;
 @property (strong, nonatomic) IBOutlet UIImageView* curtainBackground;
 @property (strong, nonatomic) IBOutlet UIView* curtain;
+@property (strong, nonatomic) UIImageView* curtainFade;
+@property (strong, nonatomic) UIImage* curtainFadeImage;
+@property (nonatomic) BOOL curtainIsVideo;
 
 @property (nonatomic) TransitionState transitionState;
 
@@ -86,7 +89,7 @@ typedef enum {
     self.showingDetails = YES;
 
     // Load in the images for the initially selected project
-    [self setupCurrentProject];
+    [self setupCurrentProjectStartingAtEnd:NO];
 
     // Build up view for curtain (the thing that gets pulled over when tranitioning to the next project, with the key image
     // for the project to transition to on it)
@@ -100,9 +103,7 @@ typedef enum {
     self.curtainImage.contentMode = UIViewContentModeScaleAspectFit;
     self.curtainImage.opaque = NO;
     
-    CGRect curtainFrame = self.scrollView.frame;
-    curtainFrame.origin.x = 1024;
-    self.curtain = [[UIView alloc] initWithFrame:curtainFrame];
+    self.curtain = [[UIView alloc] initWithFrame:CGRectMake(1024, 0, 1024, 768)];
     self.curtain.opaque = NO;
     [self.curtain addSubview:self.curtainBackground];
     [self.curtain addSubview:self.curtainImage];
@@ -146,13 +147,18 @@ typedef enum {
     [self.imageLoader flush];
 }
 
--(NSURL*)keyImageForIndex:(int)index {
+-(NSURL*)startImageForIndex:(int)index {
     if((index < 0) || (index >= self.projects.count)) {
         return nil;
     }
     
     NSDictionary* project = self.projects[index];
     NSArray* assets = project[@"assets"];
+    
+    if(assets.count == 0) {
+        return nil;
+    }
+    
     for(NSDictionary* asset in assets) {
         if([asset[@"type"] isEqualToString:@"image"]) {
             return [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", SERVER_ADDRESS, asset[@"url"]]];
@@ -162,13 +168,57 @@ typedef enum {
     return nil;
 }
 
--(void)setupCurrentProject {
-    self.numPages = [self.project[@"assets"] count];
-    self.currentPage = 0;
+-(BOOL)endImageIsVideoForIndex:(int)index {
+    if((index < 0) || (index >= self.projects.count)) {
+        return NO;
+    }
     
-    [self setPage:self.currentPage];
+    NSDictionary* project = self.projects[index];
+    NSArray* assets = project[@"assets"];
+    
+    if(assets.count == 0) {
+        return NO;
+    }
+    
+    NSDictionary* asset = assets[0];
+    
+    if([asset[@"type"] isEqualToString:@"video"]) {
+        return YES;
+    }
+    
+    return NO;
+}
 
-    self.scrollView.contentSize = CGSizeMake(1024 * self.numPages, 748);
+-(NSURL*)endImageForIndex:(int)index {
+    if((index < 0) || (index >= self.projects.count)) {
+        return nil;
+    }
+    
+    NSDictionary* project = self.projects[index];
+    NSArray* assets = project[@"assets"];
+    
+    if(assets.count == 0) {
+        return nil;
+    }
+    
+    NSDictionary* asset = assets[0];
+    
+    if([asset[@"type"] isEqualToString:@"video"]) {
+        return nil;
+    }
+    
+    asset = [assets lastObject];
+
+    if([asset[@"type"] isEqualToString:@"image"]) {
+        return [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", SERVER_ADDRESS, asset[@"url"]]];
+    }
+    
+    return nil;
+}
+
+-(void)setupCurrentProjectStartingAtEnd:(BOOL)end {
+    self.numPages = [self.project[@"assets"] count];
+    self.scrollView.contentSize = CGSizeMake(1024 * self.numPages, 768);
     
     int page = 0;
     
@@ -182,7 +232,7 @@ typedef enum {
             imageView.contentMode = UIViewContentModeScaleAspectFit;
             UIActivityIndicatorView* spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
             [imageView addSubview:spinner];
-            spinner.center = CGPointMake(1024 / 2, 748 / 2);
+            spinner.center = CGPointMake(1024 / 2, 768 / 2);
             [spinner startAnimating];
             
             
@@ -201,8 +251,8 @@ typedef enum {
     }
     
     if (video) {
-        static int inset =0 ;
-        UIWebView* webView = [[UIWebView alloc] initWithFrame:CGRectMake((1024 * page) + inset, inset, 1024 - (inset * 2), 768 - (inset * 2))];
+        static int inset = 0 ;
+        UIWebView* webView = [[UIWebView alloc] initWithFrame:CGRectMake((1024 * page) + inset, 20 + inset, 1024 - (inset * 2), 768 - (inset * 2))];
         webView.scrollView.scrollEnabled = NO;
         
         NSString* videoId = [[((NSString*)video[@"url"]) componentsSeparatedByString:@"/"] lastObject];
@@ -219,11 +269,15 @@ typedef enum {
     
     self.transitionState = TransitionStateNone;
     
-    [self.scrollView setContentOffset:CGPointMake(0.0f, 0.0f) animated:NO];
+    int newPage = end ? (self.numPages - 1) : 0;
+    [self.scrollView setContentOffset:CGPointMake(1024 * newPage, 0.0f) animated:NO];
+    [self setPage:newPage];
 
+    self.curtainIsVideo = video && end;
+    
     // cache next and previous key images, so that they will be ready if we need them for the curtain
-    [self.imageLoader precacheImage:[self keyImageForIndex:self.currentIndex + 1]];
-    [self.imageLoader precacheImage:[self keyImageForIndex:self.currentIndex - 1]];
+    [self.imageLoader precacheImage:[self startImageForIndex:self.currentIndex + 1]];
+    [self.imageLoader precacheImage:[self endImageForIndex:self.currentIndex - 1]];
     
     [self showDetails:YES];
 }
@@ -234,13 +288,11 @@ typedef enum {
 
 -(void)setPage:(int)newPage {
     self.pageControl.hidden = (self.numPages == 1);
-
     self.currentPage = newPage;
     
     NSString* filename = [NSString stringWithFormat:@"page%d%d.png",self.currentPage+1, self.numPages];
     self.pageControl.image = [UIImage imageNamed:filename];
 }
-
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView {
     // Check if current page has changed, to update page control, and hide details view if needed
     int newPage = floor((float)(scrollView.contentOffset.x + 512) / 1024.0f);
@@ -256,6 +308,20 @@ typedef enum {
     if((self.scrollView.contentOffset.x > (self.scrollView.contentSize.width - self.scrollView.frame.size.width)) && (self.currentIndex < (self.projects.count - 1))) {
         [self.scrollView setContentOffset:CGPointMake(self.scrollView.contentSize.width - self.scrollView.frame.size.width,0.0f) animated:NO];
     }
+}
+
+-(void)fadeOutCurtain {
+    if(!self.curtainFadeImage) {
+        return;
+    }
+    
+    self.curtainFadeImage = nil;
+    
+    [UIView animateWithDuration:0.3 animations:^{
+        self.curtainFade.alpha = 0.0f;
+    } completion:^(BOOL finished) {
+        self.curtainFade.hidden = YES;
+    }];
 }
 
 - (void)doTransition {
@@ -303,24 +369,33 @@ typedef enum {
                     [view removeFromSuperview];
                 }
                 
-                [self.scrollView setContentOffset:CGPointMake(0.0f, 0.0f) animated:NO];
+                [self setupCurrentProjectStartingAtEnd:(self.transitionState == TransitionStateDoingPrev)];
 
-                [self setupCurrentProject];
-                
                 // Run the fade, need to render down the view, or we will fade both background image and
-                // key image, adn it'll look funny
-                UIImageView* fade = [[UIImageView alloc] initWithImage:[ProjectViewController imageWithView:self.curtain]];
+                // key image, and it'll look funny
+                if(!self.curtainFade) {
+                    self.curtainFade = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 1024, 768)];
+                    [self.view addSubview:self.curtainFade];
+                }
 
-                self.curtain.frame = CGRectMake(1024, 0, 1024, 748);
+                self.curtainFadeImage = [ProjectViewController imageWithView:self.curtain];
+                self.curtainFade.image = self.curtainFadeImage;
+                self.curtainFade.hidden = NO;
+                self.curtainFade.alpha = 1.0f;
+
+                self.curtain.frame = CGRectMake(1024, 0, 1024, 768);
                 self.curtainImage.image = nil;
                 
-                [self.view addSubview:fade];
-
-                [UIView animateWithDuration:0.3 animations:^{
-                    fade.alpha = 0.0f;
-                } completion:^(BOOL finished) {
-                    [fade removeFromSuperview];
-                }];
+                if(self.curtainIsVideo) {
+                    double delayInSeconds = 2.0;
+                    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
+                    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+                        [self fadeOutCurtain];
+                    });
+                }
+                else {
+                    [self fadeOutCurtain];
+                }
             }
             
             self.transitionState = TransitionStateNone;
@@ -353,7 +428,7 @@ typedef enum {
                 frame.origin.x = 1024.0f - offset;
                 
                 if(self.curtainImage.image == nil) {
-                    self.curtainImage.image = [self.imageLoader cachedImageForURL:[self keyImageForIndex:self.currentIndex + 1]];
+                    self.curtainImage.image = [self.imageLoader cachedImageForURL:[self startImageForIndex:self.currentIndex + 1]];
                 }
                 self.curtain.frame = frame;
                 self.transitionState = TransitionStatePrepNext;
@@ -366,7 +441,12 @@ typedef enum {
                 frame.origin.x = -1024.0f - offset;
                 
                 if(self.curtainImage.image == nil) {
-                    self.curtainImage.image = [self.imageLoader cachedImageForURL:[self keyImageForIndex:self.currentIndex - 1]];
+                    if([self endImageIsVideoForIndex:self.currentIndex - 1]) {
+                        self.curtainImage.image = [UIImage imageNamed:@"video-curtain.png"];
+                    }
+                    else {
+                        self.curtainImage.image = [self.imageLoader cachedImageForURL:[self endImageForIndex:self.currentIndex - 1]];
+                    }
                 }
                 self.curtain.frame = frame;
                 self.transitionState = TransitionStatePrepPrev;
@@ -395,6 +475,12 @@ typedef enum {
         [[UIApplication sharedApplication] openURL:request.URL];
     }
     return NO;
+}
+
+-(void)webViewDidFinishLoad:(UIWebView *)webView {
+    if(self.curtainFade && self.curtainIsVideo) {
+        [self fadeOutCurtain];
+    }
 }
 
 -(void)showDetails:(BOOL)show {

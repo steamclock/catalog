@@ -115,6 +115,8 @@
 		A6EB5AB21718A6C60009F406 /* page23.png in Resources */ = {isa = PBXBuildFile; fileRef = A6EB5AAD1718A6C60009F406 /* page23.png */; };
 		A6EB5AB31718A6C60009F406 /* page33.png in Resources */ = {isa = PBXBuildFile; fileRef = A6EB5AAE1718A6C60009F406 /* page33.png */; };
 		A6EB5AB61718B5530009F406 /* CachedImageLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = A6EB5AB51718B5530009F406 /* CachedImageLoader.m */; };
+		A6EB5AB81720C5C40009F406 /* video-curtain.png in Resources */ = {isa = PBXBuildFile; fileRef = A6EB5AB71720C5C40009F406 /* video-curtain.png */; };
+		A6EB5ABA1720D2E60009F406 /* video-curtain@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A6EB5AB91720D2E60009F406 /* video-curtain@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -233,6 +235,8 @@
 		A6EB5AAE1718A6C60009F406 /* page33.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = page33.png; sourceTree = "<group>"; };
 		A6EB5AB41718B5530009F406 /* CachedImageLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CachedImageLoader.h; sourceTree = "<group>"; };
 		A6EB5AB51718B5530009F406 /* CachedImageLoader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CachedImageLoader.m; sourceTree = "<group>"; };
+		A6EB5AB71720C5C40009F406 /* video-curtain.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "video-curtain.png"; sourceTree = "<group>"; };
+		A6EB5AB91720D2E60009F406 /* video-curtain@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "video-curtain@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -326,6 +330,8 @@
 		A6EB5AA51716243D0009F406 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				A6EB5AB71720C5C40009F406 /* video-curtain.png */,
+				A6EB5AB91720D2E60009F406 /* video-curtain@2x.png */,
 				393E4D97171F5EF700F68C2A /* page14.png */,
 				393E4D98171F5EF700F68C2A /* page14@2x.png */,
 				393E4D99171F5EF700F68C2A /* page24.png */,
@@ -561,6 +567,8 @@
 				393E4DA4171F5EF700F68C2A /* page34@2x.png in Resources */,
 				393E4DA5171F5EF700F68C2A /* page44.png in Resources */,
 				393E4DA6171F5EF700F68C2A /* page44@2x.png in Resources */,
+				A6EB5AB81720C5C40009F406 /* video-curtain.png in Resources */,
+				A6EB5ABA1720D2E60009F406 /* video-curtain@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
