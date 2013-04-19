@@ -107,18 +107,18 @@ typedef enum {
     self.curtainImage.opaque = NO;
     
     self.curtainTitle = [[UILabel alloc] initWithFrame:CGRectMake(40, 200, 944, 100)];
-    self.curtainTitle.font = [UIFont systemFontOfSize:60];
+    self.curtainTitle.font = [UIFont fontWithName:@"AvenirNext-Bold" size:60];
     self.curtainTitle.textColor = [UIColor whiteColor];
     self.curtainTitle.backgroundColor = [UIColor clearColor];
     self.curtainTitle.shadowColor = [UIColor blackColor];
-    self.curtainTitle.shadowOffset = CGSizeMake(2, 2);
+    self.curtainTitle.shadowOffset = CGSizeMake(0, 2);
     
-    self.curtainAuthor = [[UILabel alloc] initWithFrame:CGRectMake(40, 350, 944, 100)];
-    self.curtainAuthor.font = [UIFont systemFontOfSize:60];
+    self.curtainAuthor = [[UILabel alloc] initWithFrame:CGRectMake(40, 275, 944, 100)];
+    self.curtainAuthor.font = [UIFont fontWithName:@"AvenirNext-Italic" size:40];
     self.curtainAuthor.textColor = [UIColor whiteColor];
     self.curtainAuthor.backgroundColor = [UIColor clearColor];
     self.curtainAuthor.shadowColor = [UIColor blackColor];
-    self.curtainAuthor.shadowOffset = CGSizeMake(2, 2);
+    self.curtainAuthor.shadowOffset = CGSizeMake(0, 2);
     
     self.curtain = [[UIView alloc] initWithFrame:CGRectMake(1024, 0, 1024, 768)];
     self.curtain.opaque = NO;
