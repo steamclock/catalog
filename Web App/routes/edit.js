@@ -2,6 +2,8 @@ var client = require('./../modules/postgres').client
     , async = require('async')
     , fs = require('fs')
     , imagemagick = require('imagemagick')
+    , crypto = require('crypto')
+    , path = require('path')
     , flash = require('flashify');
 
 /*
@@ -154,13 +156,14 @@ exports.update = function(req, res){
                                     count++;
                                     console.log("Count is: " + count);
                                     if (file.name) { 
-                                        // get the temporary location of the file
-                                        var tmp_path = file.path;
-                                        // set where the file should actually exists - in this case it is in the "images" directory
-                                        var target_path = './public/images/projects/' + file.name;
-                                        // move the file from the temporary location to the intended location
-                                        fs.readFile(file.path, function (err, data) {
-                                              fs.writeFile(target_path, data, function (err) {
+                                         var tmp_path = file.path
+                                            , salty = crypto.randomBytes(256)
+                                            , uniqueness = crypto.createHash('md5').update(salty).digest("hex")
+                                            , ext = path.extname(file.name).split('.'), ext = "." + ext[ext.length - 1]
+                                            , uniqueFile = uniqueness + ext
+                                            , targetPath = "./public/images/projects/" + uniqueFile;
+                                            fs.readFile(file.path, function (err, data) {
+                                              fs.writeFile(targetPath, data, function (err) {
                                                 if (err) {
                                                     console.log("Error:" + err)
                                                 } else {
@@ -173,11 +176,11 @@ exports.update = function(req, res){
                                                 }
                                               });
                                         }); // End fs read/write 
-                                        var localFileURL = "/public/images/projects/" + file.name;
+                                        var localFileURL = "/public/images/projects/" + uniqueFile;
 
                                         var assetInsertion = client.query(
-                                            "INSERT into assets(projectid, type, url) values($1, $2, $3)",
-                                            [req.body.project, "image", localFileURL]
+                                            "INSERT into assets(projectid, type, url) values($1, $2, $3, $4)",
+                                            [req.body.project, "image", localFileURL, file.name]
                                         );
 
                                         assetInsertion.on('error', function(error) {
@@ -191,13 +194,14 @@ exports.update = function(req, res){
                                 }); //End forEach  
                             } else {
                                 if (file.name) { 
-                                    // get the temporary location of the file
-                                    var tmp_path = file.path;
-                                    // set where the file should actually exists - in this case it is in the "images" directory
-                                    var target_path = './public/images/projects/' + file.name;
-                                    // move the file from the temporary location to the intended location
+                                     var tmp_path = file.path
+                                        , salty = crypto.randomBytes(256)
+                                        , uniqueness = crypto.createHash('md5').update(salty).digest("hex")
+                                        , ext = path.extname(file.name).split('.'), ext = "." + ext[ext.length - 1]
+                                        , uniqueFile = uniqueness + ext
+                                        , targetPath = "./public/images/projects/" + uniqueFile;
                                     fs.readFile(file.path, function (err, data) {
-                                          fs.writeFile(target_path, data, function (err) {
+                                          fs.writeFile(targetPath, data, function (err) {
                                             if (err) {
                                                 console.log("Error:" + err)
                                             } else {
@@ -210,11 +214,11 @@ exports.update = function(req, res){
                                             }
                                           });
                                     }); // End fs read/write 
-                                    var localFileURL = "/public/images/projects/" + file.name;
+                                    var localFileURL = "/public/images/projects/" + uniqueFile;
 
                                     var assetInsertion = client.query(
-                                        "INSERT into assets(projectid, type, url) values($1, $2, $3)",
-                                        [req.body.project, "image", localFileURL]
+                                        "INSERT into assets(projectid, type, url) values($1, $2, $3, $4)",
+                                        [req.body.project, "image", localFileURL, file.name]
                                     );
 
                                     assetInsertion.on('error', function(error) {
@@ -230,13 +234,14 @@ exports.update = function(req, res){
                         // Update 
                         var file = req.files[key];
                         if (file.name) { 
-                            // get the temporary location of the file
-                            var tmp_path = file.path;
-                            // set where the file should actually exists - in this case it is in the "images" directory
-                            var target_path = './public/images/projects/' + file.name;
-                            // move the file from the temporary location to the intended location
+                             var tmp_path = file.path
+                                , salty = crypto.randomBytes(256)
+                                , uniqueness = crypto.createHash('md5').update(salty).digest("hex")
+                                , ext = path.extname(file.name).split('.'), ext = "." + ext[ext.length - 1]
+                                , uniqueFile = uniqueness + ext
+                                , targetPath = "./public/images/projects/" + uniqueFile;
                             fs.readFile(file.path, function (err, data) {
-                                  fs.writeFile(target_path, data, function (err) {
+                                  fs.writeFile(targetPath, data, function (err) {
                                     if (err) {
                                         console.log("Error:" + err)
                                     } else {
@@ -249,11 +254,11 @@ exports.update = function(req, res){
                                     }
                                   });
                             }); // End fs read/write 
-                                var localFileURL = "/public/images/projects/" + file.name;
+                                var localFileURL = "/public/images/projects/" + uniqueFile;
 
                                 var assetUpdate = client.query(
-                                    "UPDATE assets SET projectid = $1, type = $2, url = $3 WHERE assets.id = $4",
-                                    [req.body.project, "image", localFileURL, key]
+                                    "UPDATE assets SET projectid = $1, type = $2, url = $3, filename = $4 WHERE assets.id = $5",
+                                    [req.body.project, "image", localFileURL, file.name, key]
                                 );
 
                                 assetUpdate.on('error', function(error) {

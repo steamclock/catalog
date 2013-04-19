@@ -130,7 +130,7 @@ exports.submit = function(req, res){
 
                     var assetInsertion = client.query(
                         "INSERT into assets(projectid, type, url, filename) values($1, $2, $3, $4)",
-                        [projectID, "image", localFileURL, uniqueFile]
+                        [projectID, "image", localFileURL, file.name]
                     );
 
                     assetInsertion.on('error', function(error) {
