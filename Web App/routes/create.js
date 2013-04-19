@@ -105,7 +105,7 @@ exports.submit = function(req, res){
                     // then set target path for file upload
                     var tmp_path = file.path
                     , salty = crypto.randomBytes(256)
-                    , uniqueness = crypto.createHash('md5').update(salty).digest("hex").substring(0, 8)
+                    , uniqueness = crypto.createHash('md5').update(salty).digest("hex")
                     , ext = path.extname(file.name).split('.'), ext = "." + ext[ext.length - 1]
                     , uniqueFile = uniqueness + ext
                     , targetPath = "./public/images/projects/" + uniqueFile;
