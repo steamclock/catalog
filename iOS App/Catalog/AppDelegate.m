@@ -4,8 +4,8 @@
 //
 
 #import "AppDelegate.h"
-
 #import "ProjectListViewController.h"
+#import <AVFoundation/AVFoundation.h>
 
 @implementation AppDelegate
 
@@ -16,6 +16,17 @@
     self.viewController = [[ProjectListViewController alloc] initWithNibName:@"ProjectListViewController" bundle:nil];
     self.window.rootViewController = self.viewController;
     [self.window makeKeyAndVisible];
+    
+    // Sdet up audio session to make sure videos in web views play back okay
+    AVAudioSession *audioSession = [AVAudioSession sharedInstance];
+    BOOL ok;
+    NSError *setCategoryError = nil;
+    ok = [audioSession setCategory:AVAudioSessionCategoryPlayback
+                             error:&setCategoryError];
+    if (!ok) {
+        NSLog(@"%s setCategoryError=%@", __PRETTY_FUNCTION__, setCategoryError);
+    }
+    
     return YES;
 }
 

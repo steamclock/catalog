@@ -117,6 +117,7 @@
 		A6EB5AB61718B5530009F406 /* CachedImageLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = A6EB5AB51718B5530009F406 /* CachedImageLoader.m */; };
 		A6EB5AB81720C5C40009F406 /* video-curtain.png in Resources */ = {isa = PBXBuildFile; fileRef = A6EB5AB71720C5C40009F406 /* video-curtain.png */; };
 		A6EB5ABA1720D2E60009F406 /* video-curtain@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A6EB5AB91720D2E60009F406 /* video-curtain@2x.png */; };
+		A6EB5ABC1721B9B90009F406 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A6EB5ABB1721B9B80009F406 /* AVFoundation.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -237,6 +238,7 @@
 		A6EB5AB51718B5530009F406 /* CachedImageLoader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CachedImageLoader.m; sourceTree = "<group>"; };
 		A6EB5AB71720C5C40009F406 /* video-curtain.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "video-curtain.png"; sourceTree = "<group>"; };
 		A6EB5AB91720D2E60009F406 /* video-curtain@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "video-curtain@2x.png"; sourceTree = "<group>"; };
+		A6EB5ABB1721B9B80009F406 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -244,6 +246,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A6EB5ABC1721B9B90009F406 /* AVFoundation.framework in Frameworks */,
 				A6702561170E0C0A00840867 /* UIKit.framework in Frameworks */,
 				A6702563170E0C0A00840867 /* Foundation.framework in Frameworks */,
 				A6702565170E0C0A00840867 /* CoreGraphics.framework in Frameworks */,
@@ -256,6 +259,7 @@
 		A6702554170E0C0A00840867 = {
 			isa = PBXGroup;
 			children = (
+				A6EB5ABB1721B9B80009F406 /* AVFoundation.framework */,
 				3992D92B171E0CE600E0E641 /* Default-Landscape.png */,
 				3992D92C171E0CE600E0E641 /* Default-Landscape@2x.png */,
 				3992D917171E059200E0E641 /* Icon-72.png */,
