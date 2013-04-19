@@ -5,7 +5,8 @@ var fs = require('fs')
     , async = require('async')
     , validator = require('validator') // TODO: Remove?
     , imagemagick = require('imagemagick')
-    , flash = require('flashify');
+    , flash = require('flashify')
+    , path = require('path');
 
 /*
  * GET form to create new project
@@ -104,12 +105,14 @@ exports.submit = function(req, res){
                     // then set target path for file upload
                     var tmp_path = file.path
                     , salty = crypto.randomBytes(256)
-                    , uniqueness = crypto.createHash('md5').update(salty).digest("hex")
-                    , target_path = "./public/images/projects/" + uniqueness + ".jpg";
+                    , uniqueness = crypto.createHash('md5').update(salty).digest("hex").substring(0, 8)
+                    , ext = path.extname(file.name).split('.'), ext = "." + ext[ext.length - 1]
+                    , uniqueFile = uniqueness + ext
+                    , targetPath = "./public/images/projects/" + uniqueFile;
                     
                     // move the file from the temporary location to the intended location
                     fs.readFile(file.path, function (err, data) {
-                          fs.writeFile(target_path, data, function (err) {
+                          fs.writeFile(targetPath, data, function (err) {
                             if (err) {
                                 console.log("Error:" + err)
                             } else {
@@ -123,11 +126,11 @@ exports.submit = function(req, res){
                           });
                     });
 
-                    var localFileURL = "/public/images/projects/" + file.name;
+                    var localFileURL = "/public/images/projects/" + uniqueFile;
 
                     var assetInsertion = client.query(
-                        "INSERT into assets(projectid, type, url) values($1, $2, $3)",
-                        [projectID, "image", localFileURL]
+                        "INSERT into assets(projectid, type, url, filename) values($1, $2, $3, $4)",
+                        [projectID, "image", localFileURL, uniqueFile]
                     );
 
                     assetInsertion.on('error', function(error) {
