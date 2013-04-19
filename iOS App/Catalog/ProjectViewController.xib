@@ -89,7 +89,7 @@
 								<string key="NSFrame">{{712, 0}, {306, 104}}</string>
 								<reference key="NSSuperview" ref="108934451"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView" ref="1052756018"/>
+								<reference key="NSNextKeyView" ref="198807958"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
 								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
@@ -183,7 +183,7 @@
 								<string key="NSFrame">{{375, 51}, {352, 21}}</string>
 								<reference key="NSSuperview" ref="108934451"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView" ref="840105212"/>
+								<reference key="NSNextKeyView" ref="1052756018"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
@@ -213,7 +213,7 @@
 								<string key="NSFrame">{{375, 80}, {352, 21}}</string>
 								<reference key="NSSuperview" ref="108934451"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView" ref="137856301"/>
+								<reference key="NSNextKeyView" ref="840105212"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
@@ -261,7 +261,7 @@
 					<object class="IBUIButton" id="137856301">
 						<reference key="NSNextResponder" ref="766721923"/>
 						<int key="NSvFlags">292</int>
-						<string key="NSFrame">{{60, 170}, {48, 48}}</string>
+						<string key="NSFrame">{{15, 680}, {48, 48}}</string>
 						<reference key="NSSuperview" ref="766721923"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="930513694"/>
@@ -291,10 +291,10 @@
 					<object class="IBUIImageView" id="930513694">
 						<reference key="NSNextResponder" ref="766721923"/>
 						<int key="NSvFlags">265</int>
-						<string key="NSFrame">{{855, 688}, {97, 22}}</string>
+						<string key="NSFrame">{{855, 700}, {97, 22}}</string>
 						<reference key="NSSuperview" ref="766721923"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="198807958"/>
+						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<int key="IBUIContentMode">9</int>
 						<bool key="IBUIUserInteractionEnabled">NO</bool>
@@ -307,9 +307,10 @@
 					<object class="IBUIButton" id="198807958">
 						<reference key="NSNextResponder" ref="766721923"/>
 						<int key="NSvFlags">268</int>
-						<string key="NSFrame">{{60, 655}, {48, 48}}</string>
+						<string key="NSFrame">{{10, 30}, {48, 48}}</string>
 						<reference key="NSSuperview" ref="766721923"/>
 						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView" ref="137856301"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<bool key="IBUIOpaque">NO</bool>
 						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
@@ -415,14 +416,6 @@
 						<reference key="destination" ref="1052756018"/>
 					</object>
 					<int key="connectionID">167</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">backButton</string>
-						<reference key="source" ref="841351856"/>
-						<reference key="destination" ref="137856301"/>
-					</object>
-					<int key="connectionID">121</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchOutletConnection" key="connection">
@@ -588,7 +581,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">172</int>
+			<int key="maxID">173</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -616,10 +609,12 @@
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="author">UILabel</string>
-						<string key="backButton">UIButton</string>
 						<string key="curtain">UIView</string>
+						<string key="curtainAuthor">UILabel</string>
 						<string key="curtainBackground">UIImageView</string>
 						<string key="curtainImage">UIImageView</string>
+						<string key="curtainTitle">UILabel</string>
+						<string key="detailButton">UIButton</string>
 						<string key="detailContainer">UIView</string>
 						<string key="measurements">UILabel</string>
 						<string key="medium">UILabel</string>
@@ -633,13 +628,13 @@
 							<string key="name">author</string>
 							<string key="candidateClassName">UILabel</string>
 						</object>
-						<object class="IBToOneOutletInfo" key="backButton">
-							<string key="name">backButton</string>
-							<string key="candidateClassName">UIButton</string>
-						</object>
 						<object class="IBToOneOutletInfo" key="curtain">
 							<string key="name">curtain</string>
 							<string key="candidateClassName">UIView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="curtainAuthor">
+							<string key="name">curtainAuthor</string>
+							<string key="candidateClassName">UILabel</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="curtainBackground">
 							<string key="name">curtainBackground</string>
@@ -648,6 +643,14 @@
 						<object class="IBToOneOutletInfo" key="curtainImage">
 							<string key="name">curtainImage</string>
 							<string key="candidateClassName">UIImageView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="curtainTitle">
+							<string key="name">curtainTitle</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="detailButton">
+							<string key="name">detailButton</string>
+							<string key="candidateClassName">UIButton</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="detailContainer">
 							<string key="name">detailContainer</string>

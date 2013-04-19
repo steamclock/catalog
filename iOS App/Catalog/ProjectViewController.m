@@ -19,7 +19,7 @@ typedef enum {
 @interface ProjectViewController ()
 
 @property (strong, nonatomic) IBOutlet UIScrollView* scrollView;
-@property (strong, nonatomic) IBOutlet UIButton* backButton;
+@property (strong, nonatomic) IBOutlet UIButton* detailButton;
 @property (strong, nonatomic) IBOutlet UIImageView* pageControl;
 @property (strong, nonatomic) IBOutlet UIView* detailContainer;
 
@@ -45,8 +45,8 @@ typedef enum {
 @property (nonatomic) BOOL showingDetails;
 @property (nonatomic) CGRect showDetailsFrame;
 @property (nonatomic) CGRect hideDetailsFrame;
-@property (nonatomic) CGRect showDetailsBackFrame;
-@property (nonatomic) CGRect hideDetailsBackFrame;
+@property (nonatomic) CGRect showDetailsButtonFrame;
+@property (nonatomic) CGRect hideDetailsButtonFrame;
 
 @property (strong, nonatomic) IBOutlet UILabel* name;
 @property (strong, nonatomic) IBOutlet UILabel* author;
@@ -152,22 +152,22 @@ typedef enum {
         
         // Figure out the two possible frames for the detail view and the back button (for animated show/hide of the details)
         self.showDetailsFrame = self.detailContainer.frame;
-        self.showDetailsBackFrame = self.backButton.frame;
+        self.showDetailsButtonFrame = self.detailButton.frame;
         
         CGRect hide = self.showDetailsFrame;
         hide.origin.y = -self.showDetailsFrame.size.height;
         self.hideDetailsFrame = hide;
         
-        hide = self.showDetailsBackFrame;
+        hide = self.showDetailsButtonFrame;
         hide.origin.y = hide.origin.y - self.showDetailsFrame.size.height + 20;
-        self.hideDetailsBackFrame = hide;
+        self.hideDetailsButtonFrame = hide;
     }
 }
 
 -(void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
     
-    self.backButton.frame = self.showingDetails ? self.showDetailsBackFrame : self.hideDetailsBackFrame;
+    self.detailButton.frame = self.showingDetails ? self.showDetailsButtonFrame : self.hideDetailsButtonFrame;
     self.detailContainer.frame = self.showingDetails ? self.showDetailsFrame : self.hideDetailsFrame;
     self.detailContainer.alpha = self.showingDetails ? 1.0f : 0.0f;
 }
@@ -292,8 +292,8 @@ typedef enum {
     }
     
     if (video) {
-        static int inset = 0 ;
-        UIWebView* webView = [[UIWebView alloc] initWithFrame:CGRectMake((1024 * page) + inset, 20 + inset, 1024 - (inset * 2), 768 - (inset * 2))];
+        static int inset = 100;
+        UIWebView* webView = [[UIWebView alloc] initWithFrame:CGRectMake((1024 * page) + 0, 10 + inset, 1024 - (0 * 2), 768 - (inset * 2))];
         webView.scrollView.scrollEnabled = NO;
         
         NSString* videoId = [[((NSString*)video[@"url"]) componentsSeparatedByString:@"/"] lastObject];
@@ -549,14 +549,14 @@ typedef enum {
     
     // Figure out if we are showing or hiding
     CGRect destDetails = show ? self.showDetailsFrame : self.hideDetailsFrame;
-    CGRect destBack = show ? self.showDetailsBackFrame : self.hideDetailsBackFrame;
+    CGRect destBack = show ? self.showDetailsButtonFrame : self.hideDetailsButtonFrame;
     float destAlpha = show ? 1.0f : 0.0f;
     
     self.showingDetails = show;
         
     // Run show/hide animation
     [UIView animateWithDuration:0.5 animations:^{
-        self.backButton.frame = destBack;
+        self.detailButton.frame = destBack;
         self.detailContainer.frame = destDetails;
         self.detailContainer.alpha = destAlpha;
     }];
