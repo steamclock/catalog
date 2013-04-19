@@ -25,6 +25,8 @@ typedef enum {
 
 @property (strong, nonatomic) IBOutlet UIImageView* curtainImage;
 @property (strong, nonatomic) IBOutlet UIImageView* curtainBackground;
+@property (strong, nonatomic) IBOutlet UILabel* curtainTitle;
+@property (strong, nonatomic) IBOutlet UILabel* curtainAuthor;
 @property (strong, nonatomic) IBOutlet UIView* curtain;
 @property (strong, nonatomic) UIImageView* curtainFade;
 @property (strong, nonatomic) UIImage* curtainFadeImage;
@@ -86,7 +88,7 @@ typedef enum {
     
     self.scrollView.delegate = self;
         
-    self.showingDetails = YES;
+    self.showingDetails = NO;
 
     // Load in the images for the initially selected project
     [self setupCurrentProjectStartingAtEnd:NO];
@@ -94,21 +96,41 @@ typedef enum {
     // Build up view for curtain (the thing that gets pulled over when tranitioning to the next project, with the key image
     // for the project to transition to on it)
     self.curtainBackground = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 1024, 768)];
-    self.curtainBackground.image = [UIImage imageNamed:@"Background.png"];
+    UIImage* background = [UIImage imageNamed:@"background.png"];
+    self.curtainBackground.image = background;
     self.curtainBackground.contentMode = UIViewContentModeScaleAspectFit;
-    self.curtainBackground.opaque = NO;
+    self.curtainBackground.backgroundColor = [UIColor blueColor];
     
     self.curtainImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 1024, 768)];
     self.curtainImage.backgroundColor = [UIColor clearColor];
     self.curtainImage.contentMode = UIViewContentModeScaleAspectFit;
     self.curtainImage.opaque = NO;
     
+    self.curtainTitle = [[UILabel alloc] initWithFrame:CGRectMake(40, 200, 944, 100)];
+    self.curtainTitle.font = [UIFont systemFontOfSize:60];
+    self.curtainTitle.textColor = [UIColor whiteColor];
+    self.curtainTitle.backgroundColor = [UIColor clearColor];
+    self.curtainTitle.shadowColor = [UIColor blackColor];
+    self.curtainTitle.shadowOffset = CGSizeMake(2, 2);
+    
+    self.curtainAuthor = [[UILabel alloc] initWithFrame:CGRectMake(40, 350, 944, 100)];
+    self.curtainAuthor.font = [UIFont systemFontOfSize:60];
+    self.curtainAuthor.textColor = [UIColor whiteColor];
+    self.curtainAuthor.backgroundColor = [UIColor clearColor];
+    self.curtainAuthor.shadowColor = [UIColor blackColor];
+    self.curtainAuthor.shadowOffset = CGSizeMake(2, 2);
+    
     self.curtain = [[UIView alloc] initWithFrame:CGRectMake(1024, 0, 1024, 768)];
     self.curtain.opaque = NO;
     [self.curtain addSubview:self.curtainBackground];
     [self.curtain addSubview:self.curtainImage];
+    [self.curtain addSubview:self.curtainTitle];
+    [self.curtain addSubview:self.curtainAuthor];
+    
+    self.curtainAuthor.text = @"Test";
+    self.curtainTitle.text = @"Test";
 
-    [self.view addSubview:self.curtain];
+    [self.view insertSubview:self.curtain aboveSubview:self.scrollView];
 
     // Pan recognizer to catch the getures at the edge of the scroll view to the the curtain pull
     self.panRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handleHorizontalDrag:)];
@@ -140,6 +162,14 @@ typedef enum {
         hide.origin.y = hide.origin.y - self.showDetailsFrame.size.height + 20;
         self.hideDetailsBackFrame = hide;
     }
+}
+
+-(void)viewDidLayoutSubviews {
+    [super viewDidLayoutSubviews];
+    
+    self.backButton.frame = self.showingDetails ? self.showDetailsBackFrame : self.hideDetailsBackFrame;
+    self.detailContainer.frame = self.showingDetails ? self.showDetailsFrame : self.hideDetailsFrame;
+    self.detailContainer.alpha = self.showingDetails ? 1.0f : 0.0f;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -216,6 +246,17 @@ typedef enum {
     return nil;
 }
 
+-(void)loadCurtainLabelsForIndex:(int)index {
+    if((index < 0) || (index >= self.projects.count)) {
+        self.curtainTitle.text = nil;
+        self.curtainAuthor.text = nil;
+    }
+    
+    NSDictionary* project = self.projects[index];
+    self.curtainAuthor.text = project[@"author"];
+    self.curtainTitle.text = project[@"title"];
+}
+
 -(void)setupCurrentProjectStartingAtEnd:(BOOL)end {
     self.numPages = [self.project[@"assets"] count];
     self.scrollView.contentSize = CGSizeMake(1024 * self.numPages, 768);
@@ -279,7 +320,7 @@ typedef enum {
     [self.imageLoader precacheImage:[self startImageForIndex:self.currentIndex + 1]];
     [self.imageLoader precacheImage:[self endImageForIndex:self.currentIndex - 1]];
     
-    [self showDetails:YES];
+    //[self showDetails:YES];
 }
 
 -(IBAction)dismiss:(id)sender {
@@ -379,7 +420,7 @@ typedef enum {
                 // key image, and it'll look funny
                 if(!self.curtainFade) {
                     self.curtainFade = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 1024, 768)];
-                    [self.view addSubview:self.curtainFade];
+                    [self.view insertSubview:self.curtainFade aboveSubview:self.scrollView];
                 }
 
                 self.curtainFadeImage = [ProjectViewController imageWithView:self.curtain];
@@ -434,6 +475,11 @@ typedef enum {
                 if(self.curtainImage.image == nil) {
                     self.curtainImage.image = [self.imageLoader cachedImageForURL:[self startImageForIndex:self.currentIndex + 1]];
                 }
+                
+                [self loadCurtainLabelsForIndex:self.currentIndex + 1];
+                self.curtainAuthor.textAlignment = NSTextAlignmentLeft;
+                self.curtainTitle.textAlignment = NSTextAlignmentLeft;
+                
                 self.curtain.frame = frame;
                 self.transitionState = TransitionStatePrepNext;
                 
@@ -452,6 +498,11 @@ typedef enum {
                         self.curtainImage.image = [self.imageLoader cachedImageForURL:[self endImageForIndex:self.currentIndex - 1]];
                     }
                 }
+                
+                [self loadCurtainLabelsForIndex:self.currentIndex - 1];
+                self.curtainAuthor.textAlignment = NSTextAlignmentRight;
+                self.curtainTitle.textAlignment = NSTextAlignmentRight;
+
                 self.curtain.frame = frame;
                 self.transitionState = TransitionStatePrepPrev;
                 
@@ -464,6 +515,9 @@ typedef enum {
                 }
                 self.curtainImage.image = nil;
                 self.curtain.frame = CGRectMake(1024, 0, 1024, 768);
+            }
+            else {
+                [self showDetails:NO];
             }
         }
     }

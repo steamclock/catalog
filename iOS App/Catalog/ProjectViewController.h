@@ -5,7 +5,7 @@
 
 #import <UIKit/UIKit.h>
 
-#define SERVER_ADDRESS @"http://localhost:3000"
+#define SERVER_ADDRESS @"http://10.0.1.55:3000"
 
 @interface ProjectViewController : UIViewController <UIScrollViewDelegate, UIWebViewDelegate, UIGestureRecognizerDelegate>
 
