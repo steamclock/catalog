@@ -123,6 +123,7 @@
 		A6EB5AC51721C02A0009F406 /* ecuad-logo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A6EB5AC11721C0280009F406 /* ecuad-logo@2x.png */; };
 		A6EB5AC61721C02A0009F406 /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = A6EB5AC21721C0280009F406 /* logo.png */; };
 		A6EB5AC71721C02A0009F406 /* logo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A6EB5AC31721C0290009F406 /* logo@2x.png */; };
+		A6EB5ACA1721D2260009F406 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = A6EB5AC91721CFFF0009F406 /* MBProgressHUD.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -250,6 +251,8 @@
 		A6EB5AC11721C0280009F406 /* ecuad-logo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ecuad-logo@2x.png"; sourceTree = "<group>"; };
 		A6EB5AC21721C0280009F406 /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo.png; sourceTree = "<group>"; };
 		A6EB5AC31721C0290009F406 /* logo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "logo@2x.png"; sourceTree = "<group>"; };
+		A6EB5AC81721CFFE0009F406 /* MBProgressHUD.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
+		A6EB5AC91721CFFF0009F406 /* MBProgressHUD.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -326,6 +329,8 @@
 				A6702587170E331600840867 /* ProjectViewController.xib */,
 				A6EB5AB41718B5530009F406 /* CachedImageLoader.h */,
 				A6EB5AB51718B5530009F406 /* CachedImageLoader.m */,
+				A6EB5AC81721CFFE0009F406 /* MBProgressHUD.h */,
+				A6EB5AC91721CFFF0009F406 /* MBProgressHUD.m */,
 			);
 			path = Catalog;
 			sourceTree = "<group>";
@@ -610,6 +615,7 @@
 				A6702588170E331600840867 /* ProjectViewController.m in Sources */,
 				A6EB5AB61718B5530009F406 /* CachedImageLoader.m in Sources */,
 				A6EB5ABF1721BC990009F406 /* UIApplication+NetworkActivityIndicator.m in Sources */,
+				A6EB5ACA1721D2260009F406 /* MBProgressHUD.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

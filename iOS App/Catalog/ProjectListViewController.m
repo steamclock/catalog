@@ -6,6 +6,7 @@
 #import "ProjectListViewController.h"
 #import "ProjectViewController.h"
 #import "CachedImageLoader.h"
+#import "MBProgressHUD.h"
 
 #define REUSE_IDENTIFIER @"ThumbnailCell"
 
@@ -47,6 +48,8 @@ static NSUInteger random_below(NSUInteger n) {
 @property (strong, nonatomic) NSArray* visualArtsProjects;
 @property (strong, nonatomic) NSArray* mediaArtsProjects;
 @property (strong, nonatomic) NSArray* maaProjects;
+
+@property (strong, nonatomic) MBProgressHUD* loadProgress;
 
 @property (strong, nonatomic) CachedImageLoader* thumbnailLoader;
 @end
@@ -147,38 +150,63 @@ static NSUInteger random_below(NSUInteger n) {
 }
 
 -(void)loadProjectLists {
-    NSData* data = [NSData dataWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/json", SERVER_ADDRESS]]];
     
-    if(!data) {
-        // TODO: show an error, allow refresh
-        return;
+    if(!self.loadProgress) {
+        self.loadProgress = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     }
     
-    NSMutableArray* orig = [self sanitizeAndIndexProjects:[NSJSONSerialization JSONObjectWithData:data options:0 error:nil]];
+    self.loadProgress.mode = MBProgressHUDModeIndeterminate;
+    self.loadProgress.labelText = @"Loading project list";
     
-    srandom((int)[NSDate timeIntervalSinceReferenceDate]);
-    
-    NSMutableArray* randomized = orig;
-    NSMutableArray* sorted = [orig mutableCopy];
-    
-    
-    for(NSUInteger i = [randomized count]; i > 1; i--) {
-        NSUInteger j = random_below(i);
-        [randomized exchangeObjectAtIndex:i-1 withObjectAtIndex:j];
-    }
-    
-    self.allProjectsRandomized = randomized;
-    
-    [sorted sortUsingComparator:^NSComparisonResult(NSDictionary* obj1, NSDictionary* obj2) {
-        return [obj1[@"author"] compare:obj2[@"author"] options:0];
-    }];
-    
-    self.allProjectsSorted = sorted;
-    
-    self.designProjects = [self filteredProjectsForDegree:@"Design"];
-    self.visualArtsProjects = [self filteredProjectsForDegree:@"Visual Arts"];
-    self.mediaArtsProjects = [self filteredProjectsForDegree:@"Media Arts"];
-    self.maaProjects = [self filteredProjectsForDegree:@"MAA"];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        NSData* data = [NSData dataWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/json", SERVER_ADDRESS]]];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if(!data) {
+                self.loadProgress.mode = MBProgressHUDModeText;
+                self.loadProgress.labelText = @"Could not contact server, please try again later";
+                
+                double delayInSeconds = 15.0;
+                dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
+                dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+                    [self loadProjectLists];
+                });
+                
+                return;
+            }
+            
+            NSMutableArray* orig = [self sanitizeAndIndexProjects:[NSJSONSerialization JSONObjectWithData:data options:0 error:nil]];
+            
+            srandom((int)[NSDate timeIntervalSinceReferenceDate]);
+            
+            NSMutableArray* randomized = orig;
+            NSMutableArray* sorted = [orig mutableCopy];
+            
+            
+            for(NSUInteger i = [randomized count]; i > 1; i--) {
+                NSUInteger j = random_below(i);
+                [randomized exchangeObjectAtIndex:i-1 withObjectAtIndex:j];
+            }
+            
+            self.allProjectsRandomized = randomized;
+            
+            [sorted sortUsingComparator:^NSComparisonResult(NSDictionary* obj1, NSDictionary* obj2) {
+                return [obj1[@"author"] compare:obj2[@"author"] options:0];
+            }];
+            
+            self.allProjectsSorted = sorted;
+            
+            self.designProjects = [self filteredProjectsForDegree:@"Design"];
+            self.visualArtsProjects = [self filteredProjectsForDegree:@"Visual Arts"];
+            self.mediaArtsProjects = [self filteredProjectsForDegree:@"Media Arts"];
+            self.maaProjects = [self filteredProjectsForDegree:@"MAA"];
+            
+            [self forceShowHome];
+            
+            [self.loadProgress hide:YES];
+            self.loadProgress = nil;
+        });
+    });
 }
 
 #pragma mark UICollectionViewDelegate
@@ -321,6 +349,11 @@ static NSUInteger random_below(NSUInteger n) {
     
     self.currentProjects = projects;;
     [self.collectionView reloadData];
+}
+
+-(void)forceShowHome {
+    self.home.selected = NO;
+    [self showHome:nil];
 }
 
 -(IBAction)showHome:(id)sender {
