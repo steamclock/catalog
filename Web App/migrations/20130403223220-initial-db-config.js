@@ -20,7 +20,7 @@ exports.up = function(db, callback) {
     projectid: 'int',
     type : 'string',
     url : 'string'
-  });
+  }, callback);
 };
 
 exports.down = function(db, callback) {
