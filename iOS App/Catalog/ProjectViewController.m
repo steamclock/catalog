@@ -293,6 +293,7 @@ typedef enum {
     NSString* filename = [NSString stringWithFormat:@"page%d%d.png",self.currentPage+1, self.numPages];
     self.pageControl.image = [UIImage imageNamed:filename];
 }
+
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView {
     // Check if current page has changed, to update page control, and hide details view if needed
     int newPage = floor((float)(scrollView.contentOffset.x + 512) / 1024.0f);
@@ -301,11 +302,13 @@ typedef enum {
         [self showDetails:NO];
     }
 
-    if((self.scrollView.contentOffset.x < 0) && (self.currentIndex > 0)) {
+    if(((self.transitionState != TransitionStateNone) && (self.currentPage == 0)) ||
+      ((self.scrollView.contentOffset.x < 0) && (self.currentIndex > 0))) {
         [self.scrollView setContentOffset:CGPointMake(0.0f, 0.0f) animated:NO];
     }
 
-    if((self.scrollView.contentOffset.x > (self.scrollView.contentSize.width - self.scrollView.frame.size.width)) && (self.currentIndex < (self.projects.count - 1))) {
+    if(((self.transitionState != TransitionStateNone) && (self.currentPage == (self.numPages -1))) ||
+      ((self.scrollView.contentOffset.x > (self.scrollView.contentSize.width - self.scrollView.frame.size.width)) && (self.currentIndex < (self.projects.count - 1)))) {
         [self.scrollView setContentOffset:CGPointMake(self.scrollView.contentSize.width - self.scrollView.frame.size.width,0.0f) animated:NO];
     }
 }
@@ -459,6 +462,7 @@ typedef enum {
                     self.transitionState = TransitionStateNone;
                 }
                 self.curtainImage.image = nil;
+                self.curtain.frame = CGRectMake(1024, 0, 1024, 768);
             }
         }
     }
