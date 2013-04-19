@@ -84,6 +84,14 @@ static NSUInteger random_below(NSUInteger n) {
     [self.aboutWebView loadData:htmlData MIMEType:@"text/html" textEncodingName:@"UTF-8" baseURL:nil];
     [self.view addSubview:self.aboutWebView];
     
+    [self.home setBackgroundImage:[UIImage imageNamed:@"youarehere-highlighted.png"] forState:UIControlStateSelected | UIControlStateHighlighted];
+    [self.design setBackgroundImage:[UIImage imageNamed:@"design-highlighted.png"] forState:UIControlStateSelected | UIControlStateHighlighted];
+    [self.visualArts setBackgroundImage:[UIImage imageNamed:@"visualarts-highlighted.png"] forState:UIControlStateSelected | UIControlStateHighlighted];
+    [self.mediaArts setBackgroundImage:[UIImage imageNamed:@"mediaarts-highlighted.png"] forState:UIControlStateSelected | UIControlStateHighlighted];
+    [self.MAA setBackgroundImage:[UIImage imageNamed:@"maa-highlighted.png"] forState:UIControlStateSelected | UIControlStateHighlighted];
+    [self.search setBackgroundImage:[UIImage imageNamed:@"search-highlighted.png"] forState:UIControlStateSelected | UIControlStateHighlighted];
+    [self.about setBackgroundImage:[UIImage imageNamed:@"about-highlighted.png"] forState:UIControlStateSelected | UIControlStateHighlighted];
+
     self.searchBar.delegate = self;
 }
 
@@ -303,6 +311,7 @@ static NSUInteger random_below(NSUInteger n) {
     
     [self unselectAll];
     
+    button.highlighted = NO;
     button.selected = YES;
     
     self.currentProjects = projects;;
