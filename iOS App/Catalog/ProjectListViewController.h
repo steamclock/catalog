@@ -5,6 +5,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ProjectListViewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate, UISearchBarDelegate>
+@interface ProjectListViewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate, UISearchBarDelegate, UIWebViewDelegate>
 
 @end

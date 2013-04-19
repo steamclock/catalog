@@ -119,6 +119,10 @@
 		A6EB5ABA1720D2E60009F406 /* video-curtain@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A6EB5AB91720D2E60009F406 /* video-curtain@2x.png */; };
 		A6EB5ABC1721B9B90009F406 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A6EB5ABB1721B9B80009F406 /* AVFoundation.framework */; };
 		A6EB5ABF1721BC990009F406 /* UIApplication+NetworkActivityIndicator.m in Sources */ = {isa = PBXBuildFile; fileRef = A6EB5ABE1721BC990009F406 /* UIApplication+NetworkActivityIndicator.m */; };
+		A6EB5AC41721C02A0009F406 /* ecuad-logo.png in Resources */ = {isa = PBXBuildFile; fileRef = A6EB5AC01721C0270009F406 /* ecuad-logo.png */; };
+		A6EB5AC51721C02A0009F406 /* ecuad-logo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A6EB5AC11721C0280009F406 /* ecuad-logo@2x.png */; };
+		A6EB5AC61721C02A0009F406 /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = A6EB5AC21721C0280009F406 /* logo.png */; };
+		A6EB5AC71721C02A0009F406 /* logo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A6EB5AC31721C0290009F406 /* logo@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -242,6 +246,10 @@
 		A6EB5ABB1721B9B80009F406 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		A6EB5ABD1721BC980009F406 /* UIApplication+NetworkActivityIndicator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIApplication+NetworkActivityIndicator.h"; sourceTree = "<group>"; };
 		A6EB5ABE1721BC990009F406 /* UIApplication+NetworkActivityIndicator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIApplication+NetworkActivityIndicator.m"; sourceTree = "<group>"; };
+		A6EB5AC01721C0270009F406 /* ecuad-logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ecuad-logo.png"; sourceTree = "<group>"; };
+		A6EB5AC11721C0280009F406 /* ecuad-logo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ecuad-logo@2x.png"; sourceTree = "<group>"; };
+		A6EB5AC21721C0280009F406 /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo.png; sourceTree = "<group>"; };
+		A6EB5AC31721C0290009F406 /* logo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "logo@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -339,6 +347,10 @@
 		A6EB5AA51716243D0009F406 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				A6EB5AC01721C0270009F406 /* ecuad-logo.png */,
+				A6EB5AC11721C0280009F406 /* ecuad-logo@2x.png */,
+				A6EB5AC21721C0280009F406 /* logo.png */,
+				A6EB5AC31721C0290009F406 /* logo@2x.png */,
 				A6EB5AB71720C5C40009F406 /* video-curtain.png */,
 				A6EB5AB91720D2E60009F406 /* video-curtain@2x.png */,
 				393E4D97171F5EF700F68C2A /* page14.png */,
@@ -578,6 +590,10 @@
 				393E4DA6171F5EF700F68C2A /* page44@2x.png in Resources */,
 				A6EB5AB81720C5C40009F406 /* video-curtain.png in Resources */,
 				A6EB5ABA1720D2E60009F406 /* video-curtain@2x.png in Resources */,
+				A6EB5AC41721C02A0009F406 /* ecuad-logo.png in Resources */,
+				A6EB5AC51721C02A0009F406 /* ecuad-logo@2x.png in Resources */,
+				A6EB5AC61721C02A0009F406 /* logo.png in Resources */,
+				A6EB5AC71721C02A0009F406 /* logo@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

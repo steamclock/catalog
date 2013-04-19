@@ -79,9 +79,14 @@ static NSUInteger random_below(NSUInteger n) {
         
     self.aboutWebView = [[UIWebView alloc] initWithFrame:self.collectionView.frame];
     self.aboutWebView.hidden = YES;
+    
     NSString *filePath = [[NSBundle mainBundle] pathForResource:@"about" ofType:@"html"];
     NSData *htmlData = [NSData dataWithContentsOfFile:filePath];
-    [self.aboutWebView loadData:htmlData MIMEType:@"text/html" textEncodingName:@"UTF-8" baseURL:nil];
+    NSURL *baseURL = [NSURL fileURLWithPath:[[NSBundle mainBundle] bundlePath]];
+    [self.aboutWebView loadData:htmlData MIMEType:@"text/html" textEncodingName:@"UTF-8" baseURL:baseURL];
+    
+    self.aboutWebView.delegate = self;
+    
     [self.view addSubview:self.aboutWebView];
     
     [self.home setBackgroundImage:[UIImage imageNamed:@"youarehere-highlighted.png"] forState:UIControlStateSelected | UIControlStateHighlighted];
@@ -357,5 +362,17 @@ static NSUInteger random_below(NSUInteger n) {
     self.aboutWebView.hidden = NO;
 }
 
+-(BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
+    if(navigationType == UIWebViewNavigationTypeOther) {
+        // Initial load, let it go
+        return YES;
+    }
+    else
+    {
+        // Anything else, send it to Safari
+        [[UIApplication sharedApplication] openURL:request.URL];
+    }
+    return NO;
+}
 
 @end
