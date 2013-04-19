@@ -55,11 +55,13 @@
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [[UIApplication sharedApplication] hideNetworkActivityIndicator];
 
-                    weakSelf.cached[url] = image;
+                    if(image) {
+                        weakSelf.cached[url] = image;
 
-                    [weakSelf.loading[url] enumerateObjectsUsingBlock:^(void (^callback)(UIImage*, BOOL), NSUInteger idx, BOOL *stop) {
-                        callback(image, NO);
-                    }];
+                        [weakSelf.loading[url] enumerateObjectsUsingBlock:^(void (^callback)(UIImage*, BOOL), NSUInteger idx, BOOL *stop) {
+                            callback(image, NO);
+                        }];
+                    }
                     
                     // Clean up the load handlers
                     [weakSelf.loading removeObjectForKey:url];

@@ -276,6 +276,7 @@ typedef enum {
             spinner.center = CGPointMake(1024 / 2, 768 / 2);
             [spinner startAnimating];
             
+            imageURL = [imageURL stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
             
             [self.imageLoader loadImage:[NSURL URLWithString:imageURL] onLoad:^(UIImage* image, BOOL wasCached) {
                 [spinner removeFromSuperview];
