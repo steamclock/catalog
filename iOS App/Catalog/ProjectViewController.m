@@ -271,7 +271,7 @@ typedef enum {
             
             UIImageView* imageView = [[UIImageView alloc] initWithFrame:CGRectMake(1024 * page, 0, 1024, 768)];
             imageView.contentMode = UIViewContentModeScaleAspectFit;
-            UIActivityIndicatorView* spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+            UIActivityIndicatorView* spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
             [imageView addSubview:spinner];
             spinner.center = CGPointMake(1024 / 2, 768 / 2);
             [spinner startAnimating];
