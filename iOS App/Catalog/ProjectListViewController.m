@@ -212,11 +212,15 @@ static NSUInteger random_below(NSUInteger n) {
 #pragma mark UICollectionViewDelegate
 
 -(NSURL*)thumbnailForProject:(NSDictionary*)project {
-//    return nil;
-//    return [NSString stringWithFormat:@"%@%@", SERVER_ADDRESS, project[@"thumbnail"]];
     for(NSDictionary* asset in project[@"assets"]) {
         if([asset[@"type"] isEqualToString:@"image"]) {
-            NSString* imageURL = [NSString stringWithFormat:@"%@%@", SERVER_ADDRESS, asset[@"url"]];
+            NSString* thumbnailUrl = asset[@"thumbnailurl"];
+            
+            if(!thumbnailUrl) {
+                thumbnailUrl = asset[@"url"];
+            }
+            
+            NSString* imageURL = [NSString stringWithFormat:@"%@%@", SERVER_ADDRESS, thumbnailUrl];
             return [NSURL URLWithString:imageURL];
         }
     }
