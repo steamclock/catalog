@@ -3704,6 +3704,7 @@ p.footer {
   display: inline-block;
   vertical-align: middle;
   margin: 0 0 0 10px;
+  width: 155px;
 }
 
 hr {
