@@ -104,6 +104,7 @@ body {
 .ecuad-logo-top {
   float: right;
   margin: 20px;
+  width: 155px;
 }
 
 img {
@@ -3274,6 +3275,7 @@ input[type="submit"].btn.btn-mini {
   float: left;
   display: block;
   margin: 0;
+  width: 80px;
 }
 
 .navbar .brand:hover,
