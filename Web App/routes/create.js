@@ -108,7 +108,8 @@ exports.submit = function(req, res){
                     , uniqueness = crypto.createHash('md5').update(salty).digest("hex")
                     , ext = path.extname(file.name).split('.'), ext = "." + ext[ext.length - 1]
                     , uniqueFile = uniqueness + ext
-                    , targetPath = "./public/images/projects/" + uniqueFile;
+                    , targetPath = "./public/images/projects/" + uniqueFile
+                    , targetThumbPath = "./public/images/projects/thumbnails/" + uniqueFile;
                     
                     // move the file from the temporary location to the intended location
                     fs.readFile(file.path, function (err, data) {
@@ -122,6 +123,14 @@ exports.submit = function(req, res){
                                         console.log("Error:" + err);
                                     }
                                 });
+
+                                // Create thumbnail
+                                // imagemagick.convert(
+                                //     [targetPath, '-string', '-resize', '600X600>', targetThumbPath], 
+                                //     function(err, stdout){
+                                //     if (err) throw err;
+                                //       console.log('stdout:', stdout);
+                                // });
                             }
                           });
                     });
