@@ -125,12 +125,16 @@ exports.submit = function(req, res){
                                 });
 
                                 // Create thumbnail
-                                // imagemagick.convert(
-                                //     [targetPath, '-string', '-resize', '600X600>', targetThumbPath], 
-                                //     function(err, stdout){
-                                //     if (err) throw err;
-                                //       console.log('stdout:', stdout);
-                                // });
+                                imagemagick.convert(
+                                    [targetPath, '-strip', '-thumbnail', '600X600>', targetThumbPath], 
+                                    function(err, stdout){
+                                    if (err){
+                                        throw err;
+                                        console.log('stdout:', stdout);
+                                    } else {
+                                        console.log("Thumbnail generated.")
+                                    }
+                                });
                             }
                           });
                     });
