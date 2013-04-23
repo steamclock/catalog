@@ -60,6 +60,9 @@ exports.getProjects = function(req, res){
                     var asset = assets[j];
 
                     if (project.id === asset.projectid) {
+                        //We generate the thumbnail url here, assumption is made the a thumbnail exists
+                        var filename = asset.url.substring(asset.url.lastIndexOf('/') + 1)
+                        asset.thumbnailurl = "/public/images/projects/thumbnails/" + filename;
                         project.assets.push(asset);
                     }
                 }
