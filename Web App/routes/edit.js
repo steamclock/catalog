@@ -161,8 +161,9 @@ exports.update = function(req, res){
                                             , uniqueness = crypto.createHash('md5').update(salty).digest("hex")
                                             , ext = path.extname(file.name).split('.'), ext = "." + ext[ext.length - 1]
                                             , uniqueFile = uniqueness + ext
-                                            , targetPath = "./public/images/projects/" + uniqueFile;
-                                            fs.readFile(file.path, function (err, data) {
+                                            , targetPath = "./public/images/projects/" + uniqueFile
+                                            , targetThumbPath = "./public/images/projects/thumbnails/" + uniqueFile;
+                                             fs.readFile(file.path, function (err, data) {
                                               fs.writeFile(targetPath, data, function (err) {
                                                 if (err) {
                                                     console.log("Error:" + err)
@@ -171,6 +172,18 @@ exports.update = function(req, res){
                                                     fs.unlink(tmp_path, function(err){
                                                         if (err) {
                                                             console.log("Error:" + err);
+                                                        }
+                                                    });
+
+                                                    // Create thumbnail
+                                                    imagemagick.convert(
+                                                        [targetPath, '-strip', '-thumbnail', '600X600>', targetThumbPath], 
+                                                        function(err, stdout){
+                                                        if (err){
+                                                            throw err;
+                                                            console.log('stdout:', stdout);
+                                                        } else {
+                                                            console.log("Thumbnail generated.")
                                                         }
                                                     });
                                                 }
@@ -199,8 +212,9 @@ exports.update = function(req, res){
                                         , uniqueness = crypto.createHash('md5').update(salty).digest("hex")
                                         , ext = path.extname(file.name).split('.'), ext = "." + ext[ext.length - 1]
                                         , uniqueFile = uniqueness + ext
-                                        , targetPath = "./public/images/projects/" + uniqueFile;
-                                    fs.readFile(file.path, function (err, data) {
+                                        , targetPath = "./public/images/projects/" + uniqueFile
+                                        , targetThumbPath = "./public/images/projects/thumbnails/" + uniqueFile;
+                                        fs.readFile(file.path, function (err, data) {
                                           fs.writeFile(targetPath, data, function (err) {
                                             if (err) {
                                                 console.log("Error:" + err)
@@ -209,6 +223,18 @@ exports.update = function(req, res){
                                                 fs.unlink(tmp_path, function(err){
                                                     if (err) {
                                                         console.log("Error:" + err);
+                                                    }
+                                                });
+
+                                                // Create thumbnail
+                                                imagemagick.convert(
+                                                    [targetPath, '-strip', '-thumbnail', '600X600>', targetThumbPath], 
+                                                    function(err, stdout){
+                                                    if (err){
+                                                        throw err;
+                                                        console.log('stdout:', stdout);
+                                                    } else {
+                                                        console.log("Thumbnail generated.")
                                                     }
                                                 });
                                             }
@@ -239,8 +265,10 @@ exports.update = function(req, res){
                                 , uniqueness = crypto.createHash('md5').update(salty).digest("hex")
                                 , ext = path.extname(file.name).split('.'), ext = "." + ext[ext.length - 1]
                                 , uniqueFile = uniqueness + ext
-                                , targetPath = "./public/images/projects/" + uniqueFile;
-                            fs.readFile(file.path, function (err, data) {
+                                , targetPath = "./public/images/projects/" + uniqueFile
+                                , targetThumbPath = "./public/images/projects/thumbnails/" + uniqueFile;
+
+                                fs.readFile(file.path, function (err, data) {
                                   fs.writeFile(targetPath, data, function (err) {
                                     if (err) {
                                         console.log("Error:" + err)
@@ -249,6 +277,18 @@ exports.update = function(req, res){
                                         fs.unlink(tmp_path, function(err){
                                             if (err) {
                                                 console.log("Error:" + err);
+                                            }
+                                        });
+
+                                        // Create thumbnail
+                                        imagemagick.convert(
+                                            [targetPath, '-strip', '-thumbnail', '600X600>', targetThumbPath], 
+                                            function(err, stdout){
+                                            if (err){
+                                                throw err;
+                                                console.log('stdout:', stdout);
+                                            } else {
+                                                console.log("Thumbnail generated.")
                                             }
                                         });
                                     }
