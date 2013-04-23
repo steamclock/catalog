@@ -51,7 +51,7 @@
       <% if ((assets[i] != undefined) && assets[i].type === "image") { ;%>
         <div class="row-fluid">
           <div class="span4">
-            <label>Current File:</label><span><%= assets[i].url.substring(assets[i].url.lastIndexOf('/') + 1) %></span>
+            <label>Current File:</label><span><%= assets[i].filename %></span>
             <div class="form-inline">
                 <div class="fileupload fileupload-new" data-provides="fileupload">
               </div> <!-- End Fileupload Div -->
