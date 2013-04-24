@@ -108,8 +108,8 @@ exports.submit = function(req, res){
                     , uniqueness = crypto.createHash('md5').update(salty).digest("hex")
                     , ext = path.extname(file.name).split('.'), ext = "." + ext[ext.length - 1]
                     , uniqueFile = uniqueness + ext
-                    , targetPath = "./public/images/projects/" + uniqueFile
-                    , targetThumbPath = "./public/images/projects/thumbnails/" + uniqueFile;
+                    , targetPath = "./public/images/projects/" + uniqueFile.toLowerCase()
+                    , targetThumbPath = "./public/images/projects/thumbnails/" + uniqueFile.toLowerCase();
                     
                     // move the file from the temporary location to the intended location
                     fs.readFile(file.path, function (err, data) {
@@ -139,7 +139,7 @@ exports.submit = function(req, res){
                           });
                     });
 
-                    var localFileURL = "/public/images/projects/" + uniqueFile;
+                    var localFileURL = "/public/images/projects/" + uniqueFile.toLowerCase();
 
                     var assetInsertion = client.query(
                         "INSERT into assets(projectid, type, url, filename) values($1, $2, $3, $4)",
