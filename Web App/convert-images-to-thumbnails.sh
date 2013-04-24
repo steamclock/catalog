@@ -7,6 +7,7 @@ if [ ! -d $thumbpath ]; then mkdir $thumbpath; fi;
 echo "Copying images."
 
 cp $origpath*.jpg $thumbpath;
+cp $origpath*.JPG $thumbpath;
 
 cd $thumbpath;
 
