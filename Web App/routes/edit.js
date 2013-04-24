@@ -159,7 +159,7 @@ exports.update = function(req, res){
                                          var tmp_path = file.path
                                             , salty = crypto.randomBytes(256)
                                             , uniqueness = crypto.createHash('md5').update(salty).digest("hex")
-                                            , ext = path.extname(file.name).split('.'), ext = "." + ext[ext.length - 1]
+                                            , ext = ".jpg"
                                             , uniqueFile = uniqueness + ext
                                             , targetPath = "./public/images/projects/" + uniqueFile.toLowerCase()
                                             , targetThumbPath = "./public/images/projects/thumbnails/" + uniqueFile.toLowerCase();
@@ -210,7 +210,7 @@ exports.update = function(req, res){
                                      var tmp_path = file.path
                                         , salty = crypto.randomBytes(256)
                                         , uniqueness = crypto.createHash('md5').update(salty).digest("hex")
-                                        , ext = path.extname(file.name).split('.'), ext = "." + ext[ext.length - 1]
+                                        , ext = ".jpg"
                                         , uniqueFile = uniqueness + ext
                                         , targetPath = "./public/images/projects/" + uniqueFile.toLowerCase()
                                         , targetThumbPath = "./public/images/projects/thumbnails/" + uniqueFile.toLowerCase();
@@ -263,7 +263,7 @@ exports.update = function(req, res){
                              var tmp_path = file.path
                                 , salty = crypto.randomBytes(256)
                                 , uniqueness = crypto.createHash('md5').update(salty).digest("hex")
-                                , ext = path.extname(file.name).split('.'), ext = "." + ext[ext.length - 1]
+                                , ext = ".jpg"
                                 , uniqueFile = uniqueness + ext
                                 , targetPath = "./public/images/projects/" + uniqueFile.toLowerCase()
                                 , targetThumbPath = "./public/images/projects/thumbnails/" + uniqueFile.toLowerCase();
