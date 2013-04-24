@@ -221,6 +221,7 @@ static NSUInteger random_below(NSUInteger n) {
             }
             
             NSString* imageURL = [NSString stringWithFormat:@"%@%@", SERVER_ADDRESS, thumbnailUrl];
+            imageURL = [imageURL stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
             return [NSURL URLWithString:imageURL];
         }
     }
