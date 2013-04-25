@@ -13,7 +13,7 @@
 <div class="row-fluid">
   <div class="span12 white-background-submissions">
     <ul class="student-submissions">
-      <% for (var i = 0; i < projects.length - 1; i++) { %>
+      <% for (var i = 0; i < projects.length; i++) { %>
         <li>
           <div class="row-fluid">
             <div class="span3">
@@ -25,7 +25,7 @@
                 <li><%= projects[i].degree %></li>
                 <li><%= projects[i].medium %></li>
                 <li><%= projects[i].measurements %></li>
-                <% for (var j = 0; j < projects[i].assets.length - 1; j++) { %>
+                <% for (var j = 0; j < projects[i].assets.length; j++) { %>
                   <% if (projects[i].assets[j].type == "video") { %>
                     <li>Vimeo Link: <a href="<%= projects[i].assets[j].url %>" title="Link to student's Vimeo embed" target="_blank"><%= projects[i].assets[j].url %></a></li>
                   <% } %>
@@ -34,7 +34,7 @@
                 <input type="submit" value="Resubmit" class="btn btn-danger">  
               </ul> 
             </div>
-            <% for (var k = 0; k < projects[i].assets.length - 1; k++) { %>
+            <% for (var k = 0; k < projects[i].assets.length; k++) { %>
                 <% if (projects[i].assets[k].type == "image") { %>
                   <div class="span3">
                     <img src="<%= projects[i].assets[k].thumbnailurl %>">
