@@ -69,4 +69,22 @@ exports.get = function(req, res){
         }
     
     });
-};
+}
+
+/*
+ * POST approval
+ */
+
+exports.approve = function(req, res){ 
+    // Set project to published = true
+    console.log(req.body);
+}
+
+/*
+ * POST approval
+ */
+
+exports.reject = function(req, res){ 
+    // Delete project
+    console.log(req.body);
+}
