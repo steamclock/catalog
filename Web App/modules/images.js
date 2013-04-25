@@ -8,28 +8,16 @@ var fs = require('fs')
     , path = require('path');
 
 
-exports.checkImg = function(image){
-    async.series([
-    function(callback){
+exports.checkImg = function(image, callback){
+    if (image.type === "image/jpeg") {
         var accept;
-        if (image.type === "image/jpeg") {
-            imagemagick.identify(image.path, function(err, features){
-                if(err){console.log(err)};
-                accept = ((features.width >= 1500) || (features.height >= 1500));
-                callback(null, accept);
-            });
-        }
-    }],
-    // optional callback
-    function(err, results){
-        if (err) {
-            console.log(err);
-        } else {
-            console.log(results);
-        }
-    });
-
-    return accept;
+        imagemagick.identify(image.path, function(err, features){
+            if(err){console.log(err)};
+            console.log("Assigning result");
+            accept = ((features.width >= 1500) || (features.height >= 1500));
+            callback(accept);
+        });
+    }
 }
 
 exports.moveImg = function(image){

@@ -4,7 +4,7 @@
 
 var fs = require('fs')
     , client = require('./../modules/postgres').client
-    , mail = require('./../modules/postgres')
+    , mail = require('./../modules/mail')
     , crypto = require('crypto')
     , async = require('async')
     , imagemagick = require('imagemagick')
@@ -19,7 +19,6 @@ exports.new = function(req, res){
     async.waterfall([
         function(callback){
             // Check if email already exists in DB
-            console.log("Here!");
             var query = client.query("SELECT 1 FROM projects where email = $1 limit 1", [req.body.email]);
 
             query.on('row', function (row, result){
@@ -43,14 +42,32 @@ exports.new = function(req, res){
             // Reject the user and pop them back to the form if they did not have the right image dimensions 
             // (file size is validated on client side)
             req.files.images.forEach(function(file){
-                var accept = images.checkImg(file), formValues;
-                    if (!accept){
-                        formValues = JSON.stringify(req.body);
-                        res.flash('message','One of your images did not meet the minimum dimensions. Please verify the dimensions of all of your assets.');
-                        res.render('create/create', { title : "Error in submission", formData : formValues });
-                        callback(true); //Exits waterfall
+
+                async.waterfall([
+                    function(callback){
+                        var accept;
+                        function accept(bool){
+                            accept = bool;
+                        }
+                        images.checkImg(file, accept);
+                        callback(null, accept);
+                    },
+                    function(accept, callback){
+                        var formValues;
+                        if (!accept){
+                            formValues = JSON.stringify(req.body);
+                            res.flash('message','One of your images did not meet the minimum dimensions. Please verify the dimensions of all of your assets.');
+                            res.render('create/create', { title : "Error in submission", formData : formValues });
+                            callback(true); //Exits waterfall
+                        } else {
+                            callback(null);
+                        }
                     }
+                ], function (err, result) {
+                   // result now equals 'done'    
+                });
             });
+
             callback(null);
         },
 
