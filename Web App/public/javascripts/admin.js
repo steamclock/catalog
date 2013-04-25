@@ -3,12 +3,11 @@
  */
 
  $(document).ready(function(){
-    function submitForm (form) {
-        //console.log(form);
-
+    function submitForm (form, listItem) {
         $.post(form[0].action, $(form).serialize(), function(data){
-            //data = JSON.parse(data);
+            var response = JSON.stringify(data);
             console.log("Data Loaded: " + data);
+            $(listItem).fadeOut(500, function() { $(this).remove(); });
         });
     }
 
@@ -18,12 +17,14 @@
 
     $(".approve").click(function(){
         var form = $(this).parents('form:first');
-        submitForm(form);
+        var listItem = $(this).parents('li:first');
+        submitForm(form, listItem);
     });
 
     $(".reject").click(function(){
         var form = $(this).parents('form:first');
-        submitForm(form);
+        var listItem = $(this).parents('li:first');
+        submitForm(form, listItem);
     });
 
  });

@@ -77,9 +77,25 @@ exports.get = function(req, res){
 
 exports.approve = function(req, res){ 
     // Set project to published = true
-    var response = JSON.stringify({ success : true, projectid : req.body.projectid });
-    console.log(req.body);
-    res.send(response);
+    async.series([
+        function(callback){
+            var query = client.query("UPDATE projects SET published = true WHERE id = $1", [req.body.projectid]);
+
+            query.on('end', function(result){
+                callback(null);
+            })
+        },
+        function(callback){
+            var response = JSON.stringify({ success : true, projectid : req.body.projectid });
+            console.log(req.body);
+            res.send(response);
+            callback(null);
+        }
+    ],
+    function(err, results){
+       if (err) { console.log(err)}
+    });
+
 }
 
 /*
