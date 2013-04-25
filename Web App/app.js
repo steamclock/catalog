@@ -7,6 +7,7 @@ var express = require('express')
   , pages = require('./routes/pages')
   , create = require('./routes/create')
   , edit = require('./routes/edit')
+  , admin = require('./routes/admin')
   , projects = require('./routes/projects')
   , http = require('http')
   , path = require('path')
@@ -63,6 +64,9 @@ app.get('/edit/:token', edit.get);
 app.post('/edit/update', edit.update);
 app.get('/resubmitted', edit.done);
 app.get('/edit/token/denied', edit.denied);
+
+// Adminstration panel
+app.get('/admin', admin.get);
 
 
 // Degree page that lists all projects for a given degree
