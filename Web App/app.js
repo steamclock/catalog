@@ -54,7 +54,7 @@ app.get('/about', pages.about);
 
 // Creating a submission
 app.get('/create', create.get);
-app.post('/create/submit', create.submit);
+app.post('/create/submit', create.new);
 app.get('/create/done', create.done);
 app.get('/create/denied', create.denied);
 

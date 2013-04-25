@@ -1,35 +1,23 @@
-var fs = require('fs')
-    , client = require('./../modules/postgres').client
-    , mail = require('./../modules/mail')
-    , crypto = require('crypto')
-    , async = require('async')
-    , validator = require('validator') // TODO: Remove?
-    , imagemagick = require('imagemagick')
-    , flash = require('flashify')
-    , path = require('path');
-
 /*
- * GET form to create new project
+ * Create operations
  */
 
-exports.get = function(req, res){
-  res.render('create/create', { title: 'Submit Your Project', formData : null });
-};
-
+var fs = require('fs')
+    , client = require('./../modules/postgres').client
+    , mail = require('./../modules/postgres')
+    , crypto = require('crypto')
+    , async = require('async')
+    , imagemagick = require('imagemagick')
+    , flash = require('flashify')
+    , path = require('path')
+    , images = require('./../modules/images');
 /*
  * POST form to create new project
  */
-
-exports.submit = function(req, res){
-    // Generate a unique hash for edit link using submitter's email address
-    // TODO: use a config var somewhere to salt this properly
-    
+exports.new = function(req, res){
     var email = req.body.email, salty = crypto.randomBytes(256); token = crypto.createHash('md5').update(salty).digest("hex");
-    console.log("SALTY HASH: " + token);
     async.waterfall([
-
         function(callback){
-
             // Check if email already exists in DB
             console.log("Here!");
             var query = client.query("SELECT 1 FROM projects where email = $1 limit 1", [req.body.email]);
@@ -37,47 +25,37 @@ exports.submit = function(req, res){
             query.on('row', function (row, result){
                 result.addRow(row);
             });
-
             query.on('error', function(error){
                 console.log("ERROR:" + error);
                 res.render('done', { title: 'ERROR EMAIL ALREADY IN DB' });
             });
-
             query.on('end', function (result){
                 if (result.rows.length > 0){
                     res.redirect('/create/denied');
                     callback(true); //exits waterfall
                 } else {
-                    callback(null)
+                    callback(null);
                 }
             });  
         },
 
         function(callback){
-            //Reject the user and pop them back to the form if they did not have the right image dimensions (size is validated on client side)
-
+            // Reject the user and pop them back to the form if they did not have the right image dimensions 
+            // (file size is validated on client side)
             req.files.images.forEach(function(file){
-                if (file.type === "image/jpeg") {
-                    imagemagick.identify(file.path, function(err, features){
-                        if(err){console.log(err)};
-                        var accept = ((features.width >= 1500) || (features.height >= 1500));
-                        if (!accept){
-                            var formValues = JSON.stringify(req.body);
-                            res.flash('message','One of your images did not meet the minimum dimensions. Please verify the dimensions of all of your assets.');
-                            res.render('create/create', { title : "Error in submission", formData : formValues });
-                            callback(true); //Exits waterfall
-                        }
-                    });
-
-                }
+                var accept = images.checkImg(file), formValues;
+                    if (!accept){
+                        formValues = JSON.stringify(req.body);
+                        res.flash('message','One of your images did not meet the minimum dimensions. Please verify the dimensions of all of your assets.');
+                        res.render('create/create', { title : "Error in submission", formData : formValues });
+                        callback(true); //Exits waterfall
+                    }
             });
-
             callback(null);
         },
 
         function(callback){
             // Insert into the projects table
-            console.log("Getting called to insert project");
             var query = client.query(
                 "INSERT INTO projects(title, author, email, website, degree, medium, measurements, token) values($1, $2, $3, $4, $5, $6, $7, $8) RETURNING id",
                 [req.body.title, req.body.author, req.body.email, req.body.website, req.body.degree, req.body.medium, req.body.measurements, token]
@@ -100,50 +78,35 @@ exports.submit = function(req, res){
              // Iterate over files and insert into assets table as well as move files to appropriate location
             req.files.images.forEach(function(file) {
                 if (file.name) {
-                    // get the temporary location of the file
-                    // generate unique id to append in case of duplicate file names, take a substring of the MD5 so it's not super long
-                    // then set target path for file upload
-                    var tmp_path = file.path
+                    var tmpPath = file.path
                     , salty = crypto.randomBytes(256)
                     , uniqueness = crypto.createHash('md5').update(salty).digest("hex")
                     , ext = ".jpg"
-                    , uniqueFile = uniqueness + ext
-                    , targetPath = "./public/images/projects/" + uniqueFile.toLowerCase()
-                    , targetThumbPath = "./public/images/projects/thumbnails/" + uniqueFile.toLowerCase();
+                    , uniqueFile = uniqueness + ext.toLowerCase()
+                    , targetPath = "./public/images/projects/" + uniqueFile
+                    , targetThumbPath = "./public/images/projects/thumbnails/" + uniqueFile
+                    , jsonFileURL = "/public/images/projects/" + uniqueFile;
                     
-                    // move the file from the temporary location to the intended location
                     fs.readFile(file.path, function (err, data) {
                           fs.writeFile(targetPath, data, function (err) {
                             if (err) {
                                 console.log("Error:" + err)
                             } else {
                                 console.log("File copied");
-                                fs.unlink(tmp_path, function(err){
+                                fs.unlink(tmpPath, function(err){
                                     if (err) {
                                         console.log("Error:" + err);
                                     }
                                 });
-
                                 // Create thumbnail
-                                imagemagick.convert(
-                                    [targetPath, '-strip', '-thumbnail', '600X600>', targetThumbPath], 
-                                    function(err, stdout){
-                                    if (err){
-                                        throw err;
-                                        console.log('stdout:', stdout);
-                                    } else {
-                                        console.log("Thumbnail generated.")
-                                    }
-                                });
+                                images.generateThumb(targetPath, targetThumbPath);
                             }
-                          });
+                        });
                     });
-
-                    var localFileURL = "/public/images/projects/" + uniqueFile.toLowerCase();
 
                     var assetInsertion = client.query(
                         "INSERT into assets(projectid, type, url, filename) values($1, $2, $3, $4)",
-                        [projectID, "image", localFileURL, file.name]
+                        [projectID, "image", jsonFileURL, file.name]
                     );
 
                     assetInsertion.on('error', function(error) {
@@ -195,8 +158,15 @@ exports.submit = function(req, res){
         } else {
             console.log("Done adding new project and all assets.");
         }
-    
     });
+}
+
+/*
+ * GET form to create new project
+ */
+
+exports.get = function(req, res){
+  res.render('create/create', { title: 'Submit Your Project', formData : null });
 };
 
 /*
