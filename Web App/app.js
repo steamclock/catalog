@@ -68,7 +68,7 @@ app.get('/edit/token/denied', edit.denied);
 // Adminstration panel
 app.get('/admin', admin.get);
 app.post('/admin/approve/:id', admin.approve);
-app.post('/admin/approve/:id', admin.reject);
+app.post('/admin/reject/:id', admin.reject);
 
 
 // Degree page that lists all projects for a given degree

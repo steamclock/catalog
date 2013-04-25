@@ -77,7 +77,9 @@ exports.get = function(req, res){
 
 exports.approve = function(req, res){ 
     // Set project to published = true
+    var response = JSON.stringify({ success : true, projectid : req.body.projectid });
     console.log(req.body);
+    res.send(response);
 }
 
 /*
@@ -86,5 +88,7 @@ exports.approve = function(req, res){
 
 exports.reject = function(req, res){ 
     // Delete project
+    var response = JSON.stringify({ success : true, projectid : req.body.projectid });
     console.log(req.body);
+    res.send(response);
 }
