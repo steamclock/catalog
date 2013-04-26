@@ -7,6 +7,7 @@
         $.post(form[0].action, $(form).serialize(), function(data){
             var response = JSON.stringify(data);
             console.log("Data Loaded: " + data);
+            // Error handling here for server failure
             $(listItem).fadeOut(500, function() { $(this).remove(); });
         });
     }

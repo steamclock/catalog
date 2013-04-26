@@ -3,7 +3,8 @@
  */
 
 var client = require('./../modules/postgres').client
-    , async = require('async');
+    , async = require('async')
+    , mail = require('./../modules/mail');
 
 /*
  * GET projects to be curated for admin panel
@@ -99,12 +100,53 @@ exports.approve = function(req, res){
 }
 
 /*
- * POST approval
+ * POST rejection
  */
 
 exports.reject = function(req, res){ 
-    // Delete project
-    var response = JSON.stringify({ success : true, projectid : req.body.projectid });
-    console.log(req.body);
-    res.send(response);
+    async.series([
+        function(callback){
+            // Remove project
+            var query = client.query("DELETE FROM projects WHERE id = $1", [req.body.projectid]);
+
+            query.on('error', function(error){
+                console.log("Error: " + error);
+                var response = JSON.stringify({ success : false, projectid : req.body.projectid });
+                console.log(req.body);
+                res.send(response);
+                callback(null);
+            });
+
+            query.on('end', function(result){
+                callback(null);
+            })
+        },
+
+        function(callback){
+            // Remove all assets for project
+            var query = client.query("DELETE FROM assets WHERE projectid = $1", [req.body.projectid]);
+
+            query.on('error', function(error){
+                console.log("Error: " + error);
+                var response = JSON.stringify({ success : false, projectid : req.body.projectid });
+                console.log(req.body);
+                res.send(response);
+                callback(null);
+            });
+
+            query.on('end', function(result){
+                callback(null);
+            })
+        },
+
+        function(callback){
+            var response = JSON.stringify({ success : true, projectid : req.body.projectid });
+            console.log(req.body);
+            res.send(response);
+            callback(null);
+        }
+    ],
+    function(err, results){
+       if (err) { console.log(err) }
+    });
 }
