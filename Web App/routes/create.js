@@ -165,7 +165,7 @@ exports.new = function(req, res){
 
        function(callback){
             var projectEditURL = "http://" + req.headers.host + "/edit/" + token;
-            mail.send(req.body.email, projectEditURL);
+            mail.sendCreateConfirmation(req.body.email, projectEditURL);
             res.render('create/done', { title : "Submission complete."});
             callback(null);
        }

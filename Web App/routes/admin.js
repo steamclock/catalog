@@ -78,18 +78,23 @@ exports.get = function(req, res){
 
 exports.approve = function(req, res){ 
     // Set project to published = true
-    async.series([
+    async.waterfall([
         function(callback){
-            var query = client.query("UPDATE projects SET published = true WHERE id = $1", [req.body.projectid]);
+            var query = client.query("UPDATE projects SET published = true WHERE id = $1 RETURNING email", [req.body.projectid]);
+
+            query.on('row', function (row, result){
+                result.addRow(row);
+            });
 
             query.on('end', function(result){
-                callback(null);
-            })
+                callback(null, result.rows[0].email);
+            });
         },
-        function(callback){
+        function(email, callback){
             var response = JSON.stringify({ success : true, projectid : req.body.projectid });
             console.log(req.body);
             res.send(response);
+            mail.sendStatusUpdate(email, true);
             callback(null);
         }
     ],
@@ -104,10 +109,10 @@ exports.approve = function(req, res){
  */
 
 exports.reject = function(req, res){ 
-    async.series([
+    async.waterfall([
         function(callback){
             // Remove project
-            var query = client.query("DELETE FROM projects WHERE id = $1", [req.body.projectid]);
+            var query = client.query("DELETE FROM projects WHERE id = $1 RETURNING email", [req.body.projectid]);
 
             query.on('error', function(error){
                 console.log("Error: " + error);
@@ -117,12 +122,16 @@ exports.reject = function(req, res){
                 callback(null);
             });
 
+            query.on('row', function (row, result){
+                result.addRow(row);
+            });
+
             query.on('end', function(result){
-                callback(null);
-            })
+                callback(null, result.rows[0].email);
+            });
         },
 
-        function(callback){
+        function(email, callback){
             // Remove all assets for project
             var query = client.query("DELETE FROM assets WHERE projectid = $1", [req.body.projectid]);
 
@@ -135,14 +144,15 @@ exports.reject = function(req, res){
             });
 
             query.on('end', function(result){
-                callback(null);
+                callback(null, email);
             })
         },
 
-        function(callback){
+        function(email, callback){
             var response = JSON.stringify({ success : true, projectid : req.body.projectid });
             console.log(req.body);
             res.send(response);
+            mail.sendStatusUpdate(email, false);
             callback(null);
         }
     ],
