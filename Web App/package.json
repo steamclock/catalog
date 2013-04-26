@@ -1,6 +1,6 @@
 {
   "name": "gradcatalog",
-  "description": "A simple application for curating and serving up content to content-based iOS applications",
+  "description": "A simple application for curating and serving up content to content-based applications",
   "version": "0.0.1",
   "author": "Steamclock Software <support@steamclock.com>",
   "private": true,
@@ -31,7 +31,8 @@
     "async" : "*",
     "imagemagick" : "*",
     "flashify" : "*",
-    "http-auth" : "1.2.7"
+    "http-auth" : "*",
+    "htpasswd" : "*"
   },
 
   "devDependencies": {

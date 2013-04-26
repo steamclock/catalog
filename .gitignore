@@ -18,7 +18,7 @@ Web\ App/database.json
 Web\ App/logfile
 Web\ App/public/images/projects
 Web\ App/uploads
-Web\ App/users.htpasswd
+Web\ App/htpasswd
 
 .DS_Store
 project.xcworkspace
