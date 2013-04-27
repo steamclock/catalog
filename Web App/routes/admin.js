@@ -13,7 +13,7 @@ var client = require('./../modules/postgres').client
 exports.get = function(req, res){
    async.waterfall([
         function(callback){
-            var query = client.query('SELECT  * FROM projects WHERE published = false'); //This should be 'true', is false for testing/building template
+            var query = client.query('SELECT  * FROM projects WHERE published = false');
 
             query.on('row', function(row, result){
                 row.assets = [];
