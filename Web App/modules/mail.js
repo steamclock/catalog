@@ -49,7 +49,7 @@ exports.sendStatusUpdate = function (email, approval) {
         }
     }
 
-    smtpTransport.sendMail(mailOptions, function(error, response){
+    transport.sendMail(mailOptions, function(error, response){
         console.log("Attempting to send mail");
         if(error){
             console.log("Message send failure: " + error);
