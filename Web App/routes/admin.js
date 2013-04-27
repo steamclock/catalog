@@ -4,25 +4,13 @@
 
 var client = require('./../modules/postgres').client
     , async = require('async')
-    , mail = require('./../modules/mail')
-    , http = require('http')
-    , auth = require('http-auth')
-    , basic = auth({
-        authRealm : "Private area.",
-        authList : authFile : __dirname + '/users.htpasswd'
-    });
+    , mail = require('./../modules/mail');
 
 /*
  * GET projects to be curated for admin panel
  */
 
-exports.get = function(req, res){ 
-
-    basic.apply(req, res, function() {
-        // Your request handling logic goes there
-        res.send("Welcome to private area - " + username + "!");
-    });
-
+exports.get = function(req, res){
    async.waterfall([
         function(callback){
             var query = client.query('SELECT  * FROM projects WHERE published = false'); //This should be 'true', is false for testing/building template
@@ -80,7 +68,6 @@ exports.get = function(req, res){
         } else {
             console.log("Done rendering admin page");
         }
-    
     });
 }
 

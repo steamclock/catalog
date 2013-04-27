@@ -10,12 +10,17 @@ var express = require('express')
   , admin = require('./routes/admin')
   , projects = require('./routes/projects')
   , http = require('http')
-  , httpAuth = require('http-auth')
   , path = require('path')
   , fs = require('fs')
   , migrate = require('db-migrate')
   , favicons = require('connect-favicons')
-  , flashify = require('flashify');
+  , flashify = require('flashify')
+  , auth = require('http-auth')
+  , basic = auth({
+      authRealm : "Private area.",
+      authFile : './htpasswd',
+      authType : 'basic'
+  });
 
 var app = express();
 
@@ -67,7 +72,11 @@ app.get('/resubmitted', edit.done);
 app.get('/edit/token/denied', edit.denied);
 
 // Adminstration panel
-app.get('/admin', admin.get);
+app.get('/admin', function(req, res){
+    basic.apply(req, res, function() {
+        admin.get(req, res);
+    });
+});
 app.post('/admin/approve/:id', admin.approve);
 app.post('/admin/reject/:id', admin.reject);
 
