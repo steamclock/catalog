@@ -30,11 +30,11 @@
                     <li>Vimeo Link: <a href="<%= projects[i].assets[j].url %>" title="Link to student's Vimeo embed" target="_blank"><%= projects[i].assets[j].url %></a></li>
                   <% } %>
                 <% } %>
-                <form name="approve-<%= projects[i].id %>" action="/admin/approve/<%= projects[i].id %>" method="post">
+                <form name="approve-<%= projects[i].id %>" action="/approve/project/<%= projects[i].id %>" method="post">
                   <input type="hidden" name="projectid" value="<%= projects[i].id %>">
                   <input type="submit" value="Approved" class="btn btn-info approve"> 
                 </form>
-                <form name="reject-<%= projects[i].id %>" action="/admin/reject/<%= projects[i].id %>" method="post">
+                <form name="reject-<%= projects[i].id %>" action="/approve/project/<%= projects[i].id %>" method="post">
                   <input type="hidden" name="projectid" value="<%= projects[i].id %>">
                   <input type="submit" value="Resubmit" class="btn btn-danger">  
                 </form>
