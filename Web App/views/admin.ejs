@@ -36,7 +36,7 @@
                 </form>
                 <form name="reject-<%= projects[i].id %>" action="/approve/project/<%= projects[i].id %>" method="post">
                   <input type="hidden" name="projectid" value="<%= projects[i].id %>">
-                  <input type="submit" value="Resubmit" class="btn btn-danger">  
+                  <input type="submit" value="Resubmit" class="btn btn-danger reject">  
                 </form>
               </ul> 
             </div>
