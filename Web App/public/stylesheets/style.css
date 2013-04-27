@@ -152,7 +152,8 @@ ul.student-submissions > li:last-child {
     border-bottom: 0px;
 }
 ul.student-info {
-    margin: 0 0 10px 0;
+    position: relative;
+    margin: 0;
     padding: 0;
     list-style: none;
 }
@@ -1388,7 +1389,7 @@ textarea[class*="span"],
 }
 /* forms-and-inputs.scss */
 form {
-  margin: 0 0 20px;
+  margin: 0 0 5px 0;
 }
 
 fieldset {
