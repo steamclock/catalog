@@ -1,15 +1,14 @@
 <% include header %>
 <% project = JSON.parse(project) %>
 <div class="row-fluid">
-  <div class="span3 white-background-submissions">
-    <p class="student-deets">
-      <strong><%= project.title %></strong><br />
-      by <em><%= project.author %></em><br/><br/>
-      <%= project.medium %><br/>
-      <em><%= project.measurements %></em><br/><br/>
-      <a href="#" target="_blank"><%= project.website %></a></p>
+  <div class="span4 white-background-submissions">
+      <p class="student-deets"><strong><%= project.title %></strong><br/>
+      by <em><%= project.author %></em></p>
+      <p class="student-deets"><%= project.medium %><br/>
+      <%= project.measurements %></p>
+      <p class="student-link" style="margin-bottom: 0;"><a href="#" target="_blank"><%= project.website %></a></p>
   </div>
-    <div class="span9">
+    <div class="span8">
       <% for (var i = 0; i < project.assets.length; i++) { %>
         <% if (project.assets[i].type != "video") { %>
           <img class="hires portos" alt="A landscape treatment of the logo You Are Here for the Exhibition" src="//:0" data-src="<%= project.assets[i].url %>" width="100%" />
@@ -26,6 +25,5 @@
       <% } %>
     </div>
   </div>
-</div>
 
 <% include footer %>
