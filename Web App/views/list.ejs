@@ -6,13 +6,13 @@
         <!-- These are our grid blocks -->
         <%  for (var i = 0; i < projects.length; i++) { %>
           <li>
-              <% for (var j = 0; j < projects[i].assets.length; j++) {
-                  if (projects[i].assets[j].type == "image") { %>
-                      <img src="<%= projects[i].assets[0].thumbnailurl %>" alt="<%= projects[i].title %>">
+              <% for (var j = 0; j < projects[i].assets.length; j++) { %>
+                  <% if (projects[i].assets[j].type != "video") { %>
+                      <a href=""><img src="<%= projects[i].assets[j].thumbnailurl %>" alt="<%= projects[i].title %>"></a>
                   <% break; } %>
               <% } %>
-          <p><strong><%= projects[i].title %></strong><br />
-          <em><%= projects[i].author %></em></p></li>
+          <p><strong><a href=""><%= projects[i].title %></a></strong><br />
+          <em><a href=""><%= projects[i].author %></a></em></p></li>
         <% } %>
         <!-- End of grid blocks -->
       </ul>

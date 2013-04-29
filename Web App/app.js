@@ -78,11 +78,14 @@ app.get('/admin', function(req, res){
     });
 });
 app.post('/approve/project/:id', admin.approve);
-app.post('/approve/project/:id', admin.reject);
+app.post('/reject/project/:id', admin.reject);
 
 
 // Degree page that lists all projects for a given degree
 app.get('/degree/:degree', projects.getProjectsForDegree);
+
+//Individual project page
+app.get('/degree/:degree/student/:author', getProjectForStudent)
 
 // JSON API Routes
 app.get('/json', projects.getProjects);
