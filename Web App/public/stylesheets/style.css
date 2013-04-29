@@ -171,6 +171,17 @@ ul.student-submissions > li:last-child {
   overflow: hidden;
 }
 
+h1.show-title {
+  line-height: 1;
+  margin: 0 0 10px 0;
+}
+
+h2.show-byline {
+  font-weight: 500;
+  line-height: 1;
+  margin: 0 0 25px 0;
+}
+
 /* End the Styles for the Admin Panel */
 
 .bottom-image {
@@ -3674,7 +3685,7 @@ h1 {
 }
 
 p {
-  line-height: 1.4;
+  line-height: 1.6;
   margin: 0 0 5px 0;
 }
 
