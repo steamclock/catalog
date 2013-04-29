@@ -3,10 +3,59 @@ var fs = require('fs')
     , client = require('./../modules/postgres').client;
 
 /*
- * GET list of projects by degree, and render 'em in a template
+ * GET a single project by id
  */
 
-exports.getProjectsForDegree = function(req, res){
+exports.getProjectById = function(req, res){
+   async.waterfall([
+        function(callback){
+            var query = client.query('SELECT * FROM projects WHERE id = $1', [req.params.id]);
+
+            query.on('row', function(row, result){
+                row.assets = [];
+                result.addRow(row);
+            })
+
+            query.on('end', function(result){
+                callback(null, result.rows, req.params.id);
+            })
+        },
+
+        function(projects, projectID, callback){
+            var query = client.query('SELECT * FROM assets WHERE projectid = $1', [projectID]);
+
+            query.on('row', function(row, result){
+                result.addRow(row);
+            })
+
+            query.on('end', function(result){
+                callback(null, projects, result.rows);
+            });    
+        },
+
+        function(projects, assets, callback){
+            for (var j = assets.length - 1; j >= 0; j--) {
+                var asset = assets[j], filename = asset.url.substring(asset.url.lastIndexOf('/') + 1), project = projects[0];
+                //We generate the thumbnail url here, assumption is made the a thumbnail exists
+                asset.thumbnailurl = "/public/images/projects/thumbnails/" + filename;
+                project.assets.push(asset);
+            }
+
+            callback(null, project);
+        },
+
+        function(project, callback){
+            project = JSON.stringify(project);
+            res.render('single-project', { title: "Single Projects", project: project });          
+        }
+
+        ], function (err, result) {
+        if (err) {
+            console.log(err);
+        } else {
+            console.log("Done rendering random projects/home page");
+        }
+    });
 };
 
 /*

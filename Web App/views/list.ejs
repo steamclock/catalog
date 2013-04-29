@@ -8,11 +8,11 @@
           <li>
               <% for (var j = 0; j < projects[i].assets.length; j++) { %>
                   <% if (projects[i].assets[j].type != "video") { %>
-                      <a href=""><img src="<%= projects[i].assets[j].thumbnailurl %>" alt="<%= projects[i].title %>"></a>
+                      <a href="/project/<%= projects[i].id %>"><img src="<%= projects[i].assets[j].thumbnailurl %>" alt="<%= projects[i].title %>"></a>
                   <% break; } %>
               <% } %>
-          <p><strong><a href=""><%= projects[i].title %></a></strong><br />
-          <em><a href=""><%= projects[i].author %></a></em></p></li>
+          <p><strong><a href="/project/<%= projects[i].id %>"><%= projects[i].title %></a></strong><br />
+          <em><a href="/project/<%= projects[i].id %>"><%= projects[i].author %></a></em></p></li>
         <% } %>
         <!-- End of grid blocks -->
       </ul>
