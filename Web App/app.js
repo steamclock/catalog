@@ -56,7 +56,7 @@ app.configure('development', function(){
 });
 
 // Routes for website
-app.get('/', pages.index);
+app.get('/', pages.home);
 app.get('/about', pages.about);
 
 // Creating a submission
@@ -85,7 +85,7 @@ app.post('/reject/project/:id', admin.reject);
 app.get('/degree/:degree', projects.getProjectsForDegree);
 
 //Individual project page
-app.get('/degree/:degree/student/:author', getProjectForStudent)
+//app.get('/project/:author', projects.getProjectForStudent);
 
 // JSON API Routes
 app.get('/json', projects.getProjects);

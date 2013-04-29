@@ -73,10 +73,10 @@ exports.update = function(req, res){
     // TODO: When refactoring this should be a series rather than a waterfall
     async.series([
         function(callback){
-            var token = req.headers.referer.substring(req.headers.referer.lastIndexOf('/') + 1);
+            var token = req.headers.referer.substring(req.headers.referer.lastIndexOf('/') + 1), degree = req.body.degree.toLowerCase();
             var query = client.query(
                 "UPDATE projects SET title = $2, author = $3, website = $4, degree = $5, medium = $6, measurements = $7, published = false WHERE token = $1", 
-                [token, req.body.title, req.body.author, req.body.website, req.body.degree, req.body.medium, req.body.measurements]);
+                [token, req.body.title, req.body.author, req.body.website, degree, req.body.medium, req.body.measurements]);
 
             query.on('error', function(error){
                 console.log("Error: " + error);

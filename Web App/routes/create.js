@@ -73,9 +73,10 @@ exports.new = function(req, res){
 
         function(callback){
             // Insert into the projects table
+            var degree = req.body.degree.toLowerCase();
             var query = client.query(
                 "INSERT INTO projects(title, author, email, website, degree, medium, measurements, token) values($1, $2, $3, $4, $5, $6, $7, $8) RETURNING id",
-                [req.body.title, req.body.author, req.body.email, req.body.website, req.body.degree, req.body.medium, req.body.measurements, token]
+                [req.body.title, req.body.author, req.body.email, req.body.website, degree, req.body.medium, req.body.measurements, token]
             );
 
             query.on('row', function (row, result){

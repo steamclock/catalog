@@ -5,7 +5,7 @@ var client = require('./../modules/postgres').client
  * GET home page.
  */
 
-exports.index = function(req, res){
+exports.home = function(req, res){
    async.waterfall([
         function(callback){
             var query = client.query('SELECT * FROM projects WHERE published = true ORDER BY random() LIMIT 50');
