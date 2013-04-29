@@ -85,7 +85,7 @@ app.post('/reject/project/:id', admin.reject);
 app.get('/degree/:degree', projects.getProjectsForDegree);
 
 //Individual project page
-app.get('/project/:id', projects.getProjectById);
+app.get('/project/:id/:degree/:author', projects.getProjectById);
 
 // JSON API Routes
 app.get('/json', projects.getProjects);
