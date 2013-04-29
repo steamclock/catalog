@@ -82,7 +82,7 @@ app.post('/approve/project/:id', admin.reject);
 
 
 // Degree page that lists all projects for a given degree
-app.get('/degree/:degree', projects.getListForDegree);
+app.get('/degree/:degree', projects.getProjectsForDegree);
 
 // JSON API Routes
 app.get('/json', projects.getProjects);

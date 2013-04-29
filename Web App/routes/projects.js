@@ -5,8 +5,7 @@ var fs = require('fs')
  * GET list of projects by degree, and render 'em in a template
  */
 
-exports.getListForDegree = function(req, res){
-
+exports.getProjectsForDegree = function(req, res){
     // TODO: Note that this is out of date, probably needs to be refactored.
     var query = client.query('SELECT * FROM projects WHERE degree = $1', [req.params.degree], function(err, result){
         if (err) {
@@ -14,7 +13,7 @@ exports.getListForDegree = function(req, res){
             res.send(err);
         } else {
             var rows = JSON.stringify(result.rows);
-            res.render('list', { title: req.params.degree, projects: rows });
+            res.render('list', { title: "req.params.degree", projects: rows });
         }
     });
 };
@@ -40,7 +39,7 @@ exports.getProjects = function(req, res){
         },
 
         function(projects, callback){
-            var query = client.query('SELECT  * FROM assets');
+            var query = client.query('SELECT * FROM assets');
 
             query.on('row', function(row, result){
                 result.addRow(row);

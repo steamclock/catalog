@@ -1,45 +1,19 @@
 <% include header %>
+<% projects = JSON.parse(projects) %>
 
     <div class="row-fluid">
       <ul id="tiles">
         <!-- These are our grid blocks -->
-        <li><img src="img/projects/1.jpg">
-          <p><strong>Colour Exploration In the Time of Cholera &amp; Sad Cities</strong><br />
-          <em>Jane Baddall</em></p></li>
-        <li><img src="img/projects/2.jpg">
-          <p><strong>Colour Exploration In the Time of Cholera &amp; Sad Cities</strong><br />
-          <em>Jane Baddall</em></p>
-        </li>
-        <li><img src="img/projects/12.jpg">
-          <p><strong>Colour Exploration In the Time of Cholera &amp; Sad Cities</strong><br />
-          <em>Jane Baddall</em></p></li>
-        <li><img src="img/projects/4.jpg">
-          <strong>Colour Exploration In the Time of Cholera &amp; Sad Cities</strong><br />
-          <em>Jane Baddall</em></p></li>
-        <li><img src="img/projects/5.jpg">
-          <p><strong>Colour Exploration In the Time of Cholera &amp; Sad Cities</strong><br />
-          <em>Jane Baddall</em></p></li>
-        <li><img src="img/projects/12.jpg">
-          <p><strong>Colour Exploration In the Time of Cholera &amp; Sad Cities</strong><br />
-          <em>Jane Baddall</em></p></li>
-        <li><img src="img/projects/7.jpg">
-          <p><strong>Colour Exploration In the Time of Cholera &amp; Sad Cities</strong><br />
-          <em>Jane Baddall</em></p></li>
-        <li><img src="img/projects/8.jpg">
-          <p><strong>Colour Exploration In the Time of Cholera &amp; Sad Cities</strong><br />
-          <em>Jane Baddall</em></p></li>
-        <li><img src="img/projects/12.jpg">
-          <p><strong>Colour Exploration In the Time of Cholera &amp; Sad Cities</strong><br />
-          <em>Jane Baddall</em></p></li>
-        <li><img src="img/projects/10.jpg">
-          <p><strong>Colour Exploration In the Time of Cholera &amp; Sad Cities</strong><br />
-          <em>Jane Baddall</em></p></li>
-        <li><img src="img/projects/11.jpg">
-          <p><strong>Colour Exploration In the Time of Cholera &amp; Sad Cities</strong><br />
-          <em>Jane Baddall</em></p></li>
-        <li><img src="img/projects/12.jpg">
-          <p><strong>Colour Exploration In the Time of Cholera &amp; Sad Cities</strong><br />
-          <em>Jane Baddall</em></p></li>
+        <%  for (var i = 0; i < projects.length; i++) { %>
+          <li>
+              <% for (var j = 0; j < projects[i].assets.length; j++) {
+                  if (projects[i].assets[j].type == "image") { %>
+                      <img src="<%= projects[i].assets[0].thumbnailurl %>" alt="<%= projects[i].title %>">
+                  <% break; } %>
+              <% } %>
+          <p><strong><%= projects[i].title %></strong><br />
+          <em><%= projects[i].author %></em></p></li>
+        <% } %>
         <!-- End of grid blocks -->
       </ul>
 </div><!-- End Row-Fluid -->
