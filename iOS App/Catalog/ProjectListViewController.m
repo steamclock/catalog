@@ -62,6 +62,7 @@ static NSUInteger random_below(NSUInteger n) {
     if((self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil])) {
         [self loadProjectLists];
         self.thumbnailLoader = [CachedImageLoader new];
+        self.thumbnailLoader.forceBackgroundDecompress = YES;
     }
     
     return self;
