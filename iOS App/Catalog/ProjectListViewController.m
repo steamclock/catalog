@@ -363,6 +363,8 @@ static NSUInteger random_below(NSUInteger n) {
             self.searchBar.text = @"";
         }];
     }
+    
+    [self.collectionView scrollRectToVisible:CGRectMake(0, 0, 10, 10) animated:NO];
 }
 
 -(void)showProjectList:(NSArray*)projects forButton:(UIButton*)button {
