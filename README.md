@@ -1,4 +1,5 @@
-# CatalogApp: A Node.js and iOS lovechild that delivers an iOS content browsing app, and an Node.js app that collects, curates, and serves that content.
+# CatalogApp: 
+### A Node.js and iOS lovechild that delivers an iOS content browsing app, and an Node.js app that collects, curates, and serves that content.
 ---
 
 Catalog is a very simple solution for curating user submissions for a catalog or portfolio website and companion iOS app. It consists of a Node.js application that provides gallery lists of curated projects for browsing, a project submission and editing interface, and an admin interface for approving/rejecting the content. A simple iOS app is provided, preconfigured to grab all of the information about the catalog projects via JSON. The iOS app loads and displays the content in a very nice feeling full-screen swipe-gallery.
