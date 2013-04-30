@@ -7,6 +7,7 @@ Catalog is a very simple solution for curating user submissions for a catalog or
 This project was originally built for the [Emily Carr Grad Catalog of 2013](http://theshow2013.ecuad.ca/), but the code is MIT licensed so anyone is free to fork, contribute, and adapt it to thise own needs. See the license at the very bottom of this document.
 
 ## Project Layout
+---
 
 In the root of the repository along with this README.md, there are two folders:
 
@@ -87,9 +88,10 @@ There is [a ticket open](http://github.com/steamclock/catalog/issues/2) in Issue
 ## Setting up and Building the iOS app
 ---
 
-
+[Stub!]
 
 ## License
+---
 
 Copyright (C) 2013 Steamclock Software Ltd.
 
