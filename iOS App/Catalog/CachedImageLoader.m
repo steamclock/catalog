@@ -39,6 +39,28 @@
     return rendered;
 }
 
+- (NSString*)pathInCacheDirectory:(NSString*)imageFilename {
+    if(!self.cacheToDirectory) {
+        return nil;
+    }
+    
+	NSArray* paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
+	NSString* cacheDirectory = [paths objectAtIndex:0];
+	NSString* cachePath = [cacheDirectory stringByAppendingPathComponent:self.cacheToDirectory];
+    
+    
+    NSString* filePath;
+    
+    if(imageFilename) {
+        filePath = [cachePath stringByAppendingPathComponent:imageFilename];
+    }
+    else {
+        filePath = cachePath;
+    }
+    
+	return filePath;
+}
+
 -(void)loadImage:(NSURL*)url onLoad:(void (^)(UIImage*, BOOL))callback {
     if(url == nil) {
         callback(nil, NO);
@@ -46,9 +68,48 @@
     }
     
     UIImage* image = self.cached[url];
+    NSString* cacheDir = [self pathInCacheDirectory:nil];
+    NSString* cacheFile = [self pathInCacheDirectory:[[url absoluteString] lastPathComponent]];
+    
+    NSFileManager* fileManager = [NSFileManager defaultManager];
+    
+    if(cacheDir) {
+        if(![fileManager fileExistsAtPath:cacheDir]) {
+            [fileManager createDirectoryAtPath:cacheDir withIntermediateDirectories:YES attributes:nil error:NULL];
+        }
+    }
+    
     if(image) {
         // have cached image, callback immediatly
         callback(image, YES);
+    }
+    else if (cacheFile && [fileManager fileExistsAtPath:cacheFile]) {
+        __weak CachedImageLoader* weakSelf = self;
+        
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            NSData* data = [NSData dataWithContentsOfFile:cacheFile];
+            UIImage* image = [UIImage imageWithData:data];
+            
+            if (image == nil) {
+                [fileManager removeItemAtPath:cacheFile error:NULL];
+                NSLog(@"image cache load failed: %@", url);
+            }
+            
+            if(weakSelf.forceBackgroundDecompress) {
+                image = [CachedImageLoader loadedImageWithImage:image];
+            }
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                if(image) {
+                    weakSelf.cached[url] = image;
+                }
+                
+                callback(image, NO); // load from disk cache doesn't count as 'cached' becasue it was still asynchronous
+                
+                // Clean up the load handlers
+                [weakSelf.loading removeObjectForKey:url];
+            });
+        });
     }
     else {
         // Check if we already have a load for this URL
@@ -68,10 +129,15 @@
             [[UIApplication sharedApplication] showNetworkActivityIndicator];
             
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-                UIImage* image = [UIImage imageWithData:[NSData dataWithContentsOfURL:url]];
+                NSData* data = [NSData dataWithContentsOfURL:url];
+                UIImage* image = [UIImage imageWithData:data];
                 
                 if (image == nil) {
                     NSLog(@"image load failed: %@", url);
+                } else {
+                    if(cacheFile) {
+                        [data writeToFile:cacheFile atomically:YES];
+                    }
                 }
                 
                 if(weakSelf.forceBackgroundDecompress) {

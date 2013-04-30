@@ -63,6 +63,7 @@ static NSUInteger random_below(NSUInteger n) {
         [self loadProjectLists];
         self.thumbnailLoader = [CachedImageLoader new];
         self.thumbnailLoader.forceBackgroundDecompress = YES;
+        self.thumbnailLoader.cacheToDirectory = @"thumbnails";
     }
     
     return self;
