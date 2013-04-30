@@ -162,8 +162,15 @@ exports.getProjects = function(req, res){
             for (var i = projects.length - 1; i >= 0; i--) {
                 var project = projects[i];
 
-                project.degree = project.degree.replace(/\b./g, function(m){ return m.toUpperCase(); });
-                
+                // DEAR FUTURE DEVELOPER: This was a hack while we were waiting for app store approval. 
+                // The app should be modified to be case-insensitive for degree or use lower-case 
+
+                if (project.degree === "maa") {
+                    project.degree = "MAA";
+                } else {
+                    project.degree = project.degree.replace(/\b./g, function(m){ return m.toUpperCase(); });  
+                }
+
                 for (var j = assets.length - 1; j >= 0; j--) {
                     var asset = assets[j];
 
