@@ -95,6 +95,9 @@ exports.getProjectsForDegree = function(req, res){
             // TODO: This isn't going to scale well with more than a few projects
             for (var i = projects.length - 1; i >= 0; i--) {
                 var project = projects[i];
+
+                project.degree = project.degree.replace(/\b./g, function(m){ return m.toUpperCase(); });
+
                 for (var j = assets.length - 1; j >= 0; j--) {
                     var asset = assets[j];
 
