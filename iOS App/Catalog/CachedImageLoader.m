@@ -22,6 +22,23 @@
     return self;
 }
 
++ (UIImage*)loadedImageWithImage: (UIImage*)image {
+    CGImageRef imgRef = image.CGImage;
+    
+    UIGraphicsBeginImageContext(image.size);
+    
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    CGContextScaleCTM(context, 1, -1);
+    CGContextTranslateCTM(context, 0, -image.size.height);
+    CGContextDrawImage(context, CGRectMake(0, 0, image.size.width, image.size.height), imgRef);
+
+    UIImage* rendered =  UIGraphicsGetImageFromCurrentImageContext();
+
+    UIGraphicsEndImageContext();
+    
+    return rendered;
+}
+
 -(void)loadImage:(NSURL*)url onLoad:(void (^)(UIImage*, BOOL))callback {
     if(url == nil) {
         return;
@@ -51,6 +68,10 @@
             
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
                 UIImage* image = [UIImage imageWithData:[NSData dataWithContentsOfURL:url]];
+                
+                if(weakSelf.forceBackgroundDecompress) {
+                    image = [CachedImageLoader loadedImageWithImage:image];
+                }
                 
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [[UIApplication sharedApplication] hideNetworkActivityIndicator];
