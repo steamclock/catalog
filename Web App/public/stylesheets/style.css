@@ -103,7 +103,7 @@ body {
 
 .ecuad-logo-top {
   float: right;
-  margin: 20px;
+  margin: 13px 20px 20px 20px;
   width: 155px;
 }
 
@@ -152,7 +152,8 @@ ul.student-submissions > li:last-child {
     border-bottom: 0px;
 }
 ul.student-info {
-    margin: 0 0 10px 0;
+    position: relative;
+    margin: 0;
     padding: 0;
     list-style: none;
 }
@@ -165,6 +166,22 @@ ul.student-submissions > li:last-child {
     margin: 0;
     border-bottom: 0px;
 }
+
+.student-deets {
+  overflow: hidden;
+}
+
+h1.show-title {
+  line-height: 1;
+  margin: 0 0 10px 0;
+}
+
+h2.show-byline {
+  font-weight: 500;
+  line-height: 1;
+  margin: 0 0 25px 0;
+}
+
 /* End the Styles for the Admin Panel */
 
 .bottom-image {
@@ -1388,7 +1405,7 @@ textarea[class*="span"],
 }
 /* forms-and-inputs.scss */
 form {
-  margin: 0 0 20px;
+  margin: 0 0 5px 0;
 }
 
 fieldset {
@@ -3668,7 +3685,20 @@ h1 {
 }
 
 p {
+  line-height: 1.6;
   margin: 0 0 5px 0;
+}
+
+p.student-deets {
+  line-height: 1.4;
+  margin: 0 0 15px 0;
+  overflow: hidden;
+}
+
+p.student-link {
+  line-height: 1.4;
+  margin: 0;
+  overflow: hidden;
 }
 
 ul {
@@ -4131,13 +4161,13 @@ margin: 10px 0;
   .navbar-static-top {
     position: static;
     margin-bottom: 0;
-    padding: 0 0 0 20px;
+    padding: 0 0 5px 20px;
   }
 
   .navbar .nav.pull-right {
     float: right !important;
     width: auto !important;
-    margin: 22px 0 0 0;
+    margin: 32px 20px 0 0;
   }
 
   .navbar .nav > li {

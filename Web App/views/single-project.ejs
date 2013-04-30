@@ -1,25 +1,29 @@
 <% include header %>
-
+<% project = JSON.parse(project) %>
 <div class="row-fluid">
-  <div class="span3 white-background-submissions">
-    <p class="student-deets">
-      <strong>Colour Exploration In the Time of Cholera</strong><br />
-      by <em>Jane Baddall</em><br/><br/>
-      found stump, moss, plexi-glass, polymer medium, mirrored, stainless steel<br/>
-      <em>13" x 16" x 13"</em><br/><br/>
-      <a href="#" target="_blank">janebaddall.com</a></p>
+  <div class="span4 white-background-submissions">
+      <p class="student-deets"><strong><%= project.title %></strong><br/>
+      by <em><%= project.author %></em></p>
+      <p class="student-deets"><%= project.medium %><br/>
+      <%= project.measurements %></p>
+      <p class="student-link" style="margin-bottom: 0;"><a href="<%= project.website %>" target="_blank"><%= project.website %></a></p>
   </div>
-    <div class="span9">
-      <img class="hires portos" alt="A landscape treatment of the logo You Are Here for the Exhibition" src="//:0" data-src="img/projects/2.jpg" width="100%" />
-      <img class="hires portos" alt="A landscape treatment of the logo You Are Here for the Exhibition" src="//:0" data-src="img/projects/12.jpg" width="100%" />
-      <img class="hires portos" alt="A landscape treatment of the logo You Are Here for the Exhibition" src="//:0" data-src="img/projects/3.jpg" width="100%" />
-      <div class="container-video">
-          <div class="vendor">
-              <iframe src="http://player.vimeo.com/video/43580167?title=0&amp;byline=0&amp;portrait=0" width="970" height="546" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
+    <div class="span8">
+      <% for (var i = 0; i < project.assets.length; i++) { %>
+        <% if (project.assets[i].type != "video") { %>
+          <img class="portos" alt="A landscape treatment of the logo You Are Here for the Exhibition" src="<%= project.assets[i].url %>" width="100%" />
+        <% } %>
+      <% } %>
+      <% for (var j = 0; j < project.assets.length; j++) { %>
+        <% if (project.assets[j].type == "video") { %>
+          <div class="container-video">
+              <div class="vendor">
+                  <iframe src="http://player.vimeo.com/video/<%= project.assets[j].url.substring(project.assets[j].url.lastIndexOf('/') + 1) %>?title=0&amp;byline=0&amp;portrait=0" width="970" height="546" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
+              </div>
           </div>
-      </div>
+        <% } %>
+      <% } %>
     </div>
   </div>
-</div>
 
 <% include footer %>

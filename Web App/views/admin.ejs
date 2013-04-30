@@ -1,4 +1,6 @@
 <% include header %>
+<% projects = JSON.parse(projects) %>
+
 
 <div class="row-fluid">
   <div class="span6 white-background-submissions">
@@ -11,114 +13,46 @@
 <div class="row-fluid">
   <div class="span12 white-background-submissions">
     <ul class="student-submissions">
-      <li>
-        <div class="row-fluid">
-          <div class="span3">
-            <ul class="student-info">
-              <li><strong>Student Name</strong></li>
-              <li><a href="mailto:studentemail@ecuad.ca?subject=Resubmitting Your Project To The Show Catalog" target="_blank">studentemail@ecuad.ca</a></li>
-              <li>Portoflio URL</li>
-              <li>Project Title</li>
-              <li>Dimensions</li>
-              <li>Media</li>
-              <li>Measurements</li>
-              <li>Vimeo Link: <a href="#" title="Link to students Vimeo embed" target="_blank">Link</a></li>
-              <input type="submit" value="Approved" class="btn btn-info">
-              <input type="submit" value="Resubmit" class="btn btn-danger">  
-            </ul> 
+      <% for (var i = 0; i < projects.length; i++) { %>
+        <li>
+          <div class="row-fluid">
+            <div class="span3">
+              <ul class="student-info">
+                <li><strong><%= projects[i].author %></strong></li>
+                <li><a href="mailto:<%= projects[i].email %>?subject=Your Emily Carr Grad Catalog Work" target="_blank"><%= projects[i].email %></a></li>
+                <li><%= projects[i].website %></li>
+                <li><%= projects[i].title %></li>
+                <li><%= projects[i].degree %></li>
+                <li><%= projects[i].medium %></li>
+                <li><%= projects[i].measurements %></li>
+                <% for (var j = 0; j < projects[i].assets.length; j++) { %>
+                  <% if (projects[i].assets[j].type == "video") { %>
+                    <li>Vimeo Link: <a href="<%= projects[i].assets[j].url %>" title="Link to student's Vimeo embed" target="_blank"><%= projects[i].assets[j].url %></a></li>
+                  <% } %>
+                <% } %>
+                <form name="approve-<%= projects[i].id %>" action="/approve/project/<%= projects[i].id %>" method="post">
+                  <input type="hidden" name="projectid" value="<%= projects[i].id %>">
+                  <input type="submit" value="Approved" class="btn btn-info approve"> 
+                </form>
+                <form name="reject-<%= projects[i].id %>" action="/reject/project/<%= projects[i].id %>" method="post">
+                  <input type="hidden" name="projectid" value="<%= projects[i].id %>">
+                  <input type="submit" value="Resubmit" class="btn btn-danger reject">  
+                </form>
+              </ul> 
+            </div>
+            <% for (var k = 0; k < projects[i].assets.length; k++) { %>
+                <% if (projects[i].assets[k].type == "image") { %>
+                  <div class="span3">
+                    <img src="<%= projects[i].assets[k].thumbnailurl %>">
+                  </div>
+                <% } %>
+            <% } %>
           </div>
-          <div class="span3">
-            <img src="http://placehold.it/1500x1126&text=Student Asset 1">
-          </div>
-          <div class="span3">
-            <img src="http://placehold.it/1500x1126&text=Student Asset 2">
-          </div>
-          <div class="span3">
-            <img src="http://placehold.it/1500x1126&text=Student Asset 3">
-          </div>
-        </div>
-      </li>
-      <li>
-        <div class="row-fluid">
-          <div class="span3">
-            <ul class="student-info">
-              <li><strong>Student Name</strong></li>
-              <li><a href="mailto:studentemail@ecuad.ca?subject=Resubmitting Your Project To The Show Catalog" target="_blank">studentemail@ecuad.ca</a></li>
-              <li>Portoflio URL</li>
-              <li>Project Title</li>
-              <li>Dimensions</li>
-              <li>Media</li>
-              <li>Measurements</li>
-              <li>Vimeo Link: <a href="#" title="Link to students Vimeo embed" target="_blank">Link</a></li>
-              <input type="submit" value="Approved" class="btn btn-info">
-              <input type="submit" value="Resubmit" class="btn btn-danger">  
-            </ul>  
-          </div>
-          <div class="span3">
-            <img src="http://placehold.it/1500x1126&text=Student Asset 1">
-          </div>
-          <div class="span3">
-            <img src="http://placehold.it/1500x1126&text=Student Asset 2">
-          </div>
-          <div class="span3">
-            <img src="http://placehold.it/1500x1126&text=Student Asset 3">
-          </div>
-        </div>
-      </li>
-      <li>
-        <div class="row-fluid">
-          <div class="span3">
-            <ul class="student-info">
-              <li><strong>Student Name</strong></li>
-              <li><a href="mailto:studentemail@ecuad.ca?subject=Resubmitting Your Project To The Show Catalog" target="_blank">studentemail@ecuad.ca</a></li>
-              <li>Portoflio URL</li>
-              <li>Project Title</li>
-              <li>Dimensions</li>
-              <li>Media</li>
-              <li>Measurements</li>
-              <li>Vimeo Link: <a href="#" title="Link to students Vimeo embed" target="_blank">Link</a></li>
-              <input type="submit" value="Approved" class="btn btn-info">
-              <input type="submit" value="Resubmit" class="btn btn-danger">  
-            </ul>    
-          </div>
-          <div class="span3">
-            <img src="http://placehold.it/1500x1126&text=Student Asset 1">
-          </div>
-          <div class="span3">
-            <img src="http://placehold.it/1500x1126&text=Student Asset 2">
-          </div>
-          <div class="span3">
-            <img src="http://placehold.it/1500x1126&text=Student Asset 3">
-          </div>
-        </div>
-      </li>
-      <li>
-        <div class="row-fluid">
-          <div class="span3">
-            <ul class="student-info">
-              <li><strong>Student Name</strong></li>
-              <li><a href="mailto:studentemail@ecuad.ca?subject=Resubmitting Your Project To The Show Catalog" target="_blank">studentemail@ecuad.ca</a></li>
-              <li>Portoflio URL</li>
-              <li>Project Title</li>
-              <li>Dimensions</li>
-              <li>Media</li>
-              <li>Measurements</li>
-              <li>Vimeo Link: <a href="#" title="Link to students Vimeo embed" target="_blank">Link</a></li>
-              <input type="submit" value="Approved" class="btn btn-info">
-              <input type="submit" value="Resubmit" class="btn btn-danger">  
-            </ul>    
-          </div>
-          <div class="span3">
-            <img src="http://placehold.it/1500x1126&text=Student Asset 1">
-          </div>
-          <div class="span3">
-            <img src="http://placehold.it/1500x1126&text=Student Asset 2">
-          </div>
-          <div class="span3">
-            <img src="http://placehold.it/1500x1126&text=Student Asset 3">
-          </div>
-        </div>
-      </li>
+        </li>
+      <% } %>
+      <% if (projects.length < 1) { %>
+        <li>There are no more projects to curate at this time.</li>
+      <% } %>
     </ul>
   </div>
 </div>

@@ -3,9 +3,9 @@
       <div class="span4">
         <p class="footer"><strong>The Show at<br>
         Emily Carr University</strong><br>
-        New Adventures in<br>
+        <em>New Adventures in<br>
         Design, Visual Art<br>
-        &amp; Media</p>
+        &amp; Media</em></p>
       </div>
       <div class="span4">
         <p class="footer"><strong>Opening Night</strong><br>
@@ -52,11 +52,13 @@
   }
 })();
 </script>
+<!-- TODO: Conditionally include scripts only on pages that need them -->
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <script type="text/javascript" src="/public/javascripts/bootstrap.js"></script>
 <script type="text/javascript" src="/public/javascripts/jquery.validate.min.js"></script>
 <script type="text/javascript" src="/public/javascripts/additional-methods.min.js"></script>
 <script type="text/javascript" src="/public/javascripts/validation.js"></script>
+<script type="text/javascript" src="/public/javascripts/admin.js"></script>
 <script type="text/javascript">
   $(".container-video").fitVids();
   $(".container-video-peer1").fitVids();
@@ -64,7 +66,7 @@
 <!-- Include the imagesLoaded plug-in -->
 <script src="/public/javascripts/libs/jquery.imagesloaded.js"></script>
 <!-- Include the plug-in -->
-<script src="/public/javascripts/js/wookmark.js"></script>
+<script src="/public/javascripts/wookmark.js"></script>
 
 <!-- Once the images are loaded, initalize the Wookmark plug-in. -->
 <script type="text/javascript">

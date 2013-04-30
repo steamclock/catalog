@@ -71,12 +71,12 @@ exports.get = function(req, res){
 
 exports.update = function(req, res){
     // TODO: When refactoring this should be a series rather than a waterfall
-    async.waterfall([
+    async.series([
         function(callback){
-            var token = req.headers.referer.substring(req.headers.referer.lastIndexOf('/') + 1);
+            var token = req.headers.referer.substring(req.headers.referer.lastIndexOf('/') + 1), degree = req.body.degree.toLowerCase();
             var query = client.query(
                 "UPDATE projects SET title = $2, author = $3, website = $4, degree = $5, medium = $6, measurements = $7, published = false WHERE token = $1", 
-                [token, req.body.title, req.body.author, req.body.website, req.body.degree, req.body.medium, req.body.measurements]);
+                [token, req.body.title, req.body.author, req.body.website, degree, req.body.medium, req.body.measurements]);
 
             query.on('error', function(error){
                 console.log("Error: " + error);
@@ -159,10 +159,10 @@ exports.update = function(req, res){
                                          var tmp_path = file.path
                                             , salty = crypto.randomBytes(256)
                                             , uniqueness = crypto.createHash('md5').update(salty).digest("hex")
-                                            , ext = ".jpg"
+                                            , ext = path.extname(file.name).split('.'), ext = "." + ext[ext.length - 1]
                                             , uniqueFile = uniqueness + ext
-                                            , targetPath = "./public/images/projects/" + uniqueFile.toLowerCase()
-                                            , targetThumbPath = "./public/images/projects/thumbnails/" + uniqueFile.toLowerCase();
+                                            , targetPath = "./public/images/projects/" + uniqueFile
+                                            , targetThumbPath = "./public/images/projects/thumbnails/" + uniqueFile;
                                              fs.readFile(file.path, function (err, data) {
                                               fs.writeFile(targetPath, data, function (err) {
                                                 if (err) {
@@ -189,7 +189,7 @@ exports.update = function(req, res){
                                                 }
                                               });
                                         }); // End fs read/write 
-                                        var localFileURL = "/public/images/projects/" + uniqueFile.toLowerCase();
+                                        var localFileURL = "/public/images/projects/" + uniqueFile;
 
                                         var assetInsertion = client.query(
                                             "INSERT into assets(projectid, type, url) values($1, $2, $3, $4)",
@@ -210,10 +210,10 @@ exports.update = function(req, res){
                                      var tmp_path = file.path
                                         , salty = crypto.randomBytes(256)
                                         , uniqueness = crypto.createHash('md5').update(salty).digest("hex")
-                                        , ext = ".jpg"
+                                        , ext = path.extname(file.name).split('.'), ext = "." + ext[ext.length - 1]
                                         , uniqueFile = uniqueness + ext
-                                        , targetPath = "./public/images/projects/" + uniqueFile.toLowerCase()
-                                        , targetThumbPath = "./public/images/projects/thumbnails/" + uniqueFile.toLowerCase();
+                                        , targetPath = "./public/images/projects/" + uniqueFile
+                                        , targetThumbPath = "./public/images/projects/thumbnails/" + uniqueFile;
                                         fs.readFile(file.path, function (err, data) {
                                           fs.writeFile(targetPath, data, function (err) {
                                             if (err) {
@@ -240,7 +240,7 @@ exports.update = function(req, res){
                                             }
                                           });
                                     }); // End fs read/write 
-                                    var localFileURL = "/public/images/projects/" + uniqueFile.toLowerCase();
+                                    var localFileURL = "/public/images/projects/" + uniqueFile;
 
                                     var assetInsertion = client.query(
                                         "INSERT into assets(projectid, type, url) values($1, $2, $3, $4)",
@@ -263,10 +263,10 @@ exports.update = function(req, res){
                              var tmp_path = file.path
                                 , salty = crypto.randomBytes(256)
                                 , uniqueness = crypto.createHash('md5').update(salty).digest("hex")
-                                , ext = ".jpg"
+                                , ext = path.extname(file.name).split('.'), ext = "." + ext[ext.length - 1]
                                 , uniqueFile = uniqueness + ext
-                                , targetPath = "./public/images/projects/" + uniqueFile.toLowerCase()
-                                , targetThumbPath = "./public/images/projects/thumbnails/" + uniqueFile.toLowerCase();
+                                , targetPath = "./public/images/projects/" + uniqueFile
+                                , targetThumbPath = "./public/images/projects/thumbnails/" + uniqueFile;
 
                                 fs.readFile(file.path, function (err, data) {
                                   fs.writeFile(targetPath, data, function (err) {
@@ -294,7 +294,7 @@ exports.update = function(req, res){
                                     }
                                   });
                             }); // End fs read/write 
-                                var localFileURL = "/public/images/projects/" + uniqueFile.toLowerCase();
+                                var localFileURL = "/public/images/projects/" + uniqueFile;
 
                                 var assetUpdate = client.query(
                                     "UPDATE assets SET projectid = $1, type = $2, url = $3, filename = $4 WHERE assets.id = $5",

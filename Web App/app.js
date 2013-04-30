@@ -7,13 +7,20 @@ var express = require('express')
   , pages = require('./routes/pages')
   , create = require('./routes/create')
   , edit = require('./routes/edit')
+  , admin = require('./routes/admin')
   , projects = require('./routes/projects')
   , http = require('http')
   , path = require('path')
   , fs = require('fs')
   , migrate = require('db-migrate')
   , favicons = require('connect-favicons')
-  , flashify = require('flashify');
+  , flashify = require('flashify')
+  , auth = require('http-auth')
+  , basic = auth({
+      authRealm : "Private area.",
+      authFile : './htpasswd',
+      authType : 'basic'
+  });
 
 var app = express();
 
@@ -49,12 +56,12 @@ app.configure('development', function(){
 });
 
 // Routes for website
-app.get('/', pages.index);
+app.get('/', pages.home);
 app.get('/about', pages.about);
 
 // Creating a submission
 app.get('/create', create.get);
-app.post('/create/submit', create.submit);
+app.post('/create/submit', create.new);
 app.get('/create/done', create.done);
 app.get('/create/denied', create.denied);
 
@@ -64,9 +71,21 @@ app.post('/edit/update', edit.update);
 app.get('/resubmitted', edit.done);
 app.get('/edit/token/denied', edit.denied);
 
+// Adminstration panel
+app.get('/admin', function(req, res){
+    basic.apply(req, res, function() {
+        admin.get(req, res);
+    });
+});
+app.post('/approve/project/:id', admin.approve);
+app.post('/reject/project/:id', admin.reject);
+
 
 // Degree page that lists all projects for a given degree
-app.get('/degree/:degree', projects.getListForDegree);
+app.get('/degree/:degree', projects.getProjectsForDegree);
+
+//Individual project page
+app.get('/project/:id/:degree/:author', projects.getProjectById);
 
 // JSON API Routes
 app.get('/json', projects.getProjects);

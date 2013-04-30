@@ -27,11 +27,12 @@
     "nodemailer" : "0.3.x",
     "ejs" : "0.8.x",
     "db-migrate" : "0.4.x",
-    "validator" : "*",
     "connect-favicons" : "0.0.2",
     "async" : "*",
     "imagemagick" : "*",
-    "flashify" : "*"
+    "flashify" : "*",
+    "http-auth" : "*",
+    "htpasswd" : "*"
   },
 
   "devDependencies": {
