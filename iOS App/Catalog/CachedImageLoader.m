@@ -41,6 +41,7 @@
 
 -(void)loadImage:(NSURL*)url onLoad:(void (^)(UIImage*, BOOL))callback {
     if(url == nil) {
+        callback(nil, NO);
         return;
     }
     
@@ -69,6 +70,10 @@
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
                 UIImage* image = [UIImage imageWithData:[NSData dataWithContentsOfURL:url]];
                 
+                if (image == nil) {
+                    NSLog(@"image load failed: %@", url);
+                }
+                
                 if(weakSelf.forceBackgroundDecompress) {
                     image = [CachedImageLoader loadedImageWithImage:image];
                 }
@@ -78,11 +83,11 @@
 
                     if(image) {
                         weakSelf.cached[url] = image;
-
-                        [weakSelf.loading[url] enumerateObjectsUsingBlock:^(void (^callback)(UIImage*, BOOL), NSUInteger idx, BOOL *stop) {
-                            callback(image, NO);
-                        }];
                     }
+                    
+                    [weakSelf.loading[url] enumerateObjectsUsingBlock:^(void (^callback)(UIImage*, BOOL), NSUInteger idx, BOOL *stop) {
+                        callback(image, NO);
+                    }];
                     
                     // Clean up the load handlers
                     [weakSelf.loading removeObjectForKey:url];
