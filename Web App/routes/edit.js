@@ -1,3 +1,9 @@
+/*
+ * Edit routes
+ */
+
+ //TODO: The code in here has a lot of C&P and striginess. Should be re-factored.
+
 var client = require('./../modules/postgres').client
     , async = require('async')
     , fs = require('fs')
@@ -70,7 +76,6 @@ exports.get = function(req, res){
 
 
 exports.update = function(req, res){
-    // TODO: When refactoring this should be a series rather than a waterfall
     async.series([
         function(callback){
             var token = req.headers.referer.substring(req.headers.referer.lastIndexOf('/') + 1), degree = req.body.degree.toLowerCase();

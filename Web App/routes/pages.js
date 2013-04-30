@@ -1,3 +1,7 @@
+/*
+ * List/display projects routes
+ */
+
 var client = require('./../modules/postgres').client
     , async = require('async');
 

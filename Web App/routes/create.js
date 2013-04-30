@@ -1,5 +1,5 @@
 /*
- * Create operations
+ * Create routes
  */
 
 var fs = require('fs')
@@ -11,9 +11,11 @@ var fs = require('fs')
     , flash = require('flashify')
     , path = require('path')
     , images = require('./../modules/images');
+    
 /*
  * POST form to create new project
  */
+
 exports.new = function(req, res){
     var email = req.body.email, salty = crypto.randomBytes(256); token = crypto.createHash('md5').update(salty).digest("hex");
     async.waterfall([
