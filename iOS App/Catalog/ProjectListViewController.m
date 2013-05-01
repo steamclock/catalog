@@ -269,6 +269,8 @@ static NSUInteger random_below(NSUInteger n) {
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     UICollectionViewCell* cell = [collectionView dequeueReusableCellWithReuseIdentifier:REUSE_IDENTIFIER forIndexPath:indexPath];
     
+    cell.backgroundColor = [UIColor colorWithWhite:0.5 alpha:1.0];
+    
     NSURL* imageURL = [self thumbnailForProject:self.currentProjects[indexPath.row]];
     
     UIImageView* background = (UIImageView*)[cell viewWithTag:100];
