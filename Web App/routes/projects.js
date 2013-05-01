@@ -38,17 +38,18 @@ exports.getProjectById = function(req, res){
         },
 
         function(projects, assets, callback){
-            for (var j = assets.length - 1; j >= 0; j--) {
-                var asset = assets[j], filename = asset.url.substring(asset.url.lastIndexOf('/') + 1), project = projects[0];
+            project = projects[0];
+            for (var j = assets.length - 1; j >= 0; j--) {               
+                var asset = assets[j], filename = asset.url.substring(asset.url.lastIndexOf('/') + 1);
                 //We generate the thumbnail url here, assumption is made the a thumbnail exists
                 asset.thumbnailurl = "/public/images/projects/thumbnails/" + filename;
                 project.assets.push(asset);
             }
-
             callback(null, project);
         },
 
         function(project, callback){
+            console.log(project);
             project = JSON.stringify(project);
             res.render('single-project', { title: "Single Projects", project: project });          
         }
