@@ -131,10 +131,15 @@ static NSUInteger random_below(NSUInteger n) {
         
         NSString* index = [NSString stringWithFormat:@"%@ %@", title ? [title lowercaseString] : @"", author ? [author lowercaseString] : @""];
         newProject[@"searchIndex"] = index;
+
+        BOOL valid = ((NSArray*)newProject[@"assets"]).count != 0;
         
-        [newArray addObject:newProject];
-        
-        
+        if (valid) {
+            [newArray addObject:newProject];
+        }
+        else {
+            NSLog(@"Invalid project: %@", newProject[@"title"]);
+        }
     }];
     
     return newArray;
@@ -163,9 +168,7 @@ static NSUInteger random_below(NSUInteger n) {
 
     NSURL* thumbnail = [self thumbnailForProject:self.allProjectsRandomized[num]];
 
-    [weakSelf.thumbnailLoader loadImage:thumbnail onLoad:^(UIImage *image, BOOL wasCached) {
-        NSLog(@"cached: %d", num);
-        
+    [weakSelf.thumbnailLoader loadImage:thumbnail onLoad:^(UIImage *image, BOOL wasCached) {        
         if(num == 16) {
             [self finishLoading];
         }
