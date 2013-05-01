@@ -63,6 +63,7 @@ static NSUInteger random_below(NSUInteger n) {
         [self loadProjectLists];
         self.thumbnailLoader = [CachedImageLoader new];
         self.thumbnailLoader.forceBackgroundDecompress = YES;
+        self.thumbnailLoader.cacheToDirectory = @"thumbnails";
     }
     
     return self;
@@ -130,10 +131,15 @@ static NSUInteger random_below(NSUInteger n) {
         
         NSString* index = [NSString stringWithFormat:@"%@ %@", title ? [title lowercaseString] : @"", author ? [author lowercaseString] : @""];
         newProject[@"searchIndex"] = index;
+
+        BOOL valid = ((NSArray*)newProject[@"assets"]).count != 0;
         
-        [newArray addObject:newProject];
-        
-        
+        if (valid) {
+            [newArray addObject:newProject];
+        }
+        else {
+            NSLog(@"Invalid project: %@", newProject[@"title"]);
+        }
     }];
     
     return newArray;
@@ -148,6 +154,36 @@ static NSUInteger random_below(NSUInteger n) {
         }
     }];
     return filtered;
+}
+
+-(void)finishLoading {
+    [self forceShowHome];
+    
+    [self.loadProgress hide:YES];
+    self.loadProgress = nil;
+}
+
+-(void)cacheThumbnailsFromIndex:(int)num {
+    __weak ProjectListViewController* weakSelf = self;
+
+    NSURL* thumbnail = [self thumbnailForProject:self.allProjectsRandomized[num]];
+
+    [weakSelf.thumbnailLoader loadImage:thumbnail onLoad:^(UIImage *image, BOOL wasCached) {
+        NSLog(@"cached: %d", num);
+
+        if(num == 16) {
+            [self finishLoading];
+        }
+        
+        if(num == (weakSelf.allProjectsRandomized.count - 1)) {
+            if(num < 16) {
+                [self finishLoading];
+            }
+        }
+        else {
+            [weakSelf cacheThumbnailsFromIndex:num+1];
+        }
+    }];
 }
 
 -(void)loadProjectLists {
@@ -202,10 +238,7 @@ static NSUInteger random_below(NSUInteger n) {
             self.mediaArtsProjects = [self filteredProjectsForDegree:@"Media Arts"];
             self.maaProjects = [self filteredProjectsForDegree:@"MAA"];
             
-            [self forceShowHome];
-            
-            [self.loadProgress hide:YES];
-            self.loadProgress = nil;
+            [self cacheThumbnailsFromIndex:0];
         });
     });
 }
@@ -216,11 +249,6 @@ static NSUInteger random_below(NSUInteger n) {
     for(NSDictionary* asset in project[@"assets"]) {
         if([asset[@"type"] isEqualToString:@"image"]) {
             NSString* thumbnailUrl = asset[@"thumbnailurl"];
-            
-            if(!thumbnailUrl) {
-                thumbnailUrl = asset[@"url"];
-            }
-            
             NSString* imageURL = [NSString stringWithFormat:@"%@%@", SERVER_ADDRESS, thumbnailUrl];
             imageURL = [imageURL stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
             return [NSURL URLWithString:imageURL];
@@ -240,6 +268,8 @@ static NSUInteger random_below(NSUInteger n) {
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     UICollectionViewCell* cell = [collectionView dequeueReusableCellWithReuseIdentifier:REUSE_IDENTIFIER forIndexPath:indexPath];
+    
+    cell.backgroundColor = [UIColor colorWithWhite:0.5 alpha:1.0];
     
     NSURL* imageURL = [self thumbnailForProject:self.currentProjects[indexPath.row]];
     
@@ -341,6 +371,8 @@ static NSUInteger random_below(NSUInteger n) {
             self.searchBar.text = @"";
         }];
     }
+    
+    [self.collectionView scrollRectToVisible:CGRectMake(0, 0, 10, 10) animated:NO];
 }
 
 -(void)showProjectList:(NSArray*)projects forButton:(UIButton*)button {

@@ -11,6 +11,8 @@
 // but may use more memory due to dummy render context
 @property BOOL forceBackgroundDecompress;
 
+@property (strong) NSString* cacheToDirectory;
+
 -(void)loadImage:(NSURL*)url onLoad:(void (^)(UIImage* image, BOOL wasCached))callback;
 -(void)precacheImage:(NSURL*)url;
 -(void)flush;
