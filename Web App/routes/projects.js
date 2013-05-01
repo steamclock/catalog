@@ -13,7 +13,7 @@ var fs = require('fs')
 exports.getProjectById = function(req, res){
    async.waterfall([
         function(callback){
-            var query = client.query('SELECT * FROM projects WHERE id = $1', [req.params.id]);
+            var query = client.query('SELECT * FROM projects WHERE id = $1 AND published = true', [req.params.id]);
 
             query.on('row', function(row, result){
                 row.assets = [];
@@ -71,7 +71,7 @@ exports.getProjectsForDegree = function(req, res){
    async.waterfall([
         function(callback){
             var degree = req.params.degree.replace(/-/g, ' ');
-            var query = client.query('SELECT * FROM projects WHERE degree = $1', [degree]);
+            var query = client.query('SELECT * FROM projects WHERE degree = $1 AND published = true', [degree]);
 
             query.on('row', function(row, result){
                 row.assets = [];
@@ -137,7 +137,7 @@ exports.getProjectsForDegree = function(req, res){
 exports.getProjects = function(req, res){ 
    async.waterfall([
         function(callback){
-            var query = client.query('SELECT  * FROM projects');
+            var query = client.query('SELECT  * FROM projects WHERE published = true');
 
             query.on('row', function(row, result){
                 row.assets = [];
