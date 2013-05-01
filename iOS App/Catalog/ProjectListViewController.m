@@ -168,7 +168,9 @@ static NSUInteger random_below(NSUInteger n) {
 
     NSURL* thumbnail = [self thumbnailForProject:self.allProjectsRandomized[num]];
 
-    [weakSelf.thumbnailLoader loadImage:thumbnail onLoad:^(UIImage *image, BOOL wasCached) {        
+    [weakSelf.thumbnailLoader loadImage:thumbnail onLoad:^(UIImage *image, BOOL wasCached) {
+        NSLog(@"cached: %d", num);
+
         if(num == 16) {
             [self finishLoading];
         }
