@@ -63,3 +63,25 @@ exports.sendStatusUpdate = function (email, approval) {
         }
     });
 }
+
+exports.sendErrorThumbnailUndefined = function (debug) {
+    // This is a special case to debug a rare edge case on the EC server
+    // Probably you don't need this if you're not running EC :)
+    var data = JSON.stringify(debug);
+    var mailOptions = {
+        from: "Emily Carr Grad Catalog <gradcatalog@ecuad.com>",
+        to: "angelina@steamclock.com", // list of receivers
+        subject: "Image path undefined! " + data,
+        text: "Error, image path undefined", // plaintext body
+    }
+
+
+    smtpTransport.sendMail(mailOptions, function(error, response){
+        console.log("Attempting to send mail");
+        if(error){
+            console.log("Message send failure: " + error);
+        } else {
+            console.log("Message sent: " + response.message);
+        }
+    });
+}

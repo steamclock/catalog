@@ -4,7 +4,8 @@
 
 var fs = require('fs')
     , async = require('async')
-    , client = require('./../modules/postgres').client;
+    , client = require('./../modules/postgres').client
+    , mail = require('./../modules/mail');
 
 /*
  * GET a single project by id
@@ -110,6 +111,10 @@ exports.getProjectsForDegree = function(req, res){
                         var filename = asset.url.substring(asset.url.lastIndexOf('/') + 1)
                         asset.thumbnailurl = "/public/images/projects/thumbnails/" + filename;
                         project.assets.push(asset);
+                        // Special debug case for EC production server
+                        if (asset.thumbnailurl == undefined) {
+                            mail.sendErrorThumbnailUndefined(project);
+                        }
                     }
                 }
             }
