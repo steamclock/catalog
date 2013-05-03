@@ -71,6 +71,7 @@ exports.getProjectsForDegree = function(req, res){
    async.waterfall([
         function(callback){
             var degree = req.params.degree.replace(/-/g, ' ');
+            console.log(degree);
             var query = client.query('SELECT * FROM projects WHERE degree = $1 AND published = true', [degree]);
 
             query.on('row', function(row, result){
@@ -98,6 +99,7 @@ exports.getProjectsForDegree = function(req, res){
         function(projects, assets, callback){
             // Pack up object into into a sane format to send via JSON
             // TODO: This isn't going to scale well with more than a few projects
+
             for (var i = projects.length - 1; i >= 0; i--) {
                 var project = projects[i];
                 for (var j = assets.length - 1; j >= 0; j--) {
