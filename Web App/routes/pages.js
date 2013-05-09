@@ -39,15 +39,26 @@ exports.home = function(req, res){
         function(projects, assets, callback){
             // Pack up object into into a sane format to send via JSON
             // TODO: This isn't going to scale well with more than a few projects
-            for (var i = projects.length - 1; i >= 0; i--) {
+            for (var i = 0; i < projects.length; i++) {
                 var project = projects[i];
-                for (var j = assets.length - 1; j >= 0; j--) {
+                for (var j = 0; j < assets.length; j++) {
                     var asset = assets[j];
 
                     if (project.id === asset.projectid) {
                         //We generate the thumbnail url here, assumption is made the a thumbnail exists
-                        var filename = asset.url.substring(asset.url.lastIndexOf('/') + 1)
+                        // This stores a thumbnail for videos which makes no sense, but shouldn't hurt anything either
+                        console.log("DEBUGGING FOR UNDEFINED THUMBNAILS PROBLEM");
+                        console.log("Project ID: " + project.id + " Asset ID: " + asset.id);
+                        var filename = asset.url.substring(asset.url.lastIndexOf('/') + 1);
+                        console.log(filename);
                         asset.thumbnailurl = "/public/images/projects/thumbnails/" + filename;
+                        console.log(asset.thumbnailurl);
+
+                        // Special debug case for EC production server
+                        if (typeof asset.thumbnailurl === undefined) {
+                            mail.sendErrorThumbnailUndefined(project);
+                        }
+
                         project.assets.push(asset);
                     }
                 }

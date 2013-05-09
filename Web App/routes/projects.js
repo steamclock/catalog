@@ -46,10 +46,7 @@ exports.getProjectById = function(req, res){
         function(projects, assets, callback){
             project = projects[0];
             for (var j = 0 ; j < assets.length; j++) {             
-                var asset = assets[j], filename = asset.url.substring(asset.url.lastIndexOf('/') + 1);
-                // We generate the thumbnail url here, assumption is made the a thumbnail exists
-                // This stores a thumbnail for videos which makes no sense, but shouldn't hurt anything either
-                asset.thumbnailurl = "/public/images/projects/thumbnails/" + filename;
+                var asset = assets[j];
                 project.assets.push(asset);
             }
             callback(null, project);
