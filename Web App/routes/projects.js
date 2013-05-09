@@ -17,7 +17,7 @@ exports.getProjectById = function(req, res){
             var query = client.query('SELECT * FROM projects WHERE id = $1 AND published = true', [req.params.id]);
 
             query.on('row', function(row, result){
-                row.assets = [];
+                row.assets = []; //Add an assets property to our results for the next phase
                 result.addRow(row);
             })
 
@@ -34,15 +34,21 @@ exports.getProjectById = function(req, res){
             })
 
             query.on('end', function(result){
+                console.log(result.rows);
+                if (result.rows.length < 1) {
+                    res.render('error', { title: "No project with that ID" });
+                    callback(true); //Exits flow
+                }
                 callback(null, projects, result.rows);
             });    
         },
 
         function(projects, assets, callback){
             project = projects[0];
-            for (var j = assets.length - 1; j >= 0; j--) {               
+            for (var j = 0 ; j < assets.length; j++) {             
                 var asset = assets[j], filename = asset.url.substring(asset.url.lastIndexOf('/') + 1);
-                //We generate the thumbnail url here, assumption is made the a thumbnail exists
+                // We generate the thumbnail url here, assumption is made the a thumbnail exists
+                // This stores a thumbnail for videos which makes no sense, but shouldn't hurt anything either
                 asset.thumbnailurl = "/public/images/projects/thumbnails/" + filename;
                 project.assets.push(asset);
             }
@@ -50,9 +56,8 @@ exports.getProjectById = function(req, res){
         },
 
         function(project, callback){
-            console.log(project);
             project = JSON.stringify(project);
-            res.render('single-project', { title: "Single Projects", project: project });          
+            res.render('single-project', { title: "Single Projects", project: project });        
         }
 
         ], function (err, result) {
@@ -72,11 +77,10 @@ exports.getProjectsForDegree = function(req, res){
    async.waterfall([
         function(callback){
             var degree = req.params.degree.replace(/-/g, ' ');
-            console.log(degree);
             var query = client.query('SELECT * FROM projects WHERE degree = $1 AND published = true', [degree]);
 
             query.on('row', function(row, result){
-                row.assets = [];
+                row.assets = []; //Add an assets property to our results for the next phase
                 result.addRow(row);
             })
 
@@ -101,20 +105,27 @@ exports.getProjectsForDegree = function(req, res){
             // Pack up object into into a sane format to send via JSON
             // TODO: This isn't going to scale well with more than a few projects
 
-            for (var i = projects.length - 1; i >= 0; i--) {
+            for (var i = 0; i < projects.length; i++) {
                 var project = projects[i];
-                for (var j = assets.length - 1; j >= 0; j--) {
+                for (var j = 0; j < assets.length; j++) {
                     var asset = assets[j];
 
                     if (project.id === asset.projectid) {
                         //We generate the thumbnail url here, assumption is made the a thumbnail exists
-                        var filename = asset.url.substring(asset.url.lastIndexOf('/') + 1)
+                        // This stores a thumbnail for videos which makes no sense, but shouldn't hurt anything either
+                        console.log("DEBUGGING FOR UNDEFINED THUMBNAILS PROBLEM");
+                        console.log("Project ID: " + project.id + " Asset ID: " + asset.id);
+                        var filename = asset.url.substring(asset.url.lastIndexOf('/') + 1);
+                        console.log(filename);
                         asset.thumbnailurl = "/public/images/projects/thumbnails/" + filename;
-                        project.assets.push(asset);
+                        console.log(asset.thumbnailurl);
+
                         // Special debug case for EC production server
-                        if (asset.thumbnailurl == undefined) {
+                        if (typeof asset.thumbnailurl === undefined) {
                             mail.sendErrorThumbnailUndefined(project);
                         }
+
+                        project.assets.push(asset);
                     }
                 }
             }
