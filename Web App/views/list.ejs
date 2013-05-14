@@ -6,16 +6,27 @@
         <!-- These are our grid blocks -->
         <%  for (var i = 0; i < projects.length; i++) { %>
           <li>
-              <% for (var j = 0; j < projects[i].assets.length; j++) { %>
-                  <% if (projects[i].assets[j].type != "video") { %>
-                      <a href="/project/<%= projects[i].id %>/<%= projects[i].degree.replace(/ /g,'-') %>/<%= projects[i].author.toLowerCase().replace(/ /g,'-')
-        .replace(/[^\w-]+/g,'') %>"><img src="<%= projects[i].assets[j].thumbnailurl %>" alt="<%= projects[i].title %>"></a>
-                  <% break; } %>
-              <% } %>
-          <p><strong><a href="/project/<%= projects[i].id %>/<%= projects[i].degree.replace(/ /g,'-') %>/<%= projects[i].author.toLowerCase().replace(/ /g,'-')
-        .replace(/[^\w-]+/g,'') %>"><%= projects[i].title %></a></strong><br />
-          <em><a href="/project/<%= projects[i].id %>/<%= projects[i].degree.replace(/ /g,'-') %>/<%= projects[i].author.toLowerCase().replace(/ /g,'-')
-        .replace(/[^\w-]+/g,'') %>"><%= projects[i].author %></a></em></p></li>
+              <a href="/project/<%= projects[i].id %>/<%= projects[i].degree.replace(/ /g,'-') %>/<%= projects[i].author.toLowerCase().replace(/ /g,'-')
+        .replace(/[^\w-]+/g,'') %>">
+
+            <% for (var j = 0; j < projects[i].assets.length; j++) { %>
+              <% if (projects[i].assets[j].type === "image") { %>
+              <img src="<%= projects[i].assets[j].thumbnailurl %>" alt="<%= projects[i].title %>">
+              <% break; } %>
+            <% } %>
+
+              </a>
+              <p>
+                <strong>
+                  <a href="/project/<%= projects[i].id %>/<%= projects[i].degree.replace(/ /g,'-') %>/<%= projects[i].author.toLowerCase().replace(/ /g,'-')
+        .replace(/[^\w-]+/g,'') %>"><%= projects[i].title %></a>
+                </strong><br />
+              <em>
+                <a href="/project/<%= projects[i].id %>/<%= projects[i].degree.replace(/ /g,'-') %>/<%= projects[i].author.toLowerCase().replace(/ /g,'-')
+        .replace(/[^\w-]+/g,'') %>"><%= projects[i].author %></a>
+              </em>
+            </p>
+          </li>
         <% } %>
         <!-- End of grid blocks -->
       </ul>

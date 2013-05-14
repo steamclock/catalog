@@ -126,7 +126,6 @@ exports.getProjectsForDegree = function(req, res){
                     }
                 }
             }
-
             callback(null, projects);
         },
 
