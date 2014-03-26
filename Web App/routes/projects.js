@@ -14,7 +14,8 @@ var fs = require('fs')
 exports.getProjectById = function(req, res){
    async.waterfall([
         function(callback){
-            var query = client.query('SELECT * FROM projects WHERE id = $1 AND published = true', [req.params.id]);
+            var sql = 'SELECT * FROM projects WHERE id = $1 AND published = true AND year = $2'
+            var query = client.query(sql, [req.params.id, req.params.year]);
 
             query.on('row', function(row, result){
                 row.assets = []; //Add an assets property to our results for the next phase
@@ -22,6 +23,11 @@ exports.getProjectById = function(req, res){
             })
 
             query.on('end', function(result){
+                if (result.rows.length < 1) {
+                    res.render('error', { title: "No project with that ID for the given year" });
+                    callback(true); //Exits flow
+                    console.log('here!')
+                }
                 callback(null, result.rows, req.params.id);
             })
         },
@@ -34,9 +40,10 @@ exports.getProjectById = function(req, res){
             })
 
             query.on('end', function(result){
+                console.log('rows:');
                 console.log(result.rows);
                 if (result.rows.length < 1) {
-                    res.render('error', { title: "No project with that ID" });
+                    res.render('error', { title: "No assets found for project with that ID" });
                     callback(true); //Exits flow
                 }
                 callback(null, projects, result.rows);
@@ -53,8 +60,7 @@ exports.getProjectById = function(req, res){
         },
 
         function(project, callback){
-            project = JSON.stringify(project);
-            res.render('single-project', { title: "Single Projects", project: project });        
+            res.render('single-project', { title: "Single Projects", project: project, year: req.params.year });        
         }
 
         ], function (err, result) {
@@ -74,7 +80,8 @@ exports.getProjectsForDegree = function(req, res){
    async.waterfall([
         function(callback){
             var degree = req.params.degree.replace(/-/g, ' ');
-            var query = client.query('SELECT * FROM projects WHERE degree = $1 AND published = true', [degree]);
+            var sql = 'SELECT * FROM projects WHERE degree = $1 AND published = true AND year = $2';
+            var query = client.query(sql, [degree, req.params.year]);
 
             query.on('row', function(row, result){
                 row.assets = []; //Add an assets property to our results for the next phase
@@ -119,8 +126,7 @@ exports.getProjectsForDegree = function(req, res){
         },
 
         function(projects, callback){
-            projects = JSON.stringify(projects);
-            res.render('list', { title: "Projects By Degree", projects: projects });          
+            res.render('list', { title: "Projects By Degree", projects: projects, year: req.params.year });          
         }
 
         ], function (err, result) {
@@ -131,6 +137,30 @@ exports.getProjectsForDegree = function(req, res){
         }
     });
 };
+
+exports.getProjectsSortedByAuthor = function(req, res) {
+
+    var sql = ''
+    + ' SELECT projects.*, array_to_json(array_agg(assets)) as assets'
+    + ' FROM projects, assets'
+    + ' WHERE '
+    + '     projects.published = true AND '
+    + '     projects.year = $1 AND '
+    + '     projects.id = assets.projectid '
+    + ' GROUP BY projects.id '
+    + ' ORDER BY projects.author ASC ';
+
+    client.query(sql, [req.params.year], function(err, result) {
+
+        if (err) {
+            console.log(err);
+        } else {
+            res.render('projects-simple-list', { title: "Projects By Author", projects: result.rows, year: req.params.year });
+        }
+
+    });
+
+}
 
 
 /*

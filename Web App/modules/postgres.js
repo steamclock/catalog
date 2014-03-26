@@ -5,6 +5,8 @@ var postgres = require('pg')
 var connectionString = "pg://" + config.postgres.username +":" + config.postgres.password +  "@" + config.postgres.baseurl + "/"+ config.postgres.dbname,
     client = new postgres.Client(connectionString);
 
+console.log('Connecting to postgres at url ' + config.postgres.baseurl);
+
 client.connect(function(err) {
     // Just testing we can connect to the db for now
     client.query('SELECT NOW() AS "theTime"', function(err, result) {
@@ -12,6 +14,7 @@ client.connect(function(err) {
     })
 
     if (err) {
+        console.log('Error connecting to postgres');
         console.log(err);
     } else {
         console.log("Postgres connected.");

@@ -5,7 +5,8 @@
 var fs = require('fs')
     , imagemagick = require('imagemagick')
     , async = require('async')
-    , path = require('path');
+    , path = require('path')
+    , appDir = path.dirname(require.main.filename);
 
 
 exports.checkImg = function(image, callback){
@@ -26,8 +27,8 @@ exports.moveImg = function(image){
     , uniqueness = crypto.createHash('md5').update(salty).digest("hex")
     , ext = ".jpg"
     , uniqueFile = uniqueness + ext
-    , targetPath = "./public/images/projects/" + uniqueFile
-    , targetThumbPath = "./public/images/projects/thumbnails/" + uniqueFile
+    , targetPath = appDir + "/public/images/projects/" + uniqueFile
+    , targetThumbPath = appDir + "/public/images/projects/thumbnails/" + uniqueFile
     , jsonFileURL = "/public/images/projects/" + uniqueFile;
 
     fs.readFile(image.path, function (err, data) {

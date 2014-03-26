@@ -59,8 +59,6 @@ exports.get = function(req, res){
         },
 
         function(project, assets, callback){
-            var projectJSON = JSON.stringify(project);
-            var assetsJSON = JSON.stringify(assets);
             res.render('edit/edit', { title: 'Edit Your Submission', project : projectJSON, assets : assetsJSON, baseURL : "http://theshow2013.ecuad.ca" });
         }],
 

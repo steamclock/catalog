@@ -55,17 +55,25 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span></a>
 
-          <a class="brand" title="Go to the home page of the Emily Carr University Grad Website" href="/"><img class="hires" alt="A landscape treatment of the logo You Are Here for the Exhibition" src="//:0" data-src="/public/images/logo.png" width="80" /></a>
+          <% if (typeof year !== 'undefined') { %>
+          <a class="brand" title="Go to the home page of the Emily Carr University Grad Website" href="/<%= year %>/home">
+          <% } else { %>
+          <a class="brand" title="Go to the home page of the Emily Carr University Grad Website" href="/">
+          <% } %>
+          <img class="hires" alt="A landscape treatment of the logo You Are Here for the Exhibition" src="//:0" data-src="/public/images/logo.png" width="80" /></a>
 
           <!-- <a class="ecuad-logo-top" title="Go to the home page of the Emily Carr University Website" href="http://www.ecuad.ca" target="_blank"><img class="hires" alt="A landscape treatment of the ECUAD logo" src="//:0" data-src="/public/images/ecuad-logo.png" width="155" /></a> -->
 
           <div class="nav-collapse collapse">
           <ul class="nav pull-right">
-            <li><a href="/degree/design/">Design</a></li>
-            <li><a href="/degree/media-arts/">Media Arts</a></li>
-            <li><a href="/degree/visual-arts/">Visual Arts</a></li>
-            <li><a href="/degree/maa/">MAA</a></li>
-            <li><a href="/about/">About</a></li>
+            <% if (typeof year !== 'undefined') { %>
+              <li><a href="/<%= year %>/degree/design/">Design</a></li>
+              <li><a href="/<%= year %>/degree/media-arts/">Media Arts</a></li>
+              <li><a href="/<%= year %>/degree/visual-arts/">Visual Arts</a></li>
+              <li><a href="/<%= year %>/degree/maa/">MAA</a></li>
+              <li><a href="/<%= year %>/projects/">Project List</a></li>
+              <li><a href="/<%= year %>/about/">About</a></li>
+            <% } %>
           </ul>
         </div>
         <!-- End Collapse Nav -->

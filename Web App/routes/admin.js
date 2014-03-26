@@ -58,7 +58,6 @@ exports.get = function(req, res){
         },
 
         function(projects, callback){
-            projects = JSON.stringify(projects);
             res.render('admin', { title : "Curation Page", projects : projects });           
         }
 

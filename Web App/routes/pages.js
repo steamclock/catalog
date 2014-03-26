@@ -12,7 +12,8 @@ var client = require('./../modules/postgres').client
 exports.home = function(req, res){
    async.waterfall([
         function(callback){
-            var query = client.query('SELECT * FROM projects WHERE published = true ORDER BY random() LIMIT 50');
+            var sql = 'SELECT * FROM projects WHERE published = true AND year = $1 ORDER BY random() LIMIT 50'
+            var query = client.query(sql, [req.params.year]);
 
             query.on('row', function(row, result){
                 row.assets = [];
@@ -58,8 +59,7 @@ exports.home = function(req, res){
         },
 
         function(projects, callback){
-            projects = JSON.stringify(projects);
-            res.render('list', { title: "Home Page", projects: projects });          
+            res.render('list', { title: "Home Page", projects: projects, year : req.params.year });          
         }
 
         ], function (err, result) {
@@ -76,5 +76,5 @@ exports.home = function(req, res){
  */
 
  exports.about = function(req, res){
-    res.render('about', { title: 'About The Grad Catalog' });
+    res.render('about', { title: 'About The Grad Catalog', year: req.params.year });
  };

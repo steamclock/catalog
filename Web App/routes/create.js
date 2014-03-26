@@ -10,7 +10,9 @@ var fs = require('fs')
     , imagemagick = require('imagemagick')
     , flash = require('flashify')
     , path = require('path')
-    , images = require('./../modules/images');
+    , appDir = path.dirname(require.main.filename)
+    , images = require('./../modules/images')
+    , moment = require('moment');
     
 /*
  * POST form to create new project
@@ -57,7 +59,6 @@ exports.new = function(req, res){
                     function(accept, callback){
                         var formValues;
                         if (!accept){
-                            formValues = JSON.stringify(req.body);
                             res.flash('message','One of your images did not meet the minimum dimensions. Please verify the dimensions of all of your assets.');
                             res.render('create/create', { title : "Error in submission", formData : formValues });
                             callback(true); //Exits waterfall
@@ -77,8 +78,8 @@ exports.new = function(req, res){
             // Insert into the projects table
             var degree = req.body.degree.toLowerCase();
             var query = client.query(
-                "INSERT INTO projects(title, author, email, website, degree, medium, measurements, token) values($1, $2, $3, $4, $5, $6, $7, $8) RETURNING id",
-                [req.body.title, req.body.author, req.body.email, req.body.website, degree, req.body.medium, req.body.measurements, token]
+                "INSERT INTO projects(title, author, email, website, degree, medium, measurements, token, year) values($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING id",
+                [req.body.title, req.body.author, req.body.email, req.body.website, degree, req.body.medium, req.body.measurements, token, moment().year()]
             );
 
             query.on('row', function (row, result){
@@ -103,8 +104,8 @@ exports.new = function(req, res){
                     , uniqueness = crypto.createHash('md5').update(salty).digest("hex")
                     , ext = ".jpg"
                     , uniqueFile = uniqueness + ext.toLowerCase()
-                    , targetPath = "./public/images/projects/" + uniqueFile
-                    , targetThumbPath = "./public/images/projects/thumbnails/" + uniqueFile
+                    , targetPath = appDir + "/public/images/projects/" + uniqueFile
+                    , targetThumbPath = appDir + "/public/images/projects/thumbnails/" + uniqueFile
                     , jsonFileURL = "/public/images/projects/" + uniqueFile;
                     
                     fs.readFile(file.path, function (err, data) {

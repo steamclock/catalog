@@ -1,12 +1,11 @@
 <% include header %>
-<% projects = JSON.parse(projects) %>
 
     <div class="row-fluid">
       <ul id="tiles">
         <!-- These are our grid blocks -->
         <%  for (var i = 0; i < projects.length; i++) { %>
           <li>
-              <a href="/project/<%= projects[i].id %>/<%= projects[i].degree.replace(/ /g,'-') %>/<%= projects[i].author.toLowerCase().replace(/ /g,'-')
+              <a href="/<%= projects[i].year %>/project/<%= projects[i].id %>/<%= projects[i].degree.replace(/ /g,'-') %>/<%= projects[i].author.toLowerCase().replace(/ /g,'-')
         .replace(/[^\w-]+/g,'') %>">
 
             <% for (var j = 0; j < projects[i].assets.length; j++) { %>
@@ -18,11 +17,11 @@
               </a>
               <p>
                 <strong>
-                  <a href="/project/<%= projects[i].id %>/<%= projects[i].degree.replace(/ /g,'-') %>/<%= projects[i].author.toLowerCase().replace(/ /g,'-')
+                  <a href="/<%= projects[i].year %>/project/<%= projects[i].id %>/<%= projects[i].degree.replace(/ /g,'-') %>/<%= projects[i].author.toLowerCase().replace(/ /g,'-')
         .replace(/[^\w-]+/g,'') %>"><%= projects[i].title %></a>
                 </strong><br />
               <em>
-                <a href="/project/<%= projects[i].id %>/<%= projects[i].degree.replace(/ /g,'-') %>/<%= projects[i].author.toLowerCase().replace(/ /g,'-')
+                <a href="/<%= projects[i].year %>/project/<%= projects[i].id %>/<%= projects[i].degree.replace(/ /g,'-') %>/<%= projects[i].author.toLowerCase().replace(/ /g,'-')
         .replace(/[^\w-]+/g,'') %>"><%= projects[i].author %></a>
               </em>
             </p>

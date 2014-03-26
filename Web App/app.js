@@ -16,10 +16,9 @@ var express = require('express')
   , favicons = require('connect-favicons')
   , flashify = require('flashify')
   , auth = require('http-auth')
-  , basic = auth({
-      authRealm : "Private area.",
-      authFile : './htpasswd',
-      authType : 'basic'
+  , basic = auth.basic({
+      realm : "Private area.",
+      file : __dirname + '/htpasswd'
   });
 
 var app = express();
@@ -56,8 +55,21 @@ app.configure('development', function(){
 });
 
 // Routes for website
-app.get('/', pages.home);
-app.get('/about', pages.about);
+app.get('/:year/home', pages.home);
+app.get('/:year/about', pages.about);
+
+// Redirect the root domain to the current show.
+app.get('/', function(req, res) {
+  res.redirect('/2014/home');
+});
+
+// This keeps any pre-existing 2013 project links from breaking
+app.get('/project/:id/:degree/:author', function(req, res) {
+  res.redirect(301, '/2013' + req.url);
+});
+
+// JSON API Routes
+app.get('/json', projects.getProjects);
 
 // Creating a submission
 app.get('/create', create.get);
@@ -72,23 +84,18 @@ app.get('/resubmitted', edit.done);
 app.get('/edit/token/denied', edit.denied);
 
 // Adminstration panel
-app.get('/admin', function(req, res){
-    basic.apply(req, res, function() {
-        admin.get(req, res);
-    });
-});
-app.post('/approve/project/:id', admin.approve);
-app.post('/reject/project/:id', admin.reject);
+app.get('/admin', auth.connect(basic), admin.get);
+app.post('/approve/project/:id', auth.connect(basic), admin.approve);
+app.post('/reject/project/:id', auth.connect(basic), admin.reject);
 
+// All projects for a year
+app.get('/:year/projects', projects.getProjectsSortedByAuthor);
 
 // Degree page that lists all projects for a given degree
-app.get('/degree/:degree', projects.getProjectsForDegree);
+app.get('/:year/degree/:degree', projects.getProjectsForDegree);
 
 //Individual project page
-app.get('/project/:id/:degree/:author', projects.getProjectById);
-
-// JSON API Routes
-app.get('/json', projects.getProjects);
+app.get('/:year/project/:id/:degree/:author', projects.getProjectById);
 
 // Servin' it up
 http.createServer(app).listen(app.get('port'), function(){

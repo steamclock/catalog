@@ -177,6 +177,10 @@ typedef enum {
     [self.imageLoader flush];
 }
 
+-(BOOL)prefersStatusBarHidden {
+    return YES;
+}
+
 -(NSURL*)startImageForIndex:(int)index {
     if((index < 0) || (index >= self.projects.count)) {
         return nil;

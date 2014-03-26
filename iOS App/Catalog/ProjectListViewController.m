@@ -110,6 +110,10 @@ static NSUInteger random_below(NSUInteger n) {
     [self.thumbnailLoader flush];
 }
 
+-(BOOL)prefersStatusBarHidden {
+    return YES;
+}
+
 #pragma mark Loading and Setup
 
 // Strip NSNulls out of the project list, and add an index field with a pre-built search representation
