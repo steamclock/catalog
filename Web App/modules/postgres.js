@@ -2,10 +2,7 @@ var postgres = require('pg')
     , fs = require('fs')
     , config = require('./../modules/config').config;
 
-var connectionString = "pg://" + config.postgres.username +":" + config.postgres.password +  "@" + config.postgres.baseurl + "/"+ config.postgres.dbname,
-    client = new postgres.Client(connectionString);
-
-console.log('Connecting to postgres at url ' + config.postgres.baseurl);
+var client = new postgres.Client(config.postgres);
 
 client.connect(function(err) {
     // Just testing we can connect to the db for now
