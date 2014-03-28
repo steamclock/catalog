@@ -191,6 +191,13 @@ a.menu-button {
   user-select: none;
 }
 
+hr.rules {
+  border: 0;
+  height: 0;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+}
+
 ul.header-nav { list-style: none; padding: 0; margin: 11px 0 5px 0;}
 ul.header-nav > li { border-top: 1px solid rgb(242,242,242); }
 ul.header-nav > li > a {
@@ -3908,11 +3915,6 @@ p.footer {
   vertical-align: middle;
   margin: 0 0 0 10px;
   width: 155px;
-}
-
-hr {
-  color: #58585a;
-  background-color: #58585a;
 }
 
 .thumbnails {
