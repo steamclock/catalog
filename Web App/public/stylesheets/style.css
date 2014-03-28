@@ -64,7 +64,21 @@
   display: none !important;
 }
 
+.group:before,
+.group:after {
+    content: "";
+    display: table;
+} 
+.group:after {
+    clear: both;
+}
+.group {
+    zoom: 1; /* For IE 6/7 (trigger hasLayout) */
+}
+
 html {
+  border: 10px solid white;
+  font-size: 100%;
   background: url('/public/images/background@2x.jpg') no-repeat center center fixed;
   -webkit-background-size: cover;
   -moz-background-size: cover;
@@ -73,9 +87,32 @@ html {
 }
 
 body {
+  font-size: 1em;
   margin: 0;
   padding-left: 0px;
   padding-right: 0px;
+  word-wrap: break-word;
+}
+
+.clearfix:before,
+.clearfix:after {
+  display: table;
+  content: "";
+}
+.clearfix:after {
+  clear: both;
+}
+
+.header {
+  display: block;
+  width: 100%;
+  background: #FFF;
+  padding: 0 10px;
+  overflow: hidden;
+  box-sizing: border-box;
+    -webkit-box-shadow: 0 2px 2px rgba(0, 0, 0, 0.05);
+     -moz-box-shadow: 0 2px 2px rgba(0, 0, 0, 0.05);
+          box-shadow: 0 2px 2px rgba(0, 0, 0, 0.05);
 }
 
 .white-background-shadow {
@@ -84,27 +121,83 @@ body {
   margin: -10px 0;
   -webkit-box-shadow: 0 4px 4px 0px rgba(0, 0, 0, 0.1);
   box-shadow: 0 4px 4px 0px rgba(0, 0, 0, 0.1);
+    -webkit-box-shadow: 0 2px 2px rgba(0, 0, 0, 0.05);
+     -moz-box-shadow: 0 2px 2px rgba(0, 0, 0, 0.05);
+          box-shadow: 0 2px 2px rgba(0, 0, 0, 0.05);
 }
 
 .white-background {
   background: #FFF;
-  padding: 20px;
+  padding: 0 10px;
+  margin: 0;
+}
+
+.white-background-footer {
+  background: #FFF;
+  padding: 10px;
   margin: 0;
 }
 
 .white-background-submissions {
   background: #FFF;
-  padding: 20px;
-  margin: 0 0 20px 0;
+  padding: 20px 20px 15px 20px;
+  margin: 20px 0;
   -webkit-box-shadow: 0 2px 2px rgba(0, 0, 0, 0.05);
      -moz-box-shadow: 0 2px 2px rgba(0, 0, 0, 0.05);
           box-shadow: 0 2px 2px rgba(0, 0, 0, 0.05);
 }
 
+.brand {
+  display: inline-block;
+  max-width: 80px;
+  margin: 0 5px 0 0;
+}
+
 .ecuad-logo-top {
-  float: right;
-  margin: 13px 20px 20px 20px;
-  width: 155px;
+  display: inline-block;
+  margin: 23px 0 0 0;
+  width: 115px;
+  vertical-align: top;
+}
+
+.desktop-nav {
+  display: none;
+}
+
+.mobile-nav {
+  display: none;
+  width: 100%;
+}
+
+a.menu-button {
+  display: block;
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 28px;
+  height: 22px;
+  background: url('../images/menu-button@2x.jpg') no-repeat;
+  background-position: center;
+  background-size: 28px 22px;
+  line-height: 0;
+  padding: 22px;
+  cursor: pointer;
+  -webkit-user-select: none; /* Chrome/Safari */        
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* IE10+ */
+
+  /* Rules below not implemented in browsers yet */
+  -o-user-select: none;
+  user-select: none;
+}
+
+ul.header-nav { list-style: none; padding: 0; margin: 11px 0 5px 0;}
+ul.header-nav > li { border-top: 1px solid rgb(242,242,242); }
+ul.header-nav > li > a {
+  display: inline-block;
+  padding: 10px 0;
+  margin: 0;
+  width: 100%;
 }
 
 img {
@@ -120,7 +213,7 @@ img.portos {
   padding: 3%;
   background-color: #fff;
   max-height: 610px;
-  margin: 0 auto 20px auto;
+  margin: 20px auto;
 }
 
 img.thumbs {
@@ -324,7 +417,85 @@ textarea[class*="span"],
     position: static;
   }
 }
-@media (min-width: 700px) {
+@media (min-width: 880px) {
+  .desktop-nav {
+    display: inline-block;
+    float: right;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .mobile-nav {
+    display: none;
+  }
+
+  a.menu-button {
+    display: none;
+  }
+
+  .logos, .show-tag, .link-list {
+    box-sizing: border-box;
+  }
+
+  .logos {
+    display: inline-block;
+    width: 30%;
+  }
+
+  .mobile-logos {
+    display: none;
+    width: 30%;
+  }
+
+  .show-tag {
+    display: inline-block;
+    width: 20%;
+    margin: 22px 0 0 0;
+    padding: 0;
+    vertical-align: top;
+  }
+
+  .link-list {
+    display: inline-block;
+    width: 49%;
+    vertical-align: top;
+    margin: 19px 0 0 0;
+  }
+
+
+  .ecuad-logo-top {
+    width: 135px;
+    padding: 0;
+  }
+
+  p.the-show-tag {
+    display: inline-block;
+    line-height: 1.2;
+    padding: 20px 20px 0 26px;
+  }
+
+  ul.header-nav {
+    display: inline-block;
+    float: right;
+    padding: 0;
+  }
+
+  ul.header-nav > li {
+    float: left;
+    padding: 0;
+    border:none;
+  }
+
+  ul.header-nav > li:last-child {
+    border: none;
+  }
+
+  ul.header-nav > li > a {
+    display: block;
+    padding: 3px 7px;
+    margin: 0;
+  }
+
   .navbar-fixed-top,
   .navbar-fixed-bottom,
   .navbar-static-top {
@@ -449,8 +620,6 @@ textarea[class*="span"],
 
   /* fluid layout */
   .container-fluid {
-    padding-right: 20px;
-    padding-left: 20px;
     *zoom: 1;
   }
 
@@ -3288,13 +3457,6 @@ input[type="submit"].btn.btn-mini {
   overflow: visible;
 }
 
-.navbar .brand {
-  float: left;
-  display: block;
-  margin: 0;
-  width: 80px;
-}
-
 .navbar .brand:hover,
 .navbar .brand:focus {
   text-decoration: none;
@@ -3479,7 +3641,7 @@ input[type="submit"].btn.btn-mini {
   float: left;
   width: 100%;
   margin-right: 0;
-  padding: 0;
+  padding: 0 0 10px 0;
 }
 
 .navbar .nav > li {
@@ -3673,7 +3835,7 @@ input[type="submit"].btn.btn-mini {
 body {
   font-family: "Open Sans", "Helvetica Neue", Helvetica, sans-serif;
   color: #58585a;
-  line-height: 1.8;
+  line-height: 1.6;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -3686,7 +3848,12 @@ h1 {
 
 p {
   line-height: 1.6;
-  margin: 0 0 5px 0;
+  margin: 0 0 10px 0;
+}
+
+p.show-name {
+  font-weight: bold;
+  line-height: 1.2;
 }
 
 p.student-deets {
@@ -3701,6 +3868,14 @@ p.student-link {
   overflow: hidden;
 }
 
+.archive {
+  text-align: center;
+}
+
+.archive p {
+  margin: 0;
+}
+
 ul {
   margin: 0 0 15px 0;
 }
@@ -3710,13 +3885,12 @@ ul {
 }
 
 a {
-  font-weight: 700;
   text-decoration: none;
   color: #40c8f4;
 }
 
 a:hover {
-  text-shadow: 0px 2px 2px rgba(0, 0, 0, 0.1);
+  color: #3CB4DB;
 }
 
 p.headline {
@@ -3726,8 +3900,7 @@ p.headline {
 }
 
 p.footer {
-  border-top: 1px solid #58585a;
-  padding: 10px 0 25px 0;
+  padding: 0;
 }
 
 .ecuad-logo {
@@ -4082,6 +4255,9 @@ a.thumbnail:focus {
   }
 }
 @media (min-width: 800px) {
+  html {
+    border: 10px solid white;
+  }
   .nav-collapse.collapse {
     height: auto !important;
     overflow: visible !important;
@@ -4092,28 +4268,33 @@ a.thumbnail:focus {
  * Grid container
  */
 #tiles {
+  position: relative;
+  width: 100%;
+  overflow: auto;
   list-style-type: none;
   position: relative;
   /** Needed to ensure items are laid out relative to this container **/
-  margin: 0 0 20px 0;
+  margin: 20px auto;
   padding: 0;
 }
 /**
  * Grid items
  */
 #tiles li {
+  position: relative;
   width: 210px;
   background-color: #ffffff;
   display: none;
   /** Hide items initially to avoid a flicker effect **/
   cursor: pointer;
-  padding: 1%;
+  padding: 10px;
+  -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
 
 #tiles li p {
-border-bottom: 1px solid gray;
+border-bottom: 1px solid #D1D1D1;
 padding: 0 0 10px 0;
 margin: 10px 0;
 }
@@ -4148,14 +4329,8 @@ margin: 10px 0;
   }
 }
 @media (min-width: 700px) {
-  html {
-    border: 20px solid white;
-  }
-
   body {
-    font-size: 80%;
     padding: 0;
-    line-height: 1.6;
   }
 
   .navbar-static-top {
@@ -4167,13 +4342,13 @@ margin: 10px 0;
   .navbar .nav.pull-right {
     float: right !important;
     width: auto !important;
-    margin: 32px 20px 0 0;
+    margin: 32px 0 0 0;
   }
 
   .navbar .nav > li {
     float: left;
     width: auto !important;
-    padding: 0px 20px 0 0;
+    padding: 0px 10px 0 0;
   }
 
   .ecuad-link {
@@ -4182,10 +4357,6 @@ margin: 10px 0;
 
   p.headline {
     margin: 25px 0 0 0;
-  }
-
-  p.footer {
-    border-bottom: 1px solid #58585a;
   }
 
   .you-are-here-home {

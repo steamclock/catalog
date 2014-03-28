@@ -2,6 +2,7 @@ var postgres = require('pg')
     , fs = require('fs')
     , config = require('./../modules/config').config;
 
+console.log(config.postgres);
 var client = new postgres.Client(config.postgres);
 
 client.connect(function(err) {

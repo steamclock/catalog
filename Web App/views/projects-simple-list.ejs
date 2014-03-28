@@ -1,21 +1,24 @@
 <% include header %>
 
-<div class="row-fluid">
-    <ul style="background-color:#ffffff">
-        <%  for (var i = 0; i < projects.length; i++) { %>
-        <li>
-            <p>
-                <strong><a href="/<%= projects[i].year %>/project/<%= projects[i].id %>/<%= projects[i].degree.replace(/ /g,'-') %>/<%= projects[i].author.toLowerCase().replace(/ /g,'-')
-        .replace(/[^\w-]+/g,'') %>"><%= projects[i].title %></a>
-                </strong> - 
-                <em>
-                <a href="/<%= projects[i].year %>/project/<%= projects[i].id %>/<%= projects[i].degree.replace(/ /g,'-') %>/<%= projects[i].author.toLowerCase().replace(/ /g,'-')
-        .replace(/[^\w-]+/g,'') %>"><%= projects[i].author %></a>
-              </em>
-            </p>
-        </li>
-        <% } %>
-    </ul>
-</div><!-- End Row-Fluid -->
+    <div class="row-fluid">
+        <div class="span7 white-background-submissions">
+            <ul style="padding: 0; margin: 0; list-style: none;">
+                <%  for (var i = 0; i < projects.length; i++) { %>
+                <li>
+                    <p>
+                        <strong>
+                        <a href="/<%= projects[i].year %>/project/<%= projects[i].id %>/<%= projects[i].degree.replace(/ /g,'-') %>/<%= projects[i].author.toLowerCase().replace(/ /g,'-')
+                .replace(/[^\w-]+/g,'') %>"><%= projects[i].author %></a>
+                        </strong> - 
+                        <em>
+        <a href="/<%= projects[i].year %>/project/<%= projects[i].id %>/<%= projects[i].degree.replace(/ /g,'-') %>/<%= projects[i].author.toLowerCase().replace(/ /g,'-')
+                .replace(/[^\w-]+/g,'') %>"><%= projects[i].title %></a>
+                      </em>
+                    </p>
+                </li>
+                <% } %>
+            </ul>
+        </div>
+    </div><!-- End Row-Fluid -->
 
 <% include footer %>
