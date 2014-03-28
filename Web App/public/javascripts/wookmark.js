@@ -28,7 +28,7 @@
     itemWidth: 0,
     flexibleWidth: 0,
     resizeDelay: 50,
-    onLayoutChanged: undefined
+    onLayoutChanged: undefined,
   };
 
   Wookmark = (function(options) {
