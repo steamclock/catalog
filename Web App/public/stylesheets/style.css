@@ -4268,9 +4268,6 @@ a.thumbnail:focus {
  * Grid container
  */
 #tiles {
-  position: relative;
-  width: 100%;
-  overflow: auto;
   list-style-type: none;
   position: relative;
   /** Needed to ensure items are laid out relative to this container **/
