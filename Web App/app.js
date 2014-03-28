@@ -71,6 +71,7 @@ app.get('/project/:id/:degree/:author', function(req, res) {
 // JSON API Routes
 app.get('/json', projects.getProjects);
 app.get('/json/years/:year', projects.getProjects);
+app.get('/json/available-years', projects.getAvailableYears);
 
 // Creating a submission
 app.get('/create', create.get);
