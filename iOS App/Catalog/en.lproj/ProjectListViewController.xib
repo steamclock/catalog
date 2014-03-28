@@ -78,8 +78,8 @@
                         <action selector="showHome:" destination="-1" eventType="touchDown" id="914"/>
                     </connections>
                 </button>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="64">
-                    <rect key="frame" x="255" y="704" width="115" height="64"/>
+                <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="64">
+                    <rect key="frame" x="195" y="704" width="115" height="64"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="115" id="391"/>
@@ -98,8 +98,8 @@
                         <action selector="showDesign:" destination="-1" eventType="touchDown" id="915"/>
                     </connections>
                 </button>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="68">
-                    <rect key="frame" x="511" y="704" width="143" height="64"/>
+                <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="68">
+                    <rect key="frame" x="451" y="704" width="143" height="64"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="143" id="600"/>
@@ -116,8 +116,8 @@
                         <action selector="showVisualArts:" destination="-1" eventType="touchDown" id="917"/>
                     </connections>
                 </button>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="72">
-                    <rect key="frame" x="369" y="704" width="142" height="64"/>
+                <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="72">
+                    <rect key="frame" x="309" y="704" width="142" height="64"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="142" id="601"/>
@@ -134,8 +134,8 @@
                         <action selector="showMediaArts:" destination="-1" eventType="touchDown" id="916"/>
                     </connections>
                 </button>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="77">
-                    <rect key="frame" x="654" y="704" width="114" height="64"/>
+                <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="77">
+                    <rect key="frame" x="594" y="704" width="114" height="64"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="114" id="575"/>
@@ -197,12 +197,11 @@
                         <constraint firstAttribute="height" constant="64" id="gMx-mX-k42"/>
                     </constraints>
                     <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                    <state key="normal">
-                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                    </state>
-                    <state key="selected">
+                    <state key="normal" backgroundImage="timeline.png"/>
+                    <state key="selected" backgroundImage="timeline-selected.png">
                         <color key="titleColor" red="0.0" green="0.50196081400000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                     </state>
+                    <state key="highlighted" backgroundImage="timeline-highlighted.png"/>
                     <connections>
                         <action selector="showYearSelection:" destination="-1" eventType="touchDown" id="MfU-CA-iQH"/>
                     </connections>
@@ -282,6 +281,9 @@
         <image name="search-highlighted.png" width="128" height="128"/>
         <image name="search-selected.png" width="64" height="64"/>
         <image name="search.png" width="64" height="64"/>
+        <image name="timeline-highlighted.png" width="64" height="64"/>
+        <image name="timeline-selected.png" width="64" height="64"/>
+        <image name="timeline.png" width="64" height="64"/>
         <image name="visualarts-highlighted.png" width="143" height="64"/>
         <image name="visualarts-selected.png" width="143" height="64"/>
         <image name="visualarts.png" width="143" height="64"/>
