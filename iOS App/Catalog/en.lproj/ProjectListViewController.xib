@@ -48,12 +48,12 @@
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                 </webView>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" misplaced="YES" image="nav-background.png" translatesAutoresizingMaskIntoConstraints="NO" id="49">
-                    <rect key="frame" x="0.0" y="682" width="1024" height="86"/>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="nav-background.png" translatesAutoresizingMaskIntoConstraints="NO" id="49">
+                    <rect key="frame" x="0.0" y="704" width="1024" height="65"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="86" id="899"/>
+                        <constraint firstAttribute="height" constant="65" id="899"/>
                     </constraints>
                 </imageView>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="61">
@@ -277,7 +277,7 @@
         <image name="mediaarts-highlighted.png" width="142" height="64"/>
         <image name="mediaarts-selected.png" width="142" height="64"/>
         <image name="mediaarts.png" width="142" height="64"/>
-        <image name="nav-background.png" width="1024" height="84"/>
+        <image name="nav-background.png" width="1024" height="65"/>
         <image name="search-highlighted.png" width="128" height="128"/>
         <image name="search-selected.png" width="64" height="64"/>
         <image name="search.png" width="64" height="64"/>
