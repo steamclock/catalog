@@ -26,7 +26,7 @@ static NSUInteger random_below(NSUInteger n) {
     return ret;
 }
 
-@interface ProjectListViewController ()
+@interface ProjectListViewController () <UIActionSheetDelegate>
 @property (strong, nonatomic) IBOutlet UICollectionView* collectionView;
 @property (strong, nonatomic) IBOutlet UIButton* home;
 @property (strong, nonatomic) IBOutlet UIButton* design;
@@ -37,7 +37,10 @@ static NSUInteger random_below(NSUInteger n) {
 @property (strong, nonatomic) IBOutlet UIButton* about;
 @property (strong, nonatomic) IBOutlet UISearchBar* searchBar;
 
-@property (strong, nonatomic) UIWebView* aboutWebView;
+@property (strong, nonatomic) IBOutlet UIView* statusBarBackground;
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *searchBarTopSpaceConstraint;
+
+@property (strong, nonatomic) IBOutlet UIWebView* aboutWebView;
 
 @property (strong, nonatomic) NSArray* currentProjects;
 
@@ -52,6 +55,7 @@ static NSUInteger random_below(NSUInteger n) {
 @property (strong, nonatomic) MBProgressHUD* loadProgress;
 
 @property (strong, nonatomic) CachedImageLoader* thumbnailLoader;
+
 @end
 
 @implementation ProjectListViewController
@@ -60,7 +64,7 @@ static NSUInteger random_below(NSUInteger n) {
 
 -(id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     if((self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil])) {
-        [self loadProjectLists];
+        [self loadProjectListsForYear:[[[self class] availableShowYears] lastObject]];
         self.thumbnailLoader = [CachedImageLoader new];
         self.thumbnailLoader.forceBackgroundDecompress = YES;
         self.thumbnailLoader.cacheToDirectory = @"thumbnails";
@@ -81,18 +85,15 @@ static NSUInteger random_below(NSUInteger n) {
     [self showHome:nil];
     
     self.home.selected = YES;
-        
-    self.aboutWebView = [[UIWebView alloc] initWithFrame:self.collectionView.frame];
-    self.aboutWebView.hidden = YES;
+
     
     NSString *filePath = [[NSBundle mainBundle] pathForResource:@"about" ofType:@"html"];
     NSData *htmlData = [NSData dataWithContentsOfFile:filePath];
     NSURL *baseURL = [NSURL fileURLWithPath:[[NSBundle mainBundle] bundlePath]];
     [self.aboutWebView loadData:htmlData MIMEType:@"text/html" textEncodingName:@"UTF-8" baseURL:baseURL];
     
+    self.aboutWebView.hidden = YES;
     self.aboutWebView.delegate = self;
-    
-    [self.view addSubview:self.aboutWebView];
     
     [self.home setBackgroundImage:[UIImage imageNamed:@"youarehere-highlighted.png"] forState:UIControlStateSelected | UIControlStateHighlighted];
     [self.design setBackgroundImage:[UIImage imageNamed:@"design-highlighted.png"] forState:UIControlStateSelected | UIControlStateHighlighted];
@@ -103,15 +104,24 @@ static NSUInteger random_below(NSUInteger n) {
     [self.about setBackgroundImage:[UIImage imageNamed:@"about-highlighted.png"] forState:UIControlStateSelected | UIControlStateHighlighted];
 
     self.searchBar.delegate = self;
+    
+    // Remove when support for iOS 6 is not required
+    if (SYSTEM_VERSION_LESS_THAN(@"7.0")) {
+        self.statusBarBackground.hidden = YES;
+        UICollectionViewFlowLayout *flowLayout = (UICollectionViewFlowLayout *)self.collectionView.collectionViewLayout;
+        flowLayout.sectionInset = UIEdgeInsetsZero;
+        self.searchBarTopSpaceConstraint.constant = 0;
+        self.searchBar.hidden = YES;
+    }
+}
+
+-(UIStatusBarStyle)preferredStatusBarStyle {
+    return UIStatusBarStyleLightContent;
 }
 
 -(void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     [self.thumbnailLoader flush];
-}
-
--(BOOL)prefersStatusBarHidden {
-    return YES;
 }
 
 #pragma mark Loading and Setup
@@ -161,14 +171,20 @@ static NSUInteger random_below(NSUInteger n) {
 }
 
 -(void)finishLoading {
-    [self forceShowHome];
     
+    [self reloadSelectedProjectList];
     [self.loadProgress hide:YES];
     self.loadProgress = nil;
 }
 
 -(void)cacheThumbnailsFromIndex:(int)num {
     __weak ProjectListViewController* weakSelf = self;
+    
+    if (num >= [self.allProjectsRandomized count]) {
+        // There is no project here
+        [self finishLoading];
+        return;
+    }
 
     NSURL* thumbnail = [self thumbnailForProject:self.allProjectsRandomized[num]];
 
@@ -190,7 +206,7 @@ static NSUInteger random_below(NSUInteger n) {
     }];
 }
 
--(void)loadProjectLists {
+-(void)loadProjectListsForYear:(NSString *)year {
     
     if(!self.loadProgress) {
         self.loadProgress = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
@@ -200,7 +216,8 @@ static NSUInteger random_below(NSUInteger n) {
     self.loadProgress.labelText = @"Loading project list";
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        NSData* data = [NSData dataWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/json", SERVER_ADDRESS]]];
+        NSString *path = year ? [NSString stringWithFormat:@"%@/json/years/%@", SERVER_ADDRESS, year] : [NSString stringWithFormat:@"%@/json", SERVER_ADDRESS];
+        NSData* data = [NSData dataWithContentsOfURL:[NSURL URLWithString:path]];
         
         dispatch_async(dispatch_get_main_queue(), ^{
             if(!data) {
@@ -210,7 +227,7 @@ static NSUInteger random_below(NSUInteger n) {
                 double delayInSeconds = 15.0;
                 dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
                 dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-                    [self loadProjectLists];
+                    [self loadProjectListsForYear:year];
                 });
                 
                 return;
@@ -418,6 +435,19 @@ static NSUInteger random_below(NSUInteger n) {
     [self showProjectList:self.maaProjects forButton:self.MAA];
 }
 
+-(IBAction)showYearSelection:(UIButton *)sender {
+    NSLog(@"%s", __PRETTY_FUNCTION__);
+    UIActionSheet * actionSheet = [[UIActionSheet alloc] initWithTitle:@"Select to view submissions from previous years."
+                                                              delegate:self
+                                                     cancelButtonTitle:nil
+                                                destructiveButtonTitle:nil
+                                                     otherButtonTitles:nil];
+    for (NSString *availableYear in [[self class] availableShowYears]) {
+        [actionSheet addButtonWithTitle:availableYear];
+    }
+    [actionSheet showFromRect:sender.bounds inView:sender animated:YES];
+}
+
 -(IBAction)showSearch:(id)sender {
     [self showProjectList:self.allProjectsRandomized forButton:self.search];
     
@@ -437,6 +467,25 @@ static NSUInteger random_below(NSUInteger n) {
     self.aboutWebView.hidden = NO;
 }
 
+-(void)reloadSelectedProjectList {
+    if (self.design.selected) {
+        self.design.selected = NO;
+        [self showDesign:nil];
+    } else if (self.mediaArts.selected) {
+        self.mediaArts.selected = NO;
+        [self showMediaArts:nil];
+    } else if (self.visualArts.selected) {
+        self.visualArts.selected = NO;
+        [self showVisualArts:nil];
+    } else if (self.MAA.selected){
+        self.MAA.selected = NO;
+        [self showMAA:nil];
+    } else {
+        self.home.selected = NO;
+        [self showHome:nil];
+    }
+}
+
 -(BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
     if(navigationType == UIWebViewNavigationTypeOther) {
         // Initial load, let it go
@@ -448,6 +497,36 @@ static NSUInteger random_below(NSUInteger n) {
         [[UIApplication sharedApplication] openURL:request.URL];
     }
     return NO;
+}
+
++ (NSArray *)availableShowYears
+{
+    static NSArray *availableShowYears;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        availableShowYears = @[
+                               @"2013",
+                               @"2014"];
+    });
+    return availableShowYears;
+}
+
+#pragma mark - UIActionSheetDelegate methods
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+    
+    if (buttonIndex < 0) {
+        // The user has closed the popover
+        return;
+    }
+    
+    NSArray *availableShowYears = [[self class] availableShowYears];
+    NSString *selectedYear;
+    if (buttonIndex < [availableShowYears count]) {
+        selectedYear = availableShowYears[buttonIndex];
+    }
+    
+    [self loadProjectListsForYear:selectedYear];
 }
 
 @end

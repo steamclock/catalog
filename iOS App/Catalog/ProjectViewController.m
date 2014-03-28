@@ -172,13 +172,13 @@ typedef enum {
     self.detailContainer.alpha = self.showingDetails ? 1.0f : 0.0f;
 }
 
+-(UIStatusBarStyle)preferredStatusBarStyle {
+    return UIStatusBarStyleLightContent;
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     [self.imageLoader flush];
-}
-
--(BOOL)prefersStatusBarHidden {
-    return YES;
 }
 
 -(NSURL*)startImageForIndex:(int)index {

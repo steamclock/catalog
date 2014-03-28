@@ -170,7 +170,14 @@ exports.getProjectsSortedByAuthor = function(req, res) {
 exports.getProjects = function(req, res){ 
    async.waterfall([
         function(callback){
-            var query = client.query('SELECT  * FROM projects WHERE published = true');
+            var sql = 'SELECT  * FROM projects WHERE published = true';
+            var params = [];
+            if (req.params.year) {
+                sql += ' AND year = $1';
+                params = [req.params.year];
+            }
+            
+            var query = client.query(sql, params);
 
             query.on('row', function(row, result){
                 row.assets = [];

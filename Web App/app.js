@@ -70,6 +70,7 @@ app.get('/project/:id/:degree/:author', function(req, res) {
 
 // JSON API Routes
 app.get('/json', projects.getProjects);
+app.get('/json/years/:year', projects.getProjects);
 
 // Creating a submission
 app.get('/create', create.get);
