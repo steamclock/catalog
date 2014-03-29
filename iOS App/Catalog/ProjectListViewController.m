@@ -33,6 +33,7 @@ static NSUInteger random_below(NSUInteger n) {
 @property (strong, nonatomic) IBOutlet UIButton* visualArts;
 @property (strong, nonatomic) IBOutlet UIButton* mediaArts;
 @property (strong, nonatomic) IBOutlet UIButton* MAA;
+@property (strong, nonatomic) IBOutlet UIButton* mdes;
 @property (strong, nonatomic) IBOutlet UIButton* search;
 @property (strong, nonatomic) IBOutlet UIButton* about;
 @property (strong, nonatomic) IBOutlet UISearchBar* searchBar;
@@ -51,6 +52,7 @@ static NSUInteger random_below(NSUInteger n) {
 @property (strong, nonatomic) NSArray* visualArtsProjects;
 @property (strong, nonatomic) NSArray* mediaArtsProjects;
 @property (strong, nonatomic) NSArray* maaProjects;
+@property (strong, nonatomic) NSArray* mdesProjects;
 
 @property (strong, nonatomic) MBProgressHUD* loadProgress;
 
@@ -264,6 +266,7 @@ static NSUInteger random_below(NSUInteger n) {
             self.visualArtsProjects = [self filteredProjectsForDegree:@"Visual Arts"];
             self.mediaArtsProjects = [self filteredProjectsForDegree:@"Media Arts"];
             self.maaProjects = [self filteredProjectsForDegree:@"MAA"];
+            self.mdesProjects = [self filteredProjectsForDegree:@"MDes"];
             
             [self cacheThumbnailsFromIndex:0];
         });
@@ -439,6 +442,10 @@ static NSUInteger random_below(NSUInteger n) {
 
 -(IBAction)showMAA:(id)sender {
     [self showProjectList:self.maaProjects forButton:self.MAA];
+}
+
+-(IBAction)showMDes:(id)sender {
+    [self showProjectList:self.mdesProjects forButton:self.mdes];
 }
 
 -(IBAction)showYearSelection:(UIButton *)sender {
