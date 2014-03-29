@@ -271,9 +271,9 @@
         <image name="design-highlighted.png" width="115" height="64"/>
         <image name="design-selected.png" width="115" height="64"/>
         <image name="design.png" width="115" height="64"/>
-        <image name="maa-highlighted.png" width="114" height="64"/>
-        <image name="maa-selected.png" width="114" height="64"/>
-        <image name="maa.png" width="114" height="64"/>
+        <image name="maa-highlighted.png" width="113" height="64"/>
+        <image name="maa-selected.png" width="113" height="64"/>
+        <image name="maa.png" width="113" height="64"/>
         <image name="mediaarts-highlighted.png" width="142" height="64"/>
         <image name="mediaarts-selected.png" width="142" height="64"/>
         <image name="mediaarts.png" width="142" height="64"/>
