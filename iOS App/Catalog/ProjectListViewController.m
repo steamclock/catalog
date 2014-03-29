@@ -56,6 +56,9 @@ static NSUInteger random_below(NSUInteger n) {
 
 @property (strong, nonatomic) CachedImageLoader* thumbnailLoader;
 
+@property (strong, nonatomic) NSArray *availableShowYears;
+@property (strong, nonatomic) NSString *selectedYear;
+
 @end
 
 @implementation ProjectListViewController
@@ -64,7 +67,10 @@ static NSUInteger random_below(NSUInteger n) {
 
 -(id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     if((self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil])) {
-        [self loadProjectListsForYear:[[[self class] availableShowYears] lastObject]];
+        [self fetchAvailableShowYearsWithCompletion:^(NSArray *availableYears) {
+            self.availableShowYears = availableYears;
+            [self loadProjectListsForYear:[self.availableShowYears lastObject]];
+        }];
         self.thumbnailLoader = [CachedImageLoader new];
         self.thumbnailLoader.forceBackgroundDecompress = YES;
         self.thumbnailLoader.cacheToDirectory = @"thumbnails";
@@ -436,14 +442,15 @@ static NSUInteger random_below(NSUInteger n) {
 }
 
 -(IBAction)showYearSelection:(UIButton *)sender {
-    NSLog(@"%s", __PRETTY_FUNCTION__);
     UIActionSheet * actionSheet = [[UIActionSheet alloc] initWithTitle:@"Select to view submissions from previous years."
                                                               delegate:self
                                                      cancelButtonTitle:nil
                                                 destructiveButtonTitle:nil
                                                      otherButtonTitles:nil];
-    for (NSString *availableYear in [[self class] availableShowYears]) {
-        [actionSheet addButtonWithTitle:availableYear];
+    for (NSString *availableYear in self.availableShowYears) {
+        //NSString *title = [availableYear isEqualToString:self.selectedYear] ? [NSString stringWithFormat:@"%@", availableYear] : availableYear;
+        NSString *title = availableYear;
+        [actionSheet addButtonWithTitle:title];
     }
     [actionSheet showFromRect:sender.bounds inView:sender animated:YES];
 }
@@ -499,16 +506,34 @@ static NSUInteger random_below(NSUInteger n) {
     return NO;
 }
 
-+ (NSArray *)availableShowYears
-{
+- (void)fetchAvailableShowYearsWithCompletion:(void (^)(NSArray* availableYears))completion {
     static NSArray *availableShowYears;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        availableShowYears = @[
-                               @"2013",
-                               @"2014"];
+    if (availableShowYears && completion) return completion(availableShowYears);
+    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        NSString *path = [NSString stringWithFormat:@"%@/json/available-years", SERVER_ADDRESS];
+        NSData* data = [NSData dataWithContentsOfURL:[NSURL URLWithString:path]];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            
+            if (!data && completion) {
+                return completion(@[]);
+            }
+            
+            NSError *error;
+            id jsonObject = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
+            
+            if (error) {
+                NSLog(@"%@", error);
+            }
+            
+            if ([jsonObject isKindOfClass:[NSArray class]]) {
+                availableShowYears = jsonObject;
+                if (completion) return completion(availableShowYears);
+            } else {
+                if (completion) return completion(@[]);
+            }
+        });
     });
-    return availableShowYears;
 }
 
 #pragma mark - UIActionSheetDelegate methods
@@ -520,13 +545,12 @@ static NSUInteger random_below(NSUInteger n) {
         return;
     }
     
-    NSArray *availableShowYears = [[self class] availableShowYears];
-    NSString *selectedYear;
+    NSArray *availableShowYears = self.availableShowYears;
     if (buttonIndex < [availableShowYears count]) {
-        selectedYear = availableShowYears[buttonIndex];
+        self.selectedYear = availableShowYears[buttonIndex];
     }
     
-    [self loadProjectListsForYear:selectedYear];
+    [self loadProjectListsForYear:self.selectedYear];
 }
 
 @end

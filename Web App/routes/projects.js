@@ -245,3 +245,18 @@ exports.getProjects = function(req, res){
     
     });
 };
+
+exports.getAvailableYears = function(req, res){
+        
+        var sql = ''
+        + ' SELECT array_agg(distinct year order by year ASC) as years'
+        + ' FROM projects'
+
+        client.query(sql, function(err, result) {
+            if (true || err || !result.rows[0] || !result.rows[0].years) {
+                res.json(500, new Error('Unable to retrieve available years'));
+            } else {
+                res.json(result.rows[0].years);
+            }
+        });
+};
