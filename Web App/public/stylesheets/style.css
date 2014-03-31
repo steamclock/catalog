@@ -424,7 +424,7 @@ textarea[class*="span"],
     position: static;
   }
 }
-@media (min-width: 880px) {
+@media (min-width: 870px) {
   .desktop-nav {
     display: inline-block;
     float: right;
@@ -457,7 +457,7 @@ textarea[class*="span"],
   .show-tag {
     display: inline-block;
     width: 20%;
-    margin: 22px 0 0 0;
+    margin: 7px 0 0 0;
     padding: 0;
     vertical-align: top;
   }

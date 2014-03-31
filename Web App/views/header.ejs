@@ -62,7 +62,9 @@
           </p>
         </div><!-- Logos -->
           <div class="show-tag">
-            <p><strong>The Show at ECUAD</strong><br> May 3 – 18, 2014</p>
+            <p><strong>The Show at ECUAD</strong><br>
+              May 3 – 18, 2014<br>
+              <a href="/<%= year %>/about/">About</a></p>
           </div><!-- Span2 -->
           <div class="link-list">
             <ul class="header-nav">
@@ -71,8 +73,8 @@
                 <li><a href="/<%= year %>/degree/media-arts/">Media Arts</a></li>
                 <li><a href="/<%= year %>/degree/visual-arts/">Visual Arts</a></li>
                 <li><a href="/<%= year %>/degree/maa/">MAA</a></li>
+                <li><a href="/<%= year %>/degree/mdes/">MDes</a></li>
                 <li><a href="/<%= year %>/projects/">All</a></li>
-                <li><a href="/<%= year %>/about/">About</a></li>
               <% } %>
             </ul>
           </div><!-- Span6 -->
@@ -96,12 +98,13 @@
           <div class="span4">
             <ul class="header-nav">
               <% if (typeof year !== 'undefined') { %>
+                <li><a href="/<%= year %>/about/">About</a></li>
                 <li><a href="/<%= year %>/degree/design/">Design</a></li>
                 <li><a href="/<%= year %>/degree/media-arts/">Media Arts</a></li>
                 <li><a href="/<%= year %>/degree/visual-arts/">Visual Arts</a></li>
                 <li><a href="/<%= year %>/degree/maa/">MAA</a></li>
+                <li><a href="/<%= year %>/degree/mdes/">MDes</a></li>
                 <li><a href="/<%= year %>/projects/">Project List</a></li>
-                <li><a href="/<%= year %>/about/">About</a></li>
               <% } %>
             </ul>
           </div><!-- Span4 -->
