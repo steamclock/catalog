@@ -13,6 +13,7 @@
                 <outlet property="collectionView" destination="10" id="16"/>
                 <outlet property="design" destination="64" id="103"/>
                 <outlet property="home" destination="61" id="104"/>
+                <outlet property="mdes" destination="nQ4-tO-aoH" id="tuU-N8-cbV"/>
                 <outlet property="mediaArts" destination="72" id="160"/>
                 <outlet property="search" destination="232" id="242"/>
                 <outlet property="searchBar" destination="576" id="580"/>

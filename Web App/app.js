@@ -56,7 +56,7 @@ app.configure('development', function(){
 
 // Routes for website
 app.get('/:year/home', pages.home);
-app.get('/:year/about', pages.about);
+app.get('/about', pages.about);
 
 // Redirect the root domain to the current show.
 app.get('/', function(req, res) {

@@ -210,6 +210,9 @@ exports.getProjects = function(req, res){
                 // DEAR FUTURE DEVELOPER: This was a hack while we were waiting for app store approval. 
                 // The app should be modified to be case-insensitive for degree or use lower-case 
 
+                // DEAR FUTURE DEVELOPER 2: The iPad version has been updated (April 2014) to support case-insensitive 
+                // degree names. Any old versions of the app will still expect this behaviour though.
+
                 if (project.degree === "maa") {
                     project.degree = "MAA";
                 } else {

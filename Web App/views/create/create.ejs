@@ -17,11 +17,13 @@
         <label>Title of Your Project</label>
         <input type="text" name="title" value ="<% if ((formData != null) && formData.title != undefined) { %><%= formData.title %><% } %>">
         <label>Select Your Degree Track</label>
-        <select name="degree" value="<% if ((formData != null) && formData.degree != undefined) { %><%= formData.degree %><% } %>">
+        <select name="degree" value="<% if ((formData != null) && formData.degree != undefined) { %><%= formData.degree %><% } %>" required="true">
+          <option></option>
           <option name="design">Design</option>
           <option name="media-arts">Media Arts</option>
           <option name="visual-arts">Visual Arts</option>
           <option name="masters-of-applied-arts">MAA</option>
+          <option name="master-of-design">MDes</option>
         </select>
         <label>Media(s)</label>
         <input type="text" name="medium" value="<% if ((formData != null) && formData.medium != undefined) { %><%= formData.medium %><% } %>">

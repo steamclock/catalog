@@ -171,7 +171,7 @@ static NSUInteger random_below(NSUInteger n) {
 -(NSArray*)filteredProjectsForDegree:(NSString*)degree {
     NSMutableArray* filtered = [NSMutableArray new];
     [self.allProjectsSorted enumerateObjectsUsingBlock:^(NSDictionary* obj, NSUInteger idx, BOOL *stop) {
-        if ([degree isEqualToString:obj[@"degree"]]) {
+        if (obj[@"degree"] && [obj[@"degree"] caseInsensitiveCompare:degree] == NSOrderedSame) {
             [filtered addObject:obj];
         }
     }];
@@ -389,6 +389,7 @@ static NSUInteger random_below(NSUInteger n) {
     self.visualArts.selected = NO;
     self.mediaArts.selected = NO;
     self.MAA.selected = NO;
+    self.mdes.selected = NO;
     self.search.selected = NO;
     self.about.selected = NO;
     self.aboutWebView.hidden = YES;
@@ -494,6 +495,9 @@ static NSUInteger random_below(NSUInteger n) {
     } else if (self.MAA.selected){
         self.MAA.selected = NO;
         [self showMAA:nil];
+    } else if (self.mdes.selected){
+        self.mdes.selected = NO;
+        [self showMDes:nil];
     } else {
         self.home.selected = NO;
         [self showHome:nil];

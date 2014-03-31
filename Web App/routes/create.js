@@ -77,6 +77,10 @@ exports.new = function(req, res){
         function(callback){
             // Insert into the projects table
             var degree = req.body.degree.toLowerCase();
+            if (!degree) {
+                res.redirect('/create/denied');
+                callback(true); //exits waterfall
+            }
             var query = client.query(
                 "INSERT INTO projects(title, author, email, website, degree, medium, measurements, token, year) values($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING id",
                 [req.body.title, req.body.author, req.body.email, req.body.website, degree, req.body.medium, req.body.measurements, token, moment().year()]
