@@ -23,7 +23,7 @@ exports.new = function(req, res){
     async.waterfall([
         function(callback){
             // Check if email already exists in DB
-            var query = client.query("SELECT 1 FROM projects where email = $1 limit 1", [req.body.email]);
+            var query = client.query("SELECT 1 FROM projects WHERE email = $1 AND year = $2 LIMIT 1", [req.body.email, moment().year()]);
 
             query.on('row', function (row, result){
                 result.addRow(row);
