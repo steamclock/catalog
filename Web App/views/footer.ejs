@@ -99,6 +99,10 @@
 <script type="text/javascript">
   $(document).ready(function(){
 
+  // Only show the smart banner on iPad browsers
+  if (navigator.userAgent.match(/iPad/i)) {
+    $('head').append("<meta name='apple-itunes-app' content='app-id=640841713'>");
+  }
   $(".menu-button").click(function(){
   $(".mobile-nav").slideToggle("fast");
   $(this).toggleClass("active"); return false;
