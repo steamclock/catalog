@@ -59,7 +59,7 @@ exports.get = function(req, res){
         },
 
         function(project, assets, callback){
-            res.render('edit/edit', { title: 'Edit Your Submission', project : projectJSON, assets : assetsJSON, baseURL : "http://theshow2013.ecuad.ca" });
+            res.render('edit/edit', { title: 'Edit Your Submission', project : project, assets : assets });
         }],
 
         function (err, result) {
