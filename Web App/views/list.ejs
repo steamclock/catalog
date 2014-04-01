@@ -1,6 +1,10 @@
 <% include header %>
 
   <div class="row-fluid">
+    <% if (!projects.length) { %>
+    <p class="white-background-submissions">No submissions are currently available. Check again later!</p>
+    <% } %>
+
     <ul id="tiles">
       <!-- These are our grid blocks -->
       <%  for (var i = 0; i < projects.length; i++) { %>
