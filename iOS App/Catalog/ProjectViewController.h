@@ -5,7 +5,7 @@
 
 #import <UIKit/UIKit.h>
 
-#define SERVER_ADDRESS @"http://theshow2013.ecuad.ca"
+#define SERVER_ADDRESS @"http://theshow.ecuad.ca"
 
 @interface ProjectViewController : UIViewController <UIScrollViewDelegate, UIWebViewDelegate, UIGestureRecognizerDelegate>
 
