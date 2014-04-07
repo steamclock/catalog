@@ -120,6 +120,7 @@ static NSUInteger random_below(NSUInteger n) {
         flowLayout.sectionInset = UIEdgeInsetsZero;
         self.searchBarTopSpaceConstraint.constant = 0;
         self.searchBar.hidden = YES;
+        self.searchBar.tintColor = [UIColor blackColor];
     }
 }
 
@@ -299,7 +300,7 @@ static NSUInteger random_below(NSUInteger n) {
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     UICollectionViewCell* cell = [collectionView dequeueReusableCellWithReuseIdentifier:REUSE_IDENTIFIER forIndexPath:indexPath];
     
-    cell.backgroundColor = [UIColor colorWithWhite:0.5 alpha:1.0];
+    cell.backgroundColor = [UIColor colorWithWhite:0.25 alpha:1.0];
     
     NSURL* imageURL = [self thumbnailForProject:self.currentProjects[indexPath.row]];
     
@@ -324,14 +325,21 @@ static NSUInteger random_below(NSUInteger n) {
         if(loadCell) {
             UIImageView* background = (UIImageView*)[loadCell viewWithTag:100];
             background.image = image;
+            UILabel* title = (UILabel*)[loadCell viewWithTag:101];
+            title.hidden = NO;
+            
+            UILabel* author = (UILabel*)[loadCell viewWithTag:102];
+            author.hidden = NO;
         }
     }];
     
     UILabel* title = (UILabel*)[cell viewWithTag:101];
-    title.text = self.currentProjects[indexPath.row][@"title"];
+    title.hidden = YES;
+    title.text = [NSString stringWithFormat:@"%@%@%@", @" ", self.currentProjects[indexPath.row][@"title"], @" "];
 
     UILabel* author = (UILabel*)[cell viewWithTag:102];
-    author.text = self.currentProjects[indexPath.row][@"author"];
+    author.hidden = YES;
+    author.text = [NSString stringWithFormat:@"%@%@%@", @" ", self.currentProjects[indexPath.row][@"author"], @" "];
     
     return cell;
 }
