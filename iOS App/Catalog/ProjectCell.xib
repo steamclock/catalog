@@ -11,63 +11,43 @@
             <rect key="frame" x="0.0" y="0.0" width="256" height="192"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView clipsSubviews="YES" userInteractionEnabled="NO" tag="100" contentMode="scaleAspectFill" translatesAutoresizingMaskIntoConstraints="NO" id="9">
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" tag="100" contentMode="scaleAspectFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9">
                     <rect key="frame" x="0.0" y="0.0" width="256" height="192"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <accessibility key="accessibilityConfiguration">
                         <accessibilityTraits key="traits" none="YES" image="YES" notEnabled="YES"/>
                     </accessibility>
                 </imageView>
-                <view opaque="NO" alpha="0.69999998807907104" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="18">
-                    <rect key="frame" x="0.0" y="132" width="256" height="60"/>
+                <label clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.95000000000000018" tag="101" contentMode="left" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.84999999999999998" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3">
+                    <rect key="frame" x="4" y="144" width="29" height="20"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <subviews>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="gradient.png" translatesAutoresizingMaskIntoConstraints="NO" id="51">
-                            <rect key="frame" x="0.0" y="-28" width="256" height="88"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <constraints>
-                                <constraint firstAttribute="height" constant="88" id="174"/>
-                            </constraints>
-                        </imageView>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="101" contentMode="left" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3">
-                            <rect key="frame" x="10" y="10" width="216" height="23"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <accessibility key="accessibilityConfiguration">
-                                <accessibilityTraits key="traits" none="YES" staticText="YES" notEnabled="YES"/>
-                            </accessibility>
-                            <constraints>
-                                <constraint firstAttribute="width" constant="216" id="31"/>
-                                <constraint firstAttribute="height" constant="23" id="175"/>
-                            </constraints>
-                            <fontDescription key="fontDescription" name="AvenirNext-Bold" family="Avenir Next" pointSize="17"/>
-                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            <nil key="highlightedColor"/>
-                        </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="102" contentMode="left" text="Student" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="32">
-                            <rect key="frame" x="10" y="30" width="221" height="23"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <constraints>
-                                <constraint firstAttribute="width" constant="221" id="35"/>
-                                <constraint firstAttribute="height" constant="23" id="172"/>
-                            </constraints>
-                            <fontDescription key="fontDescription" name="AvenirNext-Italic" family="Avenir Next" pointSize="17"/>
-                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
-                            <nil key="highlightedColor"/>
-                        </label>
-                    </subviews>
-                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <accessibility key="accessibilityConfiguration">
-                        <accessibilityTraits key="traits" none="YES" notEnabled="YES"/>
+                        <accessibilityTraits key="traits" none="YES" staticText="YES" notEnabled="YES"/>
                     </accessibility>
                     <constraints>
-                        <constraint firstItem="51" firstAttribute="leading" secondItem="18" secondAttribute="leading" id="64"/>
-                        <constraint firstItem="3" firstAttribute="leading" secondItem="32" secondAttribute="leading" id="104"/>
-                        <constraint firstItem="3" firstAttribute="leading" secondItem="18" secondAttribute="leading" constant="10" id="105"/>
-                        <constraint firstItem="51" firstAttribute="trailing" secondItem="18" secondAttribute="trailing" id="108"/>
-                        <constraint firstItem="51" firstAttribute="bottom" secondItem="18" secondAttribute="bottom" id="155"/>
-                        <constraint firstItem="3" firstAttribute="top" secondItem="18" secondAttribute="top" constant="10" id="173"/>
-                        <constraint firstAttribute="bottom" secondItem="32" secondAttribute="bottom" constant="7" id="176"/>
+                        <constraint firstAttribute="width" relation="lessThanOrEqual" constant="244" id="z99-9q-dGB"/>
                     </constraints>
+                    <fontDescription key="fontDescription" name="AvenirNext-DemiBold" family="Avenir Next" pointSize="14"/>
+                    <color key="textColor" red="0.25098039215686274" green="0.78431372549019607" blue="0.95686274509803915" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                    <size key="shadowOffset" width="0.0" height="0.0"/>
+                </label>
+                <label clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.95000000000000018" tag="102" contentMode="left" text="Student" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.84999999999999998" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="32">
+                    <rect key="frame" x="4" y="167" width="50" height="20"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="width" relation="lessThanOrEqual" constant="244" id="Y6Z-0p-fWG"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" name="AvenirNext-Italic" family="Avenir Next" pointSize="14"/>
+                    <color key="textColor" red="0.25098039215686274" green="0.78431372549019607" blue="0.95686274509803915" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <view clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dDf-l9-Iiw">
+                    <rect key="frame" x="0.0" y="191" width="256" height="1"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <color key="backgroundColor" red="0.88235294117647056" green="0.88235294117647056" blue="0.88235294117647056" alpha="1" colorSpace="calibratedRGB"/>
                 </view>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
@@ -75,18 +55,11 @@
                 <accessibilityTraits key="traits" none="YES" notEnabled="YES"/>
             </accessibility>
             <constraints>
-                <constraint firstItem="9" firstAttribute="top" secondItem="1" secondAttribute="top" id="10"/>
-                <constraint firstItem="9" firstAttribute="leading" secondItem="1" secondAttribute="leading" id="11"/>
-                <constraint firstItem="9" firstAttribute="trailing" secondItem="1" secondAttribute="trailing" id="14"/>
-                <constraint firstItem="18" firstAttribute="leading" secondItem="1" secondAttribute="leading" id="20"/>
-                <constraint firstItem="18" firstAttribute="trailing" secondItem="1" secondAttribute="trailing" id="24"/>
-                <constraint firstItem="18" firstAttribute="bottom" secondItem="1" secondAttribute="bottom" id="181"/>
-                <constraint firstItem="18" firstAttribute="bottom" secondItem="9" secondAttribute="bottom" id="182"/>
-                <constraint firstItem="18" firstAttribute="top" secondItem="1" secondAttribute="top" constant="132" id="183"/>
+                <constraint firstAttribute="bottom" secondItem="32" secondAttribute="bottom" constant="5" id="Ax5-ni-DzE"/>
+                <constraint firstItem="32" firstAttribute="leading" secondItem="1" secondAttribute="leading" constant="4" id="LRu-qN-s9n"/>
+                <constraint firstItem="3" firstAttribute="leading" secondItem="32" secondAttribute="leading" id="QcH-cW-tXm"/>
+                <constraint firstItem="32" firstAttribute="top" secondItem="3" secondAttribute="bottom" constant="3" id="zAw-F7-BIl"/>
             </constraints>
         </view>
     </objects>
-    <resources>
-        <image name="gradient.png" width="255" height="60"/>
-    </resources>
 </document>

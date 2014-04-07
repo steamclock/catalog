@@ -68,9 +68,18 @@
     }
     
     UIImage* image = self.cached[url];
+    
+    // Return early if we have the image.
+    if(image) {
+        // have cached image, callback on next run loop
+        dispatch_async(dispatch_get_main_queue(), ^{
+            callback(image, YES);
+        });
+        return;
+    }
+    
     NSString* cacheDir = [self pathInCacheDirectory:nil];
     NSString* cacheFile = [self pathInCacheDirectory:[[url absoluteString] lastPathComponent]];
-    
     NSFileManager* fileManager = [NSFileManager defaultManager];
     
     if(cacheDir) {
@@ -79,11 +88,7 @@
         }
     }
     
-    if(image) {
-        // have cached image, callback immediatly
-        callback(image, YES);
-    }
-    else if (cacheFile && [fileManager fileExistsAtPath:cacheFile]) {
+    if (cacheFile && [fileManager fileExistsAtPath:cacheFile]) {
         __weak CachedImageLoader* weakSelf = self;
         
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
