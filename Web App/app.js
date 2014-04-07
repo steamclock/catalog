@@ -31,17 +31,18 @@ app.configure('production', function(){
   app.use(forceDomain({
     hostname: 'theshow.ecuad.ca'
   }));
+  app.set('port', process.env.PORT || 80);
 });
 
 app.configure('development', function(){
   app.use(express.errorHandler());
+  app.set('port', process.env.PORT || 3000);
 });
 
 app.configure(function(){
   app.use(express.logger('dev'));
   app.use('/public/images', express.static(__dirname + '/public/images', { maxAge: 30 * 86400000}));
   app.use('/public', express.static(__dirname + '/public'));
-  app.set('port', process.env.PORT || 80);
   app.set('views', __dirname + '/views');
   app.use(favicons(__dirname + '/public/images/icons'));
   app.set('view engine', 'ejs');
