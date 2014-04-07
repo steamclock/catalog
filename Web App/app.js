@@ -42,6 +42,7 @@ app.configure(function(){
   app.use('/public/images', express.static(__dirname + '/public/images', { maxAge: 30 * 86400000}));
   app.use('/public', express.static(__dirname + '/public'));
   app.set('port', process.env.PORT || 3000);
+  app.set('port', process.env.PORT || 80);
   app.set('views', __dirname + '/views');
   app.use(favicons(__dirname + '/public/images/icons'));
   app.set('view engine', 'ejs');
