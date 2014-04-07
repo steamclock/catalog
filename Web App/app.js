@@ -38,19 +38,19 @@ app.configure('development', function(){
 });
 
 app.configure(function(){
+  app.use(express.logger('dev'));
+  app.use('/public/images', express.static(__dirname + '/public/images', { maxAge: 30 * 86400000}));
+  app.use('/public', express.static(__dirname + '/public'));
   app.set('port', process.env.PORT || 3000);
   app.set('views', __dirname + '/views');
   app.use(favicons(__dirname + '/public/images/icons'));
   app.set('view engine', 'ejs');
   app.use(express.favicon());
-  app.use(express.logger('dev'));
   app.use(express.bodyParser({uploadDir:'./uploads'}));
   app.use(express.methodOverride());
   app.use(express.cookieParser('secret'));
   app.use(express.session());
   app.use(flashify);
-  app.use(express.static(path.join(__dirname, 'public')));
-  app.use('/public', express.static(__dirname + '/public'));
   app.use(app.router);
   app.use(function(err, req, res, next){
     console.error(err.stack);
