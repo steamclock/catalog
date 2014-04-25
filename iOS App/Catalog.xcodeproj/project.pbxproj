@@ -103,6 +103,7 @@
 		39CD7C2318E64EC700E349AE /* mdes-selected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 39CD7C1D18E64EC700E349AE /* mdes-selected@2x.png */; };
 		39CD7C2418E64EC700E349AE /* mdes.png in Resources */ = {isa = PBXBuildFile; fileRef = 39CD7C1E18E64EC700E349AE /* mdes.png */; };
 		39CD7C2518E64EC700E349AE /* mdes@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 39CD7C1F18E64EC700E349AE /* mdes@2x.png */; };
+		7D936B1B190AFC0D00C093B2 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7D936B1A190AFC0D00C093B2 /* Images.xcassets */; };
 		A6702561170E0C0A00840867 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A6702560170E0C0A00840867 /* UIKit.framework */; };
 		A6702563170E0C0A00840867 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A6702562170E0C0A00840867 /* Foundation.framework */; };
 		A6702565170E0C0A00840867 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A6702564170E0C0A00840867 /* CoreGraphics.framework */; };
@@ -234,6 +235,7 @@
 		39CD7C1D18E64EC700E349AE /* mdes-selected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mdes-selected@2x.png"; sourceTree = "<group>"; };
 		39CD7C1E18E64EC700E349AE /* mdes.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mdes.png; sourceTree = "<group>"; };
 		39CD7C1F18E64EC700E349AE /* mdes@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mdes@2x.png"; sourceTree = "<group>"; };
+		7D936B1A190AFC0D00C093B2 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		A670255D170E0C0A00840867 /* Catalog.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Catalog.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A6702560170E0C0A00840867 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		A6702562170E0C0A00840867 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -352,6 +354,7 @@
 				A6EB5AB51718B5530009F406 /* CachedImageLoader.m */,
 				A6EB5AC81721CFFE0009F406 /* MBProgressHUD.h */,
 				A6EB5AC91721CFFF0009F406 /* MBProgressHUD.m */,
+				7D936B1A190AFC0D00C093B2 /* Images.xcassets */,
 			);
 			path = Catalog;
 			sourceTree = "<group>";
@@ -541,6 +544,7 @@
 				A6EB5AB01718A6C60009F406 /* page13.png in Resources */,
 				3919012918E5FCDB00078FE1 /* timeline-highlighted.png in Resources */,
 				A6EB5AB11718A6C60009F406 /* page22.png in Resources */,
+				7D936B1B190AFC0D00C093B2 /* Images.xcassets in Resources */,
 				39CD7C2018E64EC700E349AE /* mdes-highlighted.png in Resources */,
 				A6EB5AB21718A6C60009F406 /* page23.png in Resources */,
 				A6EB5AB31718A6C60009F406 /* page33.png in Resources */,
@@ -749,6 +753,8 @@
 		A6702581170E0C0A00840867 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Catalog/Catalog-Prefix.pch";
 				INFOPLIST_FILE = "Catalog/Catalog-Info.plist";
@@ -760,10 +766,13 @@
 		A6702582170E0C0A00840867 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Catalog/Catalog-Prefix.pch";
 				INFOPLIST_FILE = "Catalog/Catalog-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "27EF2FDF-BC43-46A2-9556-21B3CBE671EF";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
