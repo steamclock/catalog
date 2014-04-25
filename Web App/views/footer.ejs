@@ -82,6 +82,7 @@
 
 <!-- Once the images are loaded, initalize the Wookmark plug-in. -->
 <script type="text/javascript">
+  $('#tiles').css('visibility','hidden');
   $('#tiles').imagesLoaded(function() {
     // Prepare layout options.
     var options = {
@@ -95,7 +96,8 @@
     var handler = $('#tiles li');
 
     // Call the layout function.
-    handler.wookmark(options);
+    //handler.wookmark(options);
+    $('#tiles').css('visibility','visible');
   });
 </script>
 <script type="text/javascript" src="/public/javascripts/bootstrap.js"></script>
