@@ -60,12 +60,21 @@
             </a>
           </p>
         </div><!-- Logos -->
+        <% if (ecuad.selectedYear === ecuad.activeYear) { %>
           <div class="show-tag">
             <p class="the-show">The Show At<br>
               Emily Carr University</p>
               <p>4–18 May 2014<br>
               <a href="/about/">About</a></p>
           </div><!-- Span2 -->
+        <% } else if (ecuad.selectedYear) { %>
+          <div class="show-tag">
+            <p class="the-show">The Show At<br>
+              Emily Carr University</p>
+              <p>Archive of <%= ecuad.selectedYear %> Submissions<br>
+              </p>
+          </div><!-- Span2 -->
+        <% } %>
           <div class="link-list">
             <ul class="header-nav">
               <% if (ecuad.selectedYear) { %>
@@ -91,11 +100,19 @@
             </a>
         </div><!-- Logos -->
         <div class="mobile-nav">
+          <% if (ecuad.selectedYear === ecuad.activeYear) { %>
           <div class="span6">
             <p class="the-show">The Show At<br>
               Emily Carr University</p>
               <p>4–18 May 2014</p>
           </div><!-- Span 4 -->
+          <% } else if (ecuad.selectedYear) { %>
+          <div class="span6">
+            <p class="the-show">The Show At<br>
+              Emily Carr University</p>
+              <p>Archive of <%= ecuad.selectedYear %> Submissions</p>
+          </div><!-- Span 4 -->
+          <% } %>
           <div class="span4">
             <ul class="header-nav">
               <% if (ecuad.selectedYear) { %>
