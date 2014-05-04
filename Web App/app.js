@@ -27,6 +27,16 @@ var app = express();
 
 // App Configuration
 
+app.configure('production', function(){
+  app.use(forceDomain({
+    hostname: 'theshow.ecuad.ca'
+  }));
+});
+
+app.configure('development', function(){
+  app.use(express.errorHandler());
+});
+
 app.configure(function(){
   app.set('port', process.env.PORT || 3000);
   app.set('views', __dirname + '/views');
@@ -50,16 +60,6 @@ app.configure(function(){
     res.status(404);
     res.render('error', {title : "404: Not Found."});
   });
-});
-
-app.configure('development', function(){
-  app.use(express.errorHandler());
-});
-
-app.configure('production', function(){
-  app.use(forceDomain({
-    hostname: 'theshow.ecuad.ca'
-  }));
 });
 
 app.all('*', function(req, res, next) {
