@@ -30,7 +30,16 @@
       <div class="span12 white-background-footer archive">
         <hr class="rules">
           <h2>Previous Shows</h2>
-          <p><a href="/2013/home">2013</a> | <a href="/2014/home">2014</a></p>
+          <p>
+          <% for (var i = 0; i < ecuad.availableYears.length; i++) { %>
+            <% if (ecuad.availableYears[i] != ecuad.selectedYear) { %>
+              <a href="/<%= ecuad.availableYears[i] %>/home"><%= ecuad.availableYears[i] %></a>
+            <% } else { %>
+              <%= ecuad.availableYears[i] %>
+            <% } %>
+            <% if (i < ecuad.availableYears.length - 1) { %> | <% } %>
+          <% } %>
+          </p>
       </div>
     </div>
 

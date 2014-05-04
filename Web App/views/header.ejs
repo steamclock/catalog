@@ -49,8 +49,8 @@
         <a class="menu-button">&nbsp;</a>
         <div class="desktop-nav">
           <div class="logos">
-            <% if (typeof year !== 'undefined') { %>
-            <a class="brand" title="Go to the home page of the Emily Carr University Grad Website" href="/<%= year %>/home">
+            <% if (ecuad.selectedYear) { %>
+            <a class="brand" title="Go to the home page of the Emily Carr University Grad Website" href="/<%= ecuad.selectedYear %>/home">
             <% } else { %>
             <a class="brand" title="Go to the home page of the Emily Carr University Grad Website" href="/">
               <% } %>
@@ -67,20 +67,20 @@
           </div><!-- Span2 -->
           <div class="link-list">
             <ul class="header-nav">
-              <% if (typeof year !== 'undefined') { %>
-                <li><a href="/<%= year %>/degree/design/">Design</a></li>
-                <li><a href="/<%= year %>/degree/media-arts/">Media Arts</a></li>
-                <li><a href="/<%= year %>/degree/visual-arts/">Visual Arts</a></li>
-                <li><a href="/<%= year %>/degree/maa/">MAA</a></li>
-                <li><a href="/<%= year %>/degree/mdes/">MDes</a></li>
-                <li><a href="/<%= year %>/projects/">All</a></li>
+              <% if (ecuad.selectedYear) { %>
+                <li><a href="/<%= ecuad.selectedYear %>/degree/design/">Design</a></li>
+                <li><a href="/<%= ecuad.selectedYear %>/degree/media-arts/">Media Arts</a></li>
+                <li><a href="/<%= ecuad.selectedYear %>/degree/visual-arts/">Visual Arts</a></li>
+                <li><a href="/<%= ecuad.selectedYear %>/degree/maa/">MAA</a></li>
+                <li><a href="/<%= ecuad.selectedYear %>/degree/mdes/">MDes</a></li>
+                <li><a href="/<%= ecuad.selectedYear %>/projects/">All</a></li>
               <% } %>
             </ul>
           </div><!-- Span6 -->
         </div><!-- Desktop-nav -->
         <div class="mobile-logos">
-            <% if (typeof year !== 'undefined') { %>
-            <a class="brand" title="Go to the home page of the Emily Carr University Grad Website" href="/<%= year %>/home">
+            <% if (ecuad.selectedYear) { %>
+            <a class="brand" title="Go to the home page of the Emily Carr University Grad Website" href="/<%= ecuad.selectedYear %>/home">
             <% } else { %>
             <a class="brand" title="Go to the home page of the Emily Carr University Grad Website" href="/">
               <% } %>
@@ -96,14 +96,14 @@
           </div><!-- Span 4 -->
           <div class="span4">
             <ul class="header-nav">
-              <% if (typeof year !== 'undefined') { %>
+              <% if (ecuad.selectedYear) { %>
                 <li><a href="/about/">About</a></li>
-                <li><a href="/<%= year %>/degree/design/">Design</a></li>
-                <li><a href="/<%= year %>/degree/media-arts/">Media Arts</a></li>
-                <li><a href="/<%= year %>/degree/visual-arts/">Visual Arts</a></li>
-                <li><a href="/<%= year %>/degree/maa/">MAA</a></li>
-                <li><a href="/<%= year %>/degree/mdes/">MDes</a></li>
-                <li><a href="/<%= year %>/projects/">Project List</a></li>
+                <li><a href="/<%= ecuad.selectedYear %>/degree/design/">Design</a></li>
+                <li><a href="/<%= ecuad.selectedYear %>/degree/media-arts/">Media Arts</a></li>
+                <li><a href="/<%= ecuad.selectedYear %>/degree/visual-arts/">Visual Arts</a></li>
+                <li><a href="/<%= ecuad.selectedYear %>/degree/maa/">MAA</a></li>
+                <li><a href="/<%= ecuad.selectedYear %>/degree/mdes/">MDes</a></li>
+                <li><a href="/<%= ecuad.selectedYear %>/projects/">Project List</a></li>
               <% } %>
             </ul>
           </div><!-- Span4 -->

@@ -60,7 +60,8 @@ exports.getProjectById = function(req, res){
         },
 
         function(project, callback){
-            res.render('single-project', { title: "Single Projects", project: project, year: req.params.year });        
+            res.locals.ecuad.selectedYear = req.params.year;
+            res.render('single-project', { title: "Single Projects", project: project });        
         }
 
         ], function (err, result) {
@@ -126,7 +127,8 @@ exports.getProjectsForDegree = function(req, res){
         },
 
         function(projects, callback){
-            res.render('list', { title: "Projects By Degree", projects: projects, year: req.params.year });          
+            res.locals.ecuad.selectedYear = req.params.year;
+            res.render('list', { title: "Projects By Degree", projects: projects });          
         }
 
         ], function (err, result) {
@@ -155,7 +157,8 @@ exports.getProjectsSortedByAuthor = function(req, res) {
         if (err) {
             console.log(err);
         } else {
-            res.render('projects-simple-list', { title: "Projects By Author", projects: result.rows, year: req.params.year });
+            res.locals.ecuad.selectedYear = req.params.year;
+            res.render('projects-simple-list', { title: "Projects By Author", projects: result.rows });
         }
 
     });
@@ -235,8 +238,7 @@ exports.getProjects = function(req, res){
         },
 
         function(projects, callback){
-            projects = JSON.stringify(projects);
-            res.send(projects);            
+            res.json(projects);
         }
 
         ], function (err, result) {
@@ -250,16 +252,5 @@ exports.getProjects = function(req, res){
 };
 
 exports.getAvailableYears = function(req, res){
-        
-        var sql = ''
-        + ' SELECT array_agg(distinct year order by year ASC) as years'
-        + ' FROM projects'
-
-        client.query(sql, function(err, result) {
-            if (err || !result.rows[0] || !result.rows[0].years) {
-                res.json(500, new Error('Unable to retrieve available years'));
-            } else {
-                res.json(result.rows[0].years);
-            }
-        });
+        res.json(res.locals.ecuad.availableYears);
 };

@@ -19,7 +19,8 @@ var express = require('express')
   , basic = auth.basic({
       realm : "Private area.",
       file : __dirname + '/htpasswd'
-  });
+  })
+  , moment = require('moment');
 
 var app = express();
 
@@ -54,13 +55,37 @@ app.configure('development', function(){
   app.use(express.errorHandler());
 });
 
+app.all('*', function(req, res, next) {
+  
+  /*  We try to redirect to the current show year automatically.
+    On May 1st of each year, the current year becomes the 'active' show.
+  */
+  var activeYear = moment().year();
+  if (moment().month() <= moment().month('April').month()) {
+    activeYear--;
+  }
+
+  var availableYears = [];
+  for (var i = 2013; i <= activeYear; i++) {
+    availableYears.push('' + i);
+  }
+
+  req.ecuad = res.ecuad || {};
+  req.ecuad.activeYear = '' + activeYear;
+  req.ecuad.availableYears = availableYears;
+
+  // Locals are available to all rendered views
+  res.locals.ecuad = req.ecuad;
+  next();
+});
+
 // Routes for website
 app.get('/:year/home', pages.home);
 app.get('/about', pages.about);
 
 // Redirect the root domain to the current show.
 app.get('/', function(req, res) {
-  res.redirect('/2014/home');
+  res.redirect('/' + req.ecuad.activeYear + '/home');
 });
 
 // This keeps any pre-existing 2013 project links from breaking

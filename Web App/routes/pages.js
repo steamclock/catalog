@@ -59,7 +59,8 @@ exports.home = function(req, res){
         },
 
         function(projects, callback){
-            res.render('list', { title: "Home Page", projects: projects, year : req.params.year });          
+            res.locals.ecuad.selectedYear = req.params.year;
+            res.render('list', { title: "Home Page", projects: projects});          
         }
 
         ], function (err, result) {
@@ -76,5 +77,6 @@ exports.home = function(req, res){
  */
 
  exports.about = function(req, res){
-    res.render('about', { title: 'About The Grad Catalog', year: req.params.year });
+    res.locals.ecuad.selectedYear = req.params.year;
+    res.render('about', { title: 'About The Grad Catalog' });
  };
