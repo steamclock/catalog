@@ -33,7 +33,8 @@
     "flashify" : "*",
     "http-auth" : "*",
     "htpasswd" : "*",
-    "moment" : "2.5.x"
+    "moment" : "2.5.x",
+    "node-force-domain" : "*"
   },
 
   "devDependencies": {

@@ -20,7 +20,8 @@ var express = require('express')
       realm : "Private area.",
       file : __dirname + '/htpasswd'
   })
-  , moment = require('moment');
+  , moment = require('moment')
+  , forceDomain = require('node-force-domain');
 
 var app = express();
 
@@ -53,6 +54,12 @@ app.configure(function(){
 
 app.configure('development', function(){
   app.use(express.errorHandler());
+});
+
+app.configure('production', function(){
+  app.use(forceDomain({
+    hostname: 'theshow.ecuad.ca'
+  }));
 });
 
 app.all('*', function(req, res, next) {
