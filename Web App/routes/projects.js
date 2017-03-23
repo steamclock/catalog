@@ -216,8 +216,8 @@ exports.getProjects = function(req, res){
                 // DEAR FUTURE DEVELOPER 2: The iPad version has been updated (April 2014) to support case-insensitive 
                 // degree names. Any old versions of the app will still expect this behaviour though.
 
-                if (project.degree === "maa") {
-                    project.degree = "MAA";
+                if (project.degree === "mfa") {
+                    project.degree = "MFA";
                 } else {
                     project.degree = project.degree.replace(/\b./g, function(m){ return m.toUpperCase(); });  
                 }
