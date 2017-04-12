@@ -153,15 +153,14 @@ body {
 
 .brand {
   display: inline-block;
-  max-width: 50px;
+  max-width: 70px;
   margin: 0;
 }
 
 .ecuad-logo-top {
   display: inline-block;
   margin: 2px 0 0 0;
-  width: 155px;
-  vertical-align: top;
+  width: 80px;
 }
 
 .the-show {
@@ -484,7 +483,7 @@ textarea[class*="span"],
   }
 
   .ecuad-logo-top {
-    margin: 20px 0 0 0;
+    /*margin: 20px 0 0 0;*/
   }
 
   p.the-show-tag {
@@ -3929,7 +3928,7 @@ p.footer {
   display: inline-block;
   vertical-align: middle;
   margin: 0 0 0 10px;
-  width: 155px;
+  width: 50px;
 }
 
 .thumbnails {
