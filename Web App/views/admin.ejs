@@ -3,7 +3,7 @@
 <div class="row-fluid">
   <div class="span6 white-background-submissions">
     <h1>List of Project Submissions</h1>
-    <p>To approve a project submissions, <em>click ‘Approved’</em>. To request the student(s) to resubmit a project, <em>click ‘Resubmit’</em>. Simple as that. Approved projects will go live to the website and iOS app. You are responsible to email students you’ve requested to resubmit. They will have to go through the submission process again and their work will be at the end of the queue for the approval process.</p>
+    <p>To approve a project submission, <em>click ‘Approved’</em>. To request the student(s) to resubmit a project, <em>click ‘Resubmit’</em>. Simple as that. Approved projects will go live to the website and iOS app. You are responsible to email students you’ve requested to resubmit. They will have to go through the submission process again and their work will be at the end of the queue for the approval process.</p>
     <p><span class="label label-warning">Tip!</span> We’ve added a link to the student’s email account. If something fishy is submitted, simply click their email and you’ll be setup with an email to offer feedback.</p>
   </div>
 </div>
@@ -30,13 +30,13 @@
                 <% } %>
                 <form name="approve-<%= projects[i].id %>" action="/approve/project/<%= projects[i].id %>" method="post">
                   <input type="hidden" name="projectid" value="<%= projects[i].id %>">
-                  <input type="submit" value="Approved" class="btn btn-info approve"> 
+                  <input type="submit" value="Approved" class="btn btn-info approve">
                 </form>
                 <form name="reject-<%= projects[i].id %>" action="/reject/project/<%= projects[i].id %>" method="post">
                   <input type="hidden" name="projectid" value="<%= projects[i].id %>">
-                  <input type="submit" value="Resubmit" class="btn btn-danger reject">  
+                  <input type="submit" value="Resubmit" class="btn btn-danger reject">
                 </form>
-              </ul> 
+              </ul>
             </div>
             <% for (var k = 0; k < projects[i].assets.length; k++) { %>
                 <% if (projects[i].assets[k].type == "image") { %>
@@ -54,5 +54,5 @@
     </ul>
   </div>
 </div>
-    
+
 <% include footer %>
