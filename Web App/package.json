@@ -7,44 +7,39 @@
   "scripts": {
     "start": "node app"
   },
-  "contributors": [ 
+  "contributors": [
     {
       "name": "Angelina Fabbro",
       "email": "angelina@steamclock.com"
-    } 
+    }
   ],
-
   "keywords": [
     "api",
     "content",
     "curation",
     "server"
   ],
-
   "dependencies": {
-    "express" : "3.x",
-    "pg" : "2.11.x",
-    "nodemailer" : "0.3.x",
-    "ejs" : "0.8.x",
-    "db-migrate" : "0.6.x",
-    "connect-favicons" : "0.0.2",
-    "async" : "*",
-    "imagemagick" : "*",
-    "flashify" : "*",
-    "http-auth" : "*",
-    "htpasswd" : "*",
-    "moment" : "2.5.x",
-    "node-force-domain" : "*"
+    "express": "3.x",
+    "pg": "2.11.x",
+    "nodemailer": "0.3.x",
+    "ejs": "0.8.x",
+    "db-migrate": "0.6.x",
+    "connect-favicons": "0.0.2",
+    "async": "*",
+    "imagemagick": "*",
+    "flashify": "*",
+    "http-auth": "*",
+    "htpasswd": "*",
+    "moment": "2.5.x",
+    "node-force-domain": "*"
   },
-
   "devDependencies": {
-    "mocha" : "*",
-    "chai" : "*",
-    "chai-http" : "*"
+    "mocha": "*",
+    "chai": "*",
+    "chai-http": "*"
   },
-
   "license": "MIT",
-
   "engines": {
     "node": ">=0.6"
   }
