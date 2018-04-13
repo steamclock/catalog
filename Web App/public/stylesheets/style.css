@@ -105,7 +105,6 @@ body {
   display: block;
   width: 100%;
   background: #FFF;
-  padding: 0 10px;
   overflow: hidden;
   box-sizing: border-box;
     -webkit-box-shadow: 0 2px 0px rgba(0, 0, 0, 0.05);
@@ -469,11 +468,7 @@ textarea[class*="span"],
     display: inline-block;
     width: 49%;
     vertical-align: top;
-    margin: 19px 0 0 0;
-  }
-
-  .brand {
-    margin: 18px 5px 0 0;
+    margin: 10px 0 10px 0;
   }
 
   .ecuad-logo-top {
@@ -3846,7 +3841,7 @@ input[type="submit"].btn.btn-mini {
 }
 
 body {
-  font-family: "Open Sans", "Helvetica Neue", Helvetica, sans-serif;
+  font-family: "Helvetica Neue", Helvetica, sans-serif;
   color: #58585a;
   line-height: 1.6;
 }
@@ -3905,7 +3900,7 @@ a {
 }
 
 a:hover {
-  color: #3CB4DB;
+  color: #00987d;
 }
 
 p.headline {
@@ -3923,6 +3918,11 @@ p.footer {
   vertical-align: middle;
   margin: 0 0 0 10px;
   width: 50px;
+}
+
+.the-show-logo {
+  display: inline-block;
+  width: 230px;
 }
 
 .thumbnails {

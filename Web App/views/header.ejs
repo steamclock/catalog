@@ -56,13 +56,13 @@
               <% } %>
               <img class="hires ecuad-logo-top" alt="A landscape treatment of the ECUAD logo" src="/public/images/ecuad-logo.png" data-src="/public/images/ecuad-logo.png" width="155" />
             </a>
+            <img class="hires the-show-logo" alt="A landscape treatment of the ECUAD logo" src="/public/images/the-show.jpg" data-src="/public/images/the-show.jpg"/>
           </div><!-- Logos -->
         <% if (ecuad.selectedYear === ecuad.activeYear) { %>
           <div class="show-tag">
             <p class="the-show">Graduation Exhibition at<br>
               Emily Carr University</p>
               <p>6-20 May 2018<br>
-              <a href="/about/">About</a></p>
           </div><!-- Span2 -->
         <% } else if (ecuad.selectedYear) { %>
           <div class="show-tag">
@@ -75,6 +75,7 @@
           <div class="link-list">
             <ul class="header-nav">
               <% if (ecuad.selectedYear) { %>
+                <li><a href="/about">About</a></li>
                 <li><a href="/<%= ecuad.selectedYear %>/degree/design/">Design</a></li>
                 <li><a href="/<%= ecuad.selectedYear %>/degree/media-arts/">Media Arts</a></li>
                 <li><a href="/<%= ecuad.selectedYear %>/degree/visual-arts/">Visual Arts</a></li>
