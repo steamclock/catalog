@@ -146,7 +146,7 @@ body {
 
 .brand {
   display: inline-block;
-  max-width: 70px;
+  max-width: 94px;
   margin: 0;
 }
 
@@ -160,6 +160,7 @@ body {
   font-weight: 700;
   line-height: 1;
   margin: 0 0 5px 0;
+  color: #74767C;
 }
 
 .desktop-nav {
@@ -1622,7 +1623,7 @@ input,
 button,
 select,
 textarea {
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: Helvetica, Arial, sans-serif;
 }
 
 label {
@@ -3562,7 +3563,7 @@ input[type="submit"].btn.btn-mini {
 .navbar-search .search-query {
   margin-bottom: 0;
   padding: 4px 14px;
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: Helvetica, Arial, sans-serif;
   font-size: 13px;
   font-weight: normal;
   line-height: 1;
@@ -3841,8 +3842,8 @@ input[type="submit"].btn.btn-mini {
 }
 
 body {
-  font-family: "Helvetica Neue", Helvetica, sans-serif;
-  color: #58585a;
+  font-family: Helvetica, sans-serif;
+  color: #020000;
   line-height: 1.6;
 }
 
