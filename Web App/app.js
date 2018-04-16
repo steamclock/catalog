@@ -64,7 +64,7 @@ app.configure(function(){
 });
 
 app.all('*', function(req, res, next) {
-  
+
   /*  We try to redirect to the current show year automatically.
     On May 1st of each year, the current year becomes the 'active' show.
   */
@@ -136,4 +136,3 @@ app.get('/:year/project/:id/:degree/:author', projects.getProjectById);
 http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));
 });
- 

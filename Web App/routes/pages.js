@@ -34,7 +34,7 @@ exports.home = function(req, res){
 
             query.on('end', function(result){
                 callback(null, projects, result.rows);
-            });    
+            });
         },
 
         function(projects, assets, callback){
@@ -60,7 +60,7 @@ exports.home = function(req, res){
 
         function(projects, callback){
             res.locals.ecuad.selectedYear = req.params.year;
-            res.render('list', { title: "Home Page", projects: projects});          
+            res.render('list', { title: "Home Page", projects: projects});
         }
 
         ], function (err, result) {

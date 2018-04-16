@@ -28,7 +28,7 @@ exports.getProjectById = function(req, res){
                     callback(true); //Exits flow
                     console.log('here!')
                 } else {
-                  callback(null, result.rows, req.params.id);  
+                  callback(null, result.rows, req.params.id);
                 }
             })
         },
@@ -54,7 +54,7 @@ exports.getProjectById = function(req, res){
 
         function(projects, assets, callback){
             project = projects[0];
-            for (var j = 0 ; j < assets.length; j++) {             
+            for (var j = 0 ; j < assets.length; j++) {
                 var asset = assets[j];
                 project.assets.push(asset);
             }
@@ -63,7 +63,7 @@ exports.getProjectById = function(req, res){
 
         function(project, callback){
             res.locals.ecuad.selectedYear = req.params.year;
-            res.render('single-project', { title: "Single Projects", project: project });        
+            res.render('single-project', { title: "Single Projects", project: project });
         }
 
         ], function (err, result) {
@@ -105,7 +105,7 @@ exports.getProjectsForDegree = function(req, res){
 
             query.on('end', function(result){
                 callback(null, projects, result.rows);
-            });    
+            });
         },
 
         function(projects, assets, callback){
@@ -130,7 +130,7 @@ exports.getProjectsForDegree = function(req, res){
 
         function(projects, callback){
             res.locals.ecuad.selectedYear = req.params.year;
-            res.render('list', { title: "Projects By Degree", projects: projects });          
+            res.render('list', { title: "Projects By Degree", projects: projects });
         }
 
         ], function (err, result) {
@@ -172,7 +172,7 @@ exports.getProjectsSortedByAuthor = function(req, res) {
  * GET projects for program. Returns JSON.
  */
 
-exports.getProjects = function(req, res){ 
+exports.getProjects = function(req, res){
    async.waterfall([
         function(callback){
             var sql = 'SELECT  * FROM projects WHERE published = true';
@@ -181,7 +181,7 @@ exports.getProjects = function(req, res){
                 sql += ' AND year = $1';
                 params = [req.params.year];
             }
-            
+
             var query = client.query(sql, params);
 
             query.on('row', function(row, result){
@@ -203,7 +203,7 @@ exports.getProjects = function(req, res){
 
             query.on('end', function(result){
                 callback(null, projects, result.rows);
-            });    
+            });
         },
 
         function(projects, assets, callback){
@@ -212,16 +212,16 @@ exports.getProjects = function(req, res){
             for (var i = projects.length - 1; i >= 0; i--) {
                 var project = projects[i];
 
-                // DEAR FUTURE DEVELOPER: This was a hack while we were waiting for app store approval. 
-                // The app should be modified to be case-insensitive for degree or use lower-case 
+                // DEAR FUTURE DEVELOPER: This was a hack while we were waiting for app store approval.
+                // The app should be modified to be case-insensitive for degree or use lower-case
 
-                // DEAR FUTURE DEVELOPER 2: The iPad version has been updated (April 2014) to support case-insensitive 
+                // DEAR FUTURE DEVELOPER 2: The iPad version has been updated (April 2014) to support case-insensitive
                 // degree names. Any old versions of the app will still expect this behaviour though.
 
                 if (project.degree === "mfa") {
                     project.degree = "MFA";
                 } else {
-                    project.degree = project.degree.replace(/\b./g, function(m){ return m.toUpperCase(); });  
+                    project.degree = project.degree.replace(/\b./g, function(m){ return m.toUpperCase(); });
                 }
 
                 for (var j = assets.length - 1; j >= 0; j--) {
@@ -249,7 +249,7 @@ exports.getProjects = function(req, res){
         } else {
             console.log("Done sending JSON");
         }
-    
+
     });
 };
 

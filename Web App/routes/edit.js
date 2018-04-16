@@ -68,7 +68,7 @@ exports.get = function(req, res){
         } else {
             console.log("Done loading edit page stuffs.")
         }
-    
+
     });
 };
 
@@ -78,7 +78,7 @@ exports.update = function(req, res){
         function(callback){
             var token = req.headers.referer.substring(req.headers.referer.lastIndexOf('/') + 1), degree = req.body.degree.toLowerCase();
             var query = client.query(
-                "UPDATE projects SET title = $2, author = $3, website = $4, degree = $5, medium = $6, measurements = $7, published = false WHERE token = $1", 
+                "UPDATE projects SET title = $2, author = $3, website = $4, degree = $5, medium = $6, measurements = $7, published = false WHERE token = $1",
                 [token, req.body.title, req.body.author, req.body.website, degree, req.body.medium, req.body.measurements]);
 
             query.on('error', function(error){
@@ -109,7 +109,7 @@ exports.update = function(req, res){
                                             res.render('edit/edit', { title : "Error in submission", formData : formValues });
                                             callback(true); //Exits waterfall
                                         }
-                                    });  
+                                    });
                                 }
                             });
                         } else {
@@ -124,7 +124,7 @@ exports.update = function(req, res){
                                         res.render('edit/edit', { title : "Error in submission", formData : formValues });
                                         callback(true); //Exits waterfall
                                     }
-                                });  
+                                });
                             }
                         }
                     } else {
@@ -139,7 +139,7 @@ exports.update = function(req, res){
                                     res.render('edit/edit', { title : "Error in submission", formData : formValues });
                                     callback(true); //Exits waterfall
                                 }
-                            });  
+                            });
                         }
                     }
                 }
@@ -158,7 +158,7 @@ exports.update = function(req, res){
                                 req.files.new.forEach(function(file) {
                                     count++;
                                     console.log("Count is: " + count);
-                                    if (file.name) { 
+                                    if (file.name) {
                                          var tmp_path = file.path
                                             , salty = crypto.randomBytes(256)
                                             , uniqueness = crypto.createHash('md5').update(salty).digest("hex")
@@ -183,7 +183,7 @@ exports.update = function(req, res){
 
                                                     // Create thumbnail
                                                     imagemagick.convert(
-                                                        [targetPath, '-strip', '-thumbnail', '600X600>', targetThumbPath], 
+                                                        [targetPath, '-strip', '-thumbnail', '600X600>', targetThumbPath],
                                                         function(err, stdout){
                                                         if (err){
                                                             throw err;
@@ -194,7 +194,7 @@ exports.update = function(req, res){
                                                     });
                                                 }
                                               });
-                                        }); // End fs read/write 
+                                        }); // End fs read/write
 
                                         var assetInsertion = client.query(
                                             "INSERT into assets(projectid, type, url) values($1, $2, $3, $4)",
@@ -203,15 +203,15 @@ exports.update = function(req, res){
 
                                         assetInsertion.on('error', function(error) {
                                            // console.log("Error: " + error)
-                                        });        
+                                        });
 
                                         assetInsertion.on('end', function(result){
                                            //console.log("Inserted image into assets table");
                                         });
                                     }
-                                }); //End forEach  
+                                }); //End forEach
                             } else {
-                                if (file.name) { 
+                                if (file.name) {
                                      var tmp_path = file.path
                                         , salty = crypto.randomBytes(256)
                                         , uniqueness = crypto.createHash('md5').update(salty).digest("hex")
@@ -235,7 +235,7 @@ exports.update = function(req, res){
 
                                                 // Create thumbnail
                                                 imagemagick.convert(
-                                                    [targetPath, '-strip', '-thumbnail', '600X600>', targetThumbPath], 
+                                                    [targetPath, '-strip', '-thumbnail', '600X600>', targetThumbPath],
                                                     function(err, stdout){
                                                     if (err){
                                                         throw err;
@@ -246,7 +246,7 @@ exports.update = function(req, res){
                                                 });
                                             }
                                           });
-                                    }); // End fs read/write 
+                                    }); // End fs read/write
 
                                     var assetInsertion = client.query(
                                         "INSERT into assets(projectid, type, url) values($1, $2, $3, $4)",
@@ -255,17 +255,17 @@ exports.update = function(req, res){
 
                                     assetInsertion.on('error', function(error) {
                                         console.log("Error: " + error)
-                                    });        
+                                    });
 
                                     assetInsertion.on('end', function(result){
                                         console.log("Inserted image into assets table");
                                     });
-                                } 
+                                }
                             }
                     } else {
-                        // Update 
+                        // Update
                         var file = req.files[key];
-                        if (file.name) { 
+                        if (file.name) {
                              var tmp_path = file.path
                                 , salty = crypto.randomBytes(256)
                                 , uniqueness = crypto.createHash('md5').update(salty).digest("hex")
@@ -289,7 +289,7 @@ exports.update = function(req, res){
 
                                         // Create thumbnail
                                         imagemagick.convert(
-                                            [targetPath, '-strip', '-thumbnail', '600X600>', targetThumbPath], 
+                                            [targetPath, '-strip', '-thumbnail', '600X600>', targetThumbPath],
                                             function(err, stdout){
                                             if (err){
                                                 throw err;
@@ -300,7 +300,7 @@ exports.update = function(req, res){
                                         });
                                     }
                                   });
-                            }); // End fs read/write 
+                            }); // End fs read/write
 
                                 var assetUpdate = client.query(
                                     "UPDATE assets SET projectid = $1, type = $2, url = $3, filename = $4 WHERE assets.id = $5",
@@ -309,14 +309,14 @@ exports.update = function(req, res){
 
                                 assetUpdate.on('error', function(error) {
                                     console.log("Error: " + error)
-                                });        
+                                });
 
                                 assetUpdate.on('end', function(result){
                                     console.log("Updated image in assets table");
                                 });
                         }
                     }
-                }             
+                }
             }// End for .. in req.files
             callback(null);
         },
@@ -365,7 +365,7 @@ exports.update = function(req, res){
 
                 videoUpdate.on('error', function(error) {
                     console.log("Problem inserting video into DB, cap'n. Error: " + error)
-                });        
+                });
 
                 videoUpdate.on('end', function(result){
                     console.log("Updated video URL in assets table");
@@ -386,7 +386,7 @@ exports.update = function(req, res){
 
                     videoInsertion.on('error', function(error) {
                         console.log("Problem inserting video into DB, cap'n. Error: " + error)
-                    });        
+                    });
 
                     videoInsertion.on('end', function(result){
                         console.log("Inserted video URL into assets table");
@@ -394,7 +394,7 @@ exports.update = function(req, res){
                 };
             }
 
-            callback(null);            
+            callback(null);
         }],
 
         function (err, result) {

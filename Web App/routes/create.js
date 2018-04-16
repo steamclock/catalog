@@ -13,7 +13,7 @@ var fs = require('fs')
     , appDir = path.dirname(require.main.filename)
     , images = require('./../modules/images')
     , moment = require('moment');
-    
+
 /*
  * POST form to create new project
  */
@@ -39,11 +39,11 @@ exports.new = function(req, res){
                 } else {
                     callback(null);
                 }
-            });  
+            });
         },
 
         function(callback){
-            // Reject the user and pop them back to the form if they did not have the right image dimensions 
+            // Reject the user and pop them back to the form if they did not have the right image dimensions
             // (file size is validated on client side)
             req.files.images.forEach(function(file){
 
@@ -67,7 +67,7 @@ exports.new = function(req, res){
                         }
                     }
                 ], function (err, result) {
-                   // result now equals 'done'    
+                   // result now equals 'done'
                 });
             });
 
@@ -111,7 +111,7 @@ exports.new = function(req, res){
                     , targetPath = appDir + "/public/images/projects/" + uniqueFile
                     , targetThumbPath = appDir + "/public/images/projects/thumbnails/" + uniqueFile
                     , jsonFileURL = "/public/images/projects/" + uniqueFile;
-                    
+
                     fs.readFile(file.path, function (err, data) {
                           fs.writeFile(targetPath, data, function (err) {
                             if (err) {
@@ -136,7 +136,7 @@ exports.new = function(req, res){
 
                     assetInsertion.on('error', function(error) {
                         console.log("Error: " + error)
-                    });        
+                    });
 
                     assetInsertion.on('end', function(result){
                         console.log("Inserted image into assets table");
@@ -162,7 +162,7 @@ exports.new = function(req, res){
 
                 videoInsertion.on('error', function(error) {
                     console.log("Problem inserting video into DB, cap'n. Error: " + error)
-                });        
+                });
 
                 videoInsertion.on('end', function(result){
                     console.log("Inserted video URL into assets table");

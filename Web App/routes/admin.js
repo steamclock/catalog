@@ -34,7 +34,7 @@ exports.get = function(req, res){
 
             query.on('end', function(result){
                 callback(null, projects, result.rows);
-            });    
+            });
         },
 
         function(projects, assets, callback){
@@ -58,7 +58,7 @@ exports.get = function(req, res){
         },
 
         function(projects, callback){
-            res.render('admin', { title : "Curation Page", projects : projects });           
+            res.render('admin', { title : "Curation Page", projects : projects });
         }
 
         ], function (err, result) {
@@ -106,7 +106,7 @@ exports.approve = function(req, res){
  * POST rejection
  */
 
-exports.reject = function(req, res){ 
+exports.reject = function(req, res){
     async.waterfall([
         function(callback){
             // Remove project
