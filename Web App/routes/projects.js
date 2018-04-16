@@ -27,8 +27,9 @@ exports.getProjectById = function(req, res){
                     res.render('error', { title: "No project with that ID for the given year" });
                     callback(true); //Exits flow
                     console.log('here!')
+                } else {
+                  callback(null, result.rows, req.params.id);  
                 }
-                callback(null, result.rows, req.params.id);
             })
         },
 
@@ -45,9 +46,10 @@ exports.getProjectById = function(req, res){
                 if (result.rows.length < 1) {
                     res.render('error', { title: "No assets found for project with that ID" });
                     callback(true); //Exits flow
+                } else {
+                    callback(null, projects, result.rows);
                 }
-                callback(null, projects, result.rows);
-            });    
+            });
         },
 
         function(projects, assets, callback){
