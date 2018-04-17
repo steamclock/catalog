@@ -107,9 +107,6 @@ body {
   background: #FFF;
   overflow: hidden;
   box-sizing: border-box;
-    -webkit-box-shadow: 0 2px 0px rgba(0, 0, 0, 0.05);
-     -moz-box-shadow: 0 2px 0px rgba(0, 0, 0, 0.05);
-          box-shadow: 0 2px 0px rgba(0, 0, 0, 0.05);
 }
 
 .white-background-shadow {
@@ -165,6 +162,11 @@ body {
 
 .desktop-nav {
   display: none;
+  border-bottom: 2px solid rgba(0, 0, 0, 0.05);
+}
+
+.mobile-logos {
+  border-bottom: 2px solid rgba(0, 0, 0, 0.05);
 }
 
 .mobile-nav {
