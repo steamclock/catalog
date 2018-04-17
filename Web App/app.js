@@ -28,9 +28,6 @@ var app = express();
 // App Configuration
 
 app.configure('production', function(){
-  app.use(forceDomain({
-    hostname: 'theshow.ecuad.ca'
-  }));
   app.set('port', process.env.PORT || 80);
 });
 
