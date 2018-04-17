@@ -4377,6 +4377,13 @@ margin: 10px 0;
     display: block;
   }
 }
+
+@media (min-width: 300px) {
+  .desktop-nav .ecuad-logo-top {
+    display: none;
+  }
+}
+
 @media (min-width: 960px) {
   /* HIDE NAV TOGGLE BUTTON */
   .mobile-main-nav {
@@ -4395,5 +4402,27 @@ margin: 10px 0;
 
   .you-are-here-home {
     margin: 20px 0 75px 0;
+  }
+}
+
+@media (min-width: 1440px) {
+  .header {
+    overflow: visible;
+  }
+
+  .logos {
+    margin-left: -115px;
+  }
+
+  .brand {
+    margin-right: 40px;
+  }
+
+  .desktop-nav .ecuad-logo-top {
+    display: block;
+  }
+
+  .logos {
+    width: 39%;
   }
 }
