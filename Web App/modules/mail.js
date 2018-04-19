@@ -36,16 +36,16 @@ exports.sendStatusUpdate = function (email, approval) {
             from: "Emily Carr Grad Catalog <gradcatalog@ecuad.com>",
             to: email, // list of receivers
             subject: "Your Emily Carr Grad Catalog Submission: Approved",
-            text: "Hello " + email + "\r\nYour submission to the 2013 Emily Carr Grad Catalog has been approved.\r\n-- The Grad Catalog Team", // plaintext body
-            html: "Hello " + email + "\r\nYour submission to the 2013 Emily Carr Grad Catalog has been approved.\r\n-- The Grad Catalog Team" // html body
+            text: "Hello " + email + "\r\nYour submission to the Emily Carr Grad Catalog has been approved.\r\n-- The Grad Catalog Team", // plaintext body
+            html: "Hello " + email + "\r\nYour submission to the Emily Carr Grad Catalog has been approved.\r\n-- The Grad Catalog Team" // html body
         }
     } else {
         mailOptions = {
             from: "Emily Carr Grad Catalog <gradcatalog@ecuad.com>", // sender address
             to: email, // list of receivers
             subject: "Your Emily Carr Grad Catalog Submission: Needs Attention", // Subject line
-            text: "Hello " + email + "\r\nYour submission to the 2013 Emily Carr Grad Catalog has been flagged for re-submission.\r\nPlease visit http://theshow2013.ecuad.ca/create and submit your project again.\r\n-- The Grad Catalog Team", // plaintext body
-            html: "Hello " + email + "\r\nYour submission to the 2013 Emily Carr Grad Catalog has been flagged for re-submission.\r\nPlease visit http://theshow2013.ecuad.ca/create and submit your project again.\r\n-- The Grad Catalog Team"// html body
+            text: "Hello " + email + "\r\nYour submission to the Emily Carr Grad Catalog has been flagged for re-submission.\r\nPlease submit your project again.\r\n-- The Grad Catalog Team", // plaintext body
+            html: "Hello " + email + "\r\nYour submission to the Emily Carr Grad Catalog has been flagged for re-submission.\r\nPlease submit your project again.\r\n-- The Grad Catalog Team"// html body
         }
     }
 
